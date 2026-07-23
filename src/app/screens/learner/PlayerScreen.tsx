@@ -91,7 +91,10 @@ export function PlayerScreen({ navigate }: { navigate: NavigateFn }) {
   };
 
   return (
-    <div className="flex h-full overflow-hidden" style={{ background: P.bg, minHeight: 0 }}>
+    <div
+      className="flex h-full overflow-hidden gap-4 p-4"
+      style={{ background: P.bg, minHeight: 0, boxSizing: "border-box" }}
+    >
       {showPostAssessment && (
         <CourseAssessmentModal
           mode="post"
@@ -105,8 +108,8 @@ export function PlayerScreen({ navigate }: { navigate: NavigateFn }) {
         />
       )}
       <div
-        className="w-[260px] flex-shrink-0 flex flex-col"
-        style={{ background: P.card, borderRight: `1px solid ${P.border}` }}
+        className="w-[280px] flex-shrink-0 flex flex-col rounded-2xl border shadow-sm overflow-hidden"
+        style={{ background: P.card, borderColor: P.border }}
       >
         <div className="p-4" style={{ borderBottom: `1px solid ${P.border}` }}>
           <button
@@ -363,9 +366,9 @@ export function PlayerScreen({ navigate }: { navigate: NavigateFn }) {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col min-w-0" style={{ background: P.bg }}>
+      <div className="flex-1 flex flex-col min-w-0 gap-4" style={{ background: P.bg }}>
         <div
-          className="flex-1 m-4 mb-0 rounded-2xl border shadow-sm bg-black flex items-center justify-center relative group overflow-hidden"
+          className="flex-1 rounded-2xl border shadow-sm bg-black flex items-center justify-center relative group overflow-hidden"
           style={{ borderColor: P.border }}
         >
           <div
@@ -435,7 +438,7 @@ export function PlayerScreen({ navigate }: { navigate: NavigateFn }) {
           </div>
         </div>
         <div
-          className="m-4 mt-3 px-5 py-3 rounded-xl border shadow-sm flex items-center gap-4 flex-shrink-0"
+          className="px-5 py-4 rounded-2xl border shadow-sm flex items-center gap-4 flex-shrink-0"
           style={{ background: P.card, borderColor: P.border }}
         >
           <div className="flex-1">
@@ -482,8 +485,8 @@ export function PlayerScreen({ navigate }: { navigate: NavigateFn }) {
 
       {showAI && (
         <div
-          className="w-[290px] flex-shrink-0 flex flex-col"
-          style={{ background: P.card, borderLeft: `1px solid ${P.border}` }}
+          className="w-[300px] flex-shrink-0 flex flex-col rounded-2xl border shadow-sm overflow-hidden"
+          style={{ background: P.card, borderColor: P.border }}
         >
           <div
             className="p-4 flex items-center justify-between"
