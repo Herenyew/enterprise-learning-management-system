@@ -493,13 +493,22 @@ export function CfgField({
 
 export function CfgSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-xl border p-5 space-y-4" style={{ borderColor: P.border }}>
-      <p
-        className="text-sm font-semibold pb-2"
-        style={{ color: P.text, borderBottom: `1px solid ${P.border}` }}
+    <div
+      className="bg-white rounded-[22px] border px-6 py-6 space-y-5 shadow-sm"
+      style={{
+        borderColor: P.border,
+        boxShadow: "0 18px 44px rgba(4, 120, 87, 0.06)",
+      }}
+    >
+      <div
+        className="flex items-center gap-2.5 pb-3"
+        style={{ borderBottom: `1px solid ${P.border}` }}
       >
-        {title}
-      </p>
+        <span className="h-2.5 w-2.5 rounded-full" style={{ background: P.olive }} />
+        <p className="text-base font-bold" style={{ color: P.text }}>
+          {title}
+        </p>
+      </div>
       {children}
     </div>
   );

@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import {
   ContentWorkflowModal,
   DEFAULT_QUESTION_TYPE_CONFIG,
-  describeAttemptScoringPolicy,
   loadAttemptScoringPolicy,
   saveAttemptScoringPolicy,
   type AttemptScoringMode,
@@ -354,16 +353,12 @@ export function ConfigXPGamification() {
     (performanceRuleActive ? quizXpRules.passXp + quizXpRules.perfectScoreXp : 0);
 
   return (
-    <div className="space-y-5">
-      <CfgSection title="Minimum Completion Requirements for XP">
-        <p className="text-[11px] leading-relaxed" style={{ color: P.textMuted }}>
-          Learners must meet these completion requirements before Base XP on course completion is
-          awarded.
-        </p>
+    <div className="space-y-7">
+      <CfgSection title="XP Eligibility">
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
-              Minimum Content Completion %
+              Content Completion %
             </label>
             <input
               type="number"
@@ -403,7 +398,7 @@ export function ConfigXPGamification() {
           {courseXpCompletionRequirements.requiredModules === "percentage" && (
             <div>
               <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
-                Required Module Completion %
+                Module Completion %
               </label>
               <input
                 type="number"
@@ -428,14 +423,10 @@ export function ConfigXPGamification() {
             [
               [
                 "requireQuizPass",
-                "Require passing required quizzes",
-                `Learner must meet the ${minimumQuizPassScore}% minimum quiz pass score before course XP is awarded.`,
+                "Required quizzes must pass",
+                `Uses ${minimumQuizPassScore}% pass score.`,
               ],
-              [
-                "requireManagerConfirmation",
-                "Require manager confirmation",
-                "Manager sign-off is required before completion XP is released.",
-              ],
+              ["requireManagerConfirmation", "Manager confirmation", "Manager releases XP."],
             ] as ["requireQuizPass" | "requireManagerConfirmation", string, string][]
           ).map(([key, label, desc]) => (
             <button
@@ -444,7 +435,7 @@ export function ConfigXPGamification() {
               onClick={() =>
                 updateCourseXpCompletionRequirements(key, !courseXpCompletionRequirements[key])
               }
-              className="flex items-center justify-between gap-3 rounded-xl border p-3 text-left"
+              className="flex items-center justify-between gap-3 rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-sm"
               style={{
                 borderColor: courseXpCompletionRequirements[key] ? P.olive : P.border,
                 background: courseXpCompletionRequirements[key] ? P.lightSage : P.bg,
@@ -473,21 +464,20 @@ export function ConfigXPGamification() {
 
         <div className="rounded-xl border p-3" style={{ borderColor: P.border, background: P.bg }}>
           <p className="text-xs font-semibold mb-1" style={{ color: P.text }}>
-            Requirement Preview
+            XP unlocks when
           </p>
           <p className="text-[11px] leading-relaxed" style={{ color: P.textMuted }}>
-            Base course XP is awarded after at least{" "}
-            {courseXpCompletionRequirements.minimumContentCompletion}% content completion,{" "}
+            {courseXpCompletionRequirements.minimumContentCompletion}% content is complete,{" "}
             {courseXpCompletionRequirements.requiredModules === "all"
-              ? "all modules are complete"
+              ? "all modules are done"
               : courseXpCompletionRequirements.requiredModules === "mandatory"
-                ? "mandatory modules are complete"
-                : `${courseXpCompletionRequirements.requiredModulePercentage}% of modules are complete`}
+                ? "mandatory modules are done"
+                : `${courseXpCompletionRequirements.requiredModulePercentage}% of modules are done`}
             {courseXpCompletionRequirements.requireQuizPass
-              ? `, and required quizzes meet ${minimumQuizPassScore}%`
+              ? `, quizzes pass ${minimumQuizPassScore}%`
               : ""}
             {courseXpCompletionRequirements.requireManagerConfirmation
-              ? ", with manager confirmation"
+              ? ", and manager confirms"
               : ""}
             .
           </p>
@@ -495,25 +485,25 @@ export function ConfigXPGamification() {
       </CfgSection>
 
       {/* Base XP */}
-      <CfgSection title="Base XP per Course">
+      <CfgSection title="Course XP">
         <div className="grid sm:grid-cols-2 gap-4">
-          <CfgField label="XP on Course Completion" value="300" type="number" />
-          <CfgField label="XP Multiplier for Mandatory Courses" value="1.5" type="number" />
+          <CfgField label="Completion XP" value="300" type="number" />
+          <CfgField label="Mandatory Course Multiplier" value="1.5" type="number" />
         </div>
       </CfgSection>
 
       {/* Quiz XP Rules */}
-      <CfgSection title="Quiz XP Award Rules">
+      <CfgSection title="Quiz XP">
         <div
           className="flex items-center justify-between gap-3 rounded-xl p-3"
           style={{ background: P.bg }}
         >
           <div>
             <p className="text-xs font-semibold" style={{ color: P.text }}>
-              Enable quiz XP awards
+              Enable quiz XP
             </p>
             <p className="text-[10px]" style={{ color: P.textMuted }}>
-              Award XP when learners complete quizzes or based on quiz score performance.
+              Fixed XP, score XP, or both.
             </p>
           </div>
           <button
@@ -535,20 +525,16 @@ export function ConfigXPGamification() {
           <div className="grid sm:grid-cols-3 gap-2">
             {(
               [
-                [
-                  "completion",
-                  "Quiz Completion",
-                  "Award fixed XP when a learner completes a quiz.",
-                ],
-                ["performance", "Quiz Performance", "Award XP only when score rules are met."],
-                ["combined", "Completion + Performance", "Award completion XP plus score bonuses."],
+                ["completion", "Quiz Completion", "Fixed XP on finish."],
+                ["performance", "Quiz Performance", "Score-based XP."],
+                ["combined", "Completion + Performance", "Fixed + score XP."],
               ] as [QuizXpAwardBasis, string, string][]
             ).map(([basis, label, desc]) => (
               <button
                 key={basis}
                 onClick={() => updateQuizXpRules("basis", basis)}
                 disabled={!quizXpRules.enabled}
-                className="text-left rounded-xl border p-3 transition-all"
+                className="text-left rounded-xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-sm"
                 style={{
                   borderColor: quizXpRules.basis === basis ? P.olive : P.border,
                   background: quizXpRules.basis === basis ? P.lightSage : "white",
@@ -626,16 +612,8 @@ export function ConfigXPGamification() {
         <div className="grid sm:grid-cols-2 gap-3">
           {(
             [
-              [
-                "firstAttemptOnly",
-                "Award quiz XP on first passed attempt only",
-                "Retries can improve score, but do not repeatedly award XP.",
-              ],
-              [
-                "requirePassForXp",
-                "Require pass score before quiz XP is awarded",
-                "Uses the minimum quiz pass score configured below.",
-              ],
+              ["firstAttemptOnly", "First passed attempt only", "No repeat XP on retakes."],
+              ["requirePassForXp", "Require pass score", "Learner must pass first."],
             ] as [
               keyof Pick<QuizXpRulesConfig, "firstAttemptOnly" | "requirePassForXp">,
               string,
@@ -646,7 +624,7 @@ export function ConfigXPGamification() {
               key={key}
               onClick={() => updateQuizXpRules(key, !quizXpRules[key])}
               disabled={!quizXpRules.enabled}
-              className="flex items-center justify-between gap-3 rounded-xl p-3 text-left"
+              className="flex items-center justify-between gap-3 rounded-xl p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-sm"
               style={{
                 background: quizXpRules[key] ? P.lightSage : P.bg,
                 border: `1px solid ${quizXpRules[key] ? P.sage : P.border}`,
@@ -676,28 +654,28 @@ export function ConfigXPGamification() {
 
         <div className="rounded-xl border p-3" style={{ borderColor: P.border, background: P.bg }}>
           <p className="text-xs font-semibold mb-1" style={{ color: P.text }}>
-            Rule Preview
+            Preview
           </p>
           <p className="text-[11px] leading-relaxed" style={{ color: P.textMuted }}>
             {quizXpRules.enabled
-              ? `A quiz with a 100% score can award up to ${perfectScoreTotal} XP. Passing performance XP starts at ${minimumQuizPassScore}%.`
-              : "Quiz XP awards are disabled. Quizzes can still be required for completion."}
+              ? `100% quiz: up to ${perfectScoreTotal} XP. Pass starts at ${minimumQuizPassScore}%.`
+              : "Quiz XP is off."}
           </p>
         </div>
       </CfgSection>
 
       {/* Attempt-Based Scoring Policy */}
-      <CfgSection title="Attempt-Based Scoring Policy">
+      <CfgSection title="Attempt Scoring">
         <div
           className="flex items-center justify-between gap-3 rounded-xl p-3"
           style={{ background: P.bg }}
         >
           <div>
             <p className="text-xs font-semibold" style={{ color: P.text }}>
-              Enable attempt-based scoring
+              Enable attempt scoring
             </p>
             <p className="text-[10px]" style={{ color: P.textMuted }}>
-              HR controls how quiz score credit changes across retakes.
+              Set retake credit.
             </p>
           </div>
           <button
@@ -719,17 +697,17 @@ export function ConfigXPGamification() {
           <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-2">
             {(
               [
-                ["full-credit", "Full Credit", "Every allowed attempt can earn full credit."],
-                ["reduced-credit", "Reduced Credit", "Later attempts earn a lower percentage."],
-                ["best-score", "Best Score", "Highest submitted score counts."],
-                ["latest-score", "Latest Score", "Most recent submitted score counts."],
+                ["full-credit", "Full Credit", "All attempts count."],
+                ["reduced-credit", "Reduced Credit", "Retries reduce credit."],
+                ["best-score", "Best Score", "Highest score wins."],
+                ["latest-score", "Latest Score", "Newest score wins."],
               ] as [AttemptScoringMode, string, string][]
             ).map(([mode, label, desc]) => (
               <button
                 key={mode}
                 onClick={() => updateAttemptScoringPolicy("mode", mode)}
                 disabled={!attemptScoringPolicy.enabled}
-                className="text-left rounded-xl border p-3 transition-all"
+                className="text-left rounded-xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-sm"
                 style={{
                   borderColor: attemptScoringPolicy.mode === mode ? P.olive : P.border,
                   background: attemptScoringPolicy.mode === mode ? P.lightSage : "white",
@@ -794,15 +772,11 @@ export function ConfigXPGamification() {
         <div className="grid sm:grid-cols-2 gap-3">
           {(
             [
-              [
-                "allowCreatorOverride",
-                "Allow course creators to override",
-                "Creators can turn attempt scoring on or off inside an individual quiz.",
-              ],
+              ["allowCreatorOverride", "Allow course creators to override", "Per-quiz override."],
               [
                 "showPolicyToLearners",
                 "Show scoring policy to learners",
-                "Learners can see how retakes affect their score before starting.",
+                "Show before quiz starts.",
               ],
             ] as [
               keyof Pick<AttemptScoringPolicy, "allowCreatorOverride" | "showPolicyToLearners">,
@@ -814,7 +788,7 @@ export function ConfigXPGamification() {
               key={key}
               onClick={() => updateAttemptScoringPolicy(key, !attemptScoringPolicy[key])}
               disabled={!attemptScoringPolicy.enabled}
-              className="flex items-center justify-between gap-3 rounded-xl p-3 text-left"
+              className="flex items-center justify-between gap-3 rounded-xl p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-sm"
               style={{
                 background: attemptScoringPolicy[key] ? P.lightSage : P.bg,
                 border: `1px solid ${attemptScoringPolicy[key] ? P.sage : P.border}`,
@@ -844,13 +818,21 @@ export function ConfigXPGamification() {
 
         <div className="rounded-xl border p-3" style={{ borderColor: P.border, background: P.bg }}>
           <p className="text-xs font-semibold mb-1" style={{ color: P.text }}>
-            Policy Preview
+            Preview
           </p>
           <p className="text-[11px] leading-relaxed" style={{ color: P.textMuted }}>
-            {describeAttemptScoringPolicy(attemptScoringPolicy)}{" "}
+            {attemptScoringPolicy.enabled
+              ? attemptScoringPolicy.mode === "reduced-credit"
+                ? `${attemptScoringPolicy.firstAttemptPercent}/${attemptScoringPolicy.secondAttemptPercent}/${attemptScoringPolicy.thirdAttemptPercent}/${attemptScoringPolicy.laterAttemptPercent}% credit by attempt.`
+                : attemptScoringPolicy.mode === "best-score"
+                  ? "Best score counts."
+                  : attemptScoringPolicy.mode === "latest-score"
+                    ? "Latest score counts."
+                    : "All attempts count."
+              : "Attempt scoring is off."}{" "}
             {attemptScoringPolicy.allowCreatorOverride
-              ? "Creators may override this per quiz."
-              : "Creators will see this as an HR-controlled quiz setting."}
+              ? "Creators can override."
+              : "HR controlled."}
           </p>
         </div>
       </CfgSection>
@@ -858,12 +840,12 @@ export function ConfigXPGamification() {
       <XPRulesCrud />
 
       {/* Completion Criteria */}
-      <CfgSection title="Completion Criteria">
+      <CfgSection title="Completion">
         <div className="grid sm:grid-cols-2 gap-4">
-          <CfgField label="Minimum Video Watch %" value="80" type="number" />
+          <CfgField label="Video Watch %" value="80" type="number" />
           <div>
             <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
-              Minimum Quiz Pass Score %
+              Quiz Pass Score %
             </label>
             <input
               type="number"
@@ -876,27 +858,21 @@ export function ConfigXPGamification() {
             />
           </div>
           <CfgField
-            label="Required Modules to Mark Complete"
+            label="Required Modules"
             options={["All modules", "80% of modules", "Mandatory modules only"]}
           />
-          <CfgField label="Assessment Retry Limit" value="3" type="number" />
+          <CfgField label="Retry Limit" value="3" type="number" />
         </div>
         <CfgToggle
           label="Require all tasks to be submitted"
-          desc="Learner cannot complete until all program tasks are done"
+          desc="Blocks completion until tasks are done"
           defaultOn
         />
-        <CfgToggle
-          label="Manager must confirm completion"
-          desc="Triggers manager sign-off step before XP is awarded"
-        />
+        <CfgToggle label="Manager must confirm completion" desc="Adds sign-off before XP" />
       </CfgSection>
 
       {/* XP Thresholds */}
-      <CfgSection title="XP Thresholds & Learning Levels">
-        <p className="text-[11px] mb-3" style={{ color: P.textMuted }}>
-          Define the XP ranges for each learner level. Changes apply to all learners immediately.
-        </p>
+      <CfgSection title="Levels">
         <div className="space-y-2">
           {levels.map((lvl, i) => (
             <div

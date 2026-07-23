@@ -429,7 +429,7 @@ export function ConfigCenterScreen({
 
       {/* Main content */}
       <div className="flex-1 overflow-y-auto p-6">
-        <div className={`${isEmbeddedWorkspace ? "max-w-[1200px]" : "max-w-[860px]"} space-y-5`}>
+        <div className={`${isEmbeddedWorkspace ? "max-w-[1200px]" : "max-w-[860px]"} space-y-7`}>
           {!isEmbeddedWorkspace && (
             <div>
               <h1
