@@ -30,11 +30,11 @@ export function GroupedSidebarNav({
   }, [screen, groups]);
 
   return (
-    <div>
+    <div className="space-y-3">
       {groups.map((group) => {
         if (group.standalone) {
           return (
-            <div key={group.label} className="mb-2">
+            <div key={group.label}>
               {group.items.map((item) => (
                 <SidebarNavBtn key={item.id} {...item} screen={screen} navigate={navigate} />
               ))}
@@ -47,14 +47,14 @@ export function GroupedSidebarNav({
         const GroupIcon = group.icon ?? group.items[0]?.icon ?? Layers;
         const target = group.target ?? (group.items[0]?.id as Screen | undefined);
         return (
-          <div key={group.label} className="mb-2">
+          <div key={group.label}>
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => {
                   if (target) navigate(target);
                   setCollapsed((p) => ({ ...p, [group.label]: false }));
                 }}
-                className="nav-item flex-1 flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left"
+                className="nav-item flex-1 flex items-center gap-3 px-4 py-3.5 rounded-xl text-left"
                 style={{
                   background: hasActive ? "rgba(4,120,87,0.22)" : "transparent",
                   color: hasActive ? "white" : P.sage,
@@ -105,7 +105,7 @@ export function GroupedSidebarNav({
               </button>
             </div>
             {open && (
-              <div className="ml-4 space-y-1 mb-2 mt-1.5">
+              <div className="ml-4 space-y-2.5 mt-2.5">
                 {group.items.map((item) => (
                   <SidebarNavBtn key={item.id} {...item} screen={screen} navigate={navigate} />
                 ))}

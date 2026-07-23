@@ -15,11 +15,11 @@ export function SidebarNavBtn({
   return (
     <button
       onClick={() => navigate(id as Screen)}
-      className="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left"
+      className="nav-item w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-left"
       style={{
         background: active ? "rgba(4,120,87,0.22)" : "transparent",
         color: active ? "white" : P.sage,
-        paddingLeft: active ? 14 : undefined,
+        paddingLeft: active ? 16 : undefined,
         transition: "background 180ms ease, color 180ms ease, padding-left 180ms ease",
         position: "relative",
       }}

@@ -46,13 +46,13 @@ export function Sidebar({
         </div>
       </div>
 
-      <nav className="flex-1 py-5 px-4 overflow-y-auto">
+      <nav className="flex-1 py-6 px-4 overflow-y-auto">
         {useGrouped ? (
           <GroupedSidebarNav groups={groups} screen={screen} navigate={navigate} />
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <p
-              className="text-[10px] font-semibold uppercase tracking-widest px-2 mb-3"
+              className="text-[10px] font-semibold uppercase tracking-widest px-2 mb-5"
               style={{ color: "rgba(110,231,183,0.4)" }}
             >
               Navigation
@@ -62,7 +62,7 @@ export function Sidebar({
             ))}
           </div>
         )}
-        <div className="pt-5 mt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="pt-7 mt-7" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           <SidebarNavBtn
             id="notifications"
             label="Notifications"
