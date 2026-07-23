@@ -10,7 +10,7 @@ Run `npm run dev` to start the development server.
 
 ## Frontend folder structure
 
-The project now follows the company React + Vite + TypeScript structure:
+The project follows React + Vite + TypeScript structure:
 
 ```text
 src/
