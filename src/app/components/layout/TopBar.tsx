@@ -25,11 +25,11 @@ export function TopBar({
   };
   return (
     <header
-      className="bg-white px-6 py-3 flex items-center gap-4 flex-shrink-0"
+      className="bg-white px-8 py-4 flex items-center gap-6 flex-shrink-0"
       style={{ borderBottom: `1px solid ${P.border}` }}
     >
       <div className="flex-1">
-        <div className="relative max-w-md">
+        <div className="relative max-w-xl">
           <Search
             size={14}
             className="absolute left-3 top-1/2 -translate-y-1/2"
@@ -42,8 +42,8 @@ export function TopBar({
             onKeyDown={(e) => {
               if (e.key === "Enter" && searchQuery.trim()) navigate("catalog");
             }}
-            placeholder="Search courses, programs, people…"
-            className="w-full pl-9 pr-9 py-2 text-sm rounded-lg focus:outline-none focus:ring-2"
+            placeholder="Search courses, programs, people..."
+            className="w-full pl-9 pr-9 py-2.5 text-sm rounded-xl focus:outline-none focus:ring-2"
             style={{ background: P.bg, border: `1px solid ${P.border}`, color: P.text }}
           />
           {searchQuery && (
@@ -59,14 +59,14 @@ export function TopBar({
           )}
         </div>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <span className="text-xs font-medium hidden md:block" style={{ color: P.textMuted }}>
           {roleLabel[role]}
         </span>
         <div className="w-px h-5 hidden md:block" style={{ background: P.border }} />
         <button
           onClick={() => navigate("notifications")}
-          className="relative p-2 rounded-lg transition-colors"
+          className="relative p-2.5 rounded-xl transition-colors"
           style={{ background: "transparent" }}
         >
           <Bell size={18} style={{ color: P.textMuted }} />
@@ -75,20 +75,20 @@ export function TopBar({
             style={{ background: "#C0392B" }}
           />
         </button>
-        <button className="p-2 rounded-lg transition-colors" data-prototype-action="true">
+        <button className="p-2.5 rounded-xl transition-colors" data-prototype-action="true">
           <HelpCircle size={18} style={{ color: P.textMuted }} />
         </button>
         <div
           className="flex items-center gap-2 pl-2"
           style={{ borderLeft: `1px solid ${P.border}` }}
         >
-          <Av initials="AM" size={30} color={P.olive} />
+          <Av initials="AM" size={34} color={P.olive} />
           <div className="hidden sm:block">
             <p className="text-xs font-semibold" style={{ color: P.text }}>
               Alex Mercer
             </p>
             <p className="text-[10px]" style={{ color: P.textMuted }}>
-              ADIU Communication Service PLC · Engineering
+              ADIU PLC - Engineering
             </p>
           </div>
         </div>

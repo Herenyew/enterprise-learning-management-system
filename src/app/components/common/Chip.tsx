@@ -26,7 +26,7 @@ export function Chip({
   };
   return (
     <span
-      className="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full border"
+      className="inline-flex items-center text-[11px] font-medium px-3 py-1 rounded-full border"
       style={inlineStyle[variant]}
     >
       {label}

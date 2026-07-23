@@ -15,11 +15,11 @@ export function SidebarNavBtn({
   return (
     <button
       onClick={() => navigate(id as Screen)}
-      className="nav-item w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left"
+      className="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left"
       style={{
         background: active ? "rgba(4,120,87,0.22)" : "transparent",
         color: active ? "white" : P.sage,
-        paddingLeft: active ? 12 : undefined,
+        paddingLeft: active ? 14 : undefined,
         transition: "background 180ms ease, color 180ms ease, padding-left 180ms ease",
         position: "relative",
       }}
@@ -40,14 +40,14 @@ export function SidebarNavBtn({
         }}
       />
       <Icon
-        size={14}
+        size={15}
         className="flex-shrink-0"
         style={{
           transition: "color 180ms ease, transform 180ms ease",
           transform: active ? "translateX(1px)" : "",
         }}
       />
-      <span className="text-[12px] font-medium">{label}</span>
+      <span className="text-[13px] font-medium">{label}</span>
       {active && (
         <span
           className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0"

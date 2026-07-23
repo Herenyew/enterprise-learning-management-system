@@ -175,6 +175,38 @@
   transition-duration: 80ms;
 }
 
+main {
+  scrollbar-gutter: stable;
+}
+
+main .bg-white.rounded-xl.border {
+  border-radius: 1rem;
+}
+
+main .rounded-xl.border[class*="p-4"] {
+  padding: 1.5rem;
+}
+
+main .rounded-xl.border[class*="p-5"] {
+  padding: 1.75rem;
+}
+
+main .flex.flex-wrap.gap-1\.5 {
+  gap: 0.75rem !important;
+}
+
+main .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1rem !important;
+}
+
+main .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1.35rem !important;
+}
+
+main .space-y-5 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1.75rem !important;
+}
+
 /* Larger lift for featured cards */
 .card-interactive-lg:hover {
   transform: translateY(-6px) scale(1.02);
@@ -332,7 +364,7 @@ button > p {
 }
 .kpi-pulse {
   animation: pulseGlow 2.4s ease-in-out infinite;
-  border-radius: 12px;
+  border-radius: 16px;
 }
 
 /* ── Progress bars animate on render ──────────────────────── */

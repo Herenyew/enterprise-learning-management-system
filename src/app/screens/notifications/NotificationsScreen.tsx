@@ -57,12 +57,12 @@ export function NotificationsScreen() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {filters.map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className="px-3 py-1.5 rounded-full text-xs font-medium"
+            className="px-4 py-2 rounded-full text-xs font-medium"
             style={
               filter === f
                 ? { background: P.olive, color: "white" }
@@ -77,7 +77,7 @@ export function NotificationsScreen() {
         ))}
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-4">
         {filtered.map((notif) => {
           const { bg, color, Icon } = iconStyle(notif.icon);
           return (
@@ -88,7 +88,7 @@ export function NotificationsScreen() {
                   p.map((n) => (n.id === notif.id ? { ...n, read: true } : n)),
                 )
               }
-              className="flex items-start gap-4 p-4 rounded-xl border transition-all cursor-pointer"
+              className="flex items-start gap-5 p-5 rounded-xl border transition-all cursor-pointer"
               style={{
                 background: notif.read ? "white" : `${P.lightSage}45`,
                 borderColor: notif.read ? P.border : `${P.sage}60`,
@@ -112,7 +112,10 @@ export function NotificationsScreen() {
                     {notif.time}
                   </span>
                 </div>
-                <p className="text-xs mt-0.5 leading-relaxed" style={{ color: P.textMuted }}>
+                <p
+                  className="text-xs mt-1 leading-relaxed line-clamp-1"
+                  style={{ color: P.textMuted }}
+                >
                   {notif.body}
                 </p>
                 {!notif.read && (

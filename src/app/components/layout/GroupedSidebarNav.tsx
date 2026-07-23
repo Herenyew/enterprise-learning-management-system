@@ -34,7 +34,7 @@ export function GroupedSidebarNav({
       {groups.map((group) => {
         if (group.standalone) {
           return (
-            <div key={group.label} className="mb-0.5">
+            <div key={group.label} className="mb-2">
               {group.items.map((item) => (
                 <SidebarNavBtn key={item.id} {...item} screen={screen} navigate={navigate} />
               ))}
@@ -47,14 +47,14 @@ export function GroupedSidebarNav({
         const GroupIcon = group.icon ?? group.items[0]?.icon ?? Layers;
         const target = group.target ?? (group.items[0]?.id as Screen | undefined);
         return (
-          <div key={group.label} className="mb-0.5">
-            <div className="flex items-center gap-1">
+          <div key={group.label} className="mb-2">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => {
                   if (target) navigate(target);
                   setCollapsed((p) => ({ ...p, [group.label]: false }));
                 }}
-                className="nav-item flex-1 flex items-center gap-2.5 px-3 py-2 rounded-lg text-left"
+                className="nav-item flex-1 flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left"
                 style={{
                   background: hasActive ? "rgba(4,120,87,0.22)" : "transparent",
                   color: hasActive ? "white" : P.sage,
@@ -76,8 +76,8 @@ export function GroupedSidebarNav({
                     transformOrigin: "center",
                   }}
                 />
-                <GroupIcon size={14} className="flex-shrink-0" />
-                <span className="text-[12px] font-semibold">{group.label}</span>
+                <GroupIcon size={15} className="flex-shrink-0" />
+                <span className="text-[13px] font-semibold">{group.label}</span>
                 {hasActive && (
                   <span
                     className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0"
@@ -90,7 +90,7 @@ export function GroupedSidebarNav({
               </button>
               <button
                 onClick={() => setCollapsed((p) => ({ ...p, [group.label]: !p[group.label] }))}
-                className="w-7 h-8 rounded-lg flex items-center justify-center transition-colors"
+                className="w-8 h-9 rounded-xl flex items-center justify-center transition-colors"
                 style={{
                   color: hasActive ? "white" : P.sage,
                   background: hasActive ? "rgba(4,120,87,0.22)" : "transparent",
@@ -105,7 +105,7 @@ export function GroupedSidebarNav({
               </button>
             </div>
             {open && (
-              <div className="ml-4 space-y-0.5 mb-1 mt-0.5">
+              <div className="ml-4 space-y-1 mb-2 mt-1.5">
                 {group.items.map((item) => (
                   <SidebarNavBtn key={item.id} {...item} screen={screen} navigate={navigate} />
                 ))}

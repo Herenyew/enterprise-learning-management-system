@@ -22,7 +22,7 @@ export function CourseCard({
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-xl border overflow-hidden cursor-pointer group"
+      className="bg-white rounded-2xl border overflow-hidden cursor-pointer group"
       style={{
         borderColor: P.border,
         transition: "transform 200ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 200ms ease",
@@ -37,7 +37,7 @@ export function CourseCard({
       }}
     >
       {/* Thumbnail */}
-      <div className="h-36 relative overflow-hidden">
+      <div className="h-44 relative overflow-hidden">
         {course.thumbnail ? (
           <img
             src={course.thumbnail}
@@ -146,11 +146,8 @@ export function CourseCard({
           </button>
         </div>
       </div>
-      <div className="p-4">
-        <p
-          className="text-[11px] leading-relaxed mb-2.5 line-clamp-2"
-          style={{ color: P.textMuted }}
-        >
+      <div className="p-5">
+        <p className="text-[11px] leading-relaxed mb-3 line-clamp-1" style={{ color: P.textMuted }}>
           {summary}
         </p>
         {course.provider && (
@@ -165,14 +162,14 @@ export function CourseCard({
               <Globe size={10} style={{ color: course.color }} />
               <span className="truncate">{course.provider}</span>
             </span>
-            <span className="text-[10px] font-medium" style={{ color: P.textMuted }}>
+            <span className="text-[10px] font-medium truncate" style={{ color: P.textMuted }}>
               {course.providerCredential}
             </span>
           </div>
         )}
         <div className="flex items-center gap-2 mb-2">
           <Av initials={course.instructorAvatar} size={20} color={course.color} />
-          <span className="text-[11px]" style={{ color: P.textMuted }}>
+          <span className="text-[11px] truncate" style={{ color: P.textMuted }}>
             {course.instructor}
           </span>
           <div className="ml-auto flex items-center gap-0.5">

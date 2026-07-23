@@ -21,11 +21,11 @@ export function Sidebar({
 
   return (
     <aside
-      className="w-[230px] flex-shrink-0 flex flex-col h-full overflow-y-auto"
+      className="w-[250px] flex-shrink-0 flex flex-col h-full overflow-y-auto"
       style={{ background: P.deepOlive }}
     >
-      <div className="px-5 py-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="flex items-center gap-2.5">
+      <div className="px-6 py-6" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ background: P.olive }}
@@ -46,13 +46,13 @@ export function Sidebar({
         </div>
       </div>
 
-      <nav className="flex-1 py-3 px-3 overflow-y-auto">
+      <nav className="flex-1 py-5 px-4 overflow-y-auto">
         {useGrouped ? (
           <GroupedSidebarNav groups={groups} screen={screen} navigate={navigate} />
         ) : (
-          <div className="space-y-0.5">
+          <div className="space-y-2">
             <p
-              className="text-[10px] font-semibold uppercase tracking-widest px-2 mb-2"
+              className="text-[10px] font-semibold uppercase tracking-widest px-2 mb-3"
               style={{ color: "rgba(110,231,183,0.4)" }}
             >
               Navigation
@@ -62,7 +62,7 @@ export function Sidebar({
             ))}
           </div>
         )}
-        <div className="pt-3 mt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="pt-5 mt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           <SidebarNavBtn
             id="notifications"
             label="Notifications"
@@ -73,16 +73,16 @@ export function Sidebar({
         </div>
       </nav>
 
-      <div className="p-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="p-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div
-          className="flex items-center gap-2.5 p-2 rounded-lg cursor-pointer"
+          className="flex items-center gap-3 p-3 rounded-xl cursor-pointer"
           style={{ background: "rgba(255,255,255,0.04)" }}
         >
           <Av initials="AM" size={32} color={P.olive} />
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-white truncate">Alex Mercer</p>
             <p className="text-[10px] truncate" style={{ color: P.sage }}>
-              Senior Engineer · L8
+              Senior Engineer - L8
             </p>
           </div>
           <Settings size={13} style={{ color: P.sage }} className="flex-shrink-0" />
