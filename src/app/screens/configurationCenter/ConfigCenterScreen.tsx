@@ -364,7 +364,7 @@ export function ConfigCenterScreen({
     <div className="flex h-full overflow-hidden">
       {/* Left nav */}
       <aside
-        className="w-56 flex-shrink-0 overflow-y-auto p-3 space-y-0.5"
+        className="w-56 flex-shrink-0 overflow-y-auto p-4 space-y-2"
         style={{ background: "white", borderRight: `1px solid ${P.border}` }}
       >
         <p
@@ -373,26 +373,58 @@ export function ConfigCenterScreen({
         >
           Configuration
         </p>
-        {NAV.map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            onClick={() => setActive(id)}
-            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-left transition-all"
-            style={
-              active === id
-                ? {
-                    background: P.lightSage,
-                    color: P.darkOlive,
-                    borderLeft: `3px solid ${P.olive}`,
-                    paddingLeft: 9,
-                  }
-                : { color: P.textMuted }
-            }
-          >
-            <Icon size={14} className="flex-shrink-0" />
-            <span className="text-[12px] font-medium leading-tight">{label}</span>
-          </button>
-        ))}
+        {NAV.map(({ id, label, icon: Icon }) => {
+          const isActive = active === id;
+
+          return (
+            <button
+              key={id}
+              onClick={() => setActive(id)}
+              aria-current={isActive ? "page" : undefined}
+              className="group relative w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-left transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(4,120,87,0.10)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200"
+              style={
+                isActive
+                  ? {
+                      background:
+                        "linear-gradient(135deg, rgba(209,250,229,0.98), rgba(236,253,245,0.96))",
+                      color: P.darkOlive,
+                      border: `1px solid ${P.border}`,
+                      boxShadow: "0 14px 30px rgba(4,120,87,0.10)",
+                    }
+                  : {
+                      background: "transparent",
+                      color: P.textMuted,
+                      border: "1px solid transparent",
+                    }
+              }
+            >
+              <span
+                className={`absolute left-0 top-3 bottom-3 w-1 rounded-full transition-all duration-200 ${
+                  isActive ? "opacity-100" : "opacity-0 group-hover:opacity-70"
+                }`}
+                style={{ background: P.olive }}
+              />
+              <span
+                className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-200 group-hover:scale-110"
+                style={{
+                  background: isActive ? P.olive : P.paleGreen,
+                  color: isActive ? "white" : P.textMid,
+                }}
+              >
+                <Icon size={15} />
+              </span>
+              <span className="flex-1 text-[13px] font-semibold leading-tight">{label}</span>
+              <ChevronRight
+                size={14}
+                className={`flex-shrink-0 transition-all duration-200 ${
+                  isActive
+                    ? "opacity-100"
+                    : "translate-x-[-4px] opacity-0 group-hover:translate-x-0 group-hover:opacity-70"
+                }`}
+              />
+            </button>
+          );
+        })}
       </aside>
 
       {/* Main content */}
