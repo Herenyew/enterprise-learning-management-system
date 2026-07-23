@@ -74,7 +74,7 @@ export function CreatorScreen() {
                   {mod.lessons.map((lesson, li) => (
                     <div
                       key={li}
-                      className="flex items-center gap-2 px-2 py-1.5 rounded text-[11px] cursor-pointer hover:bg-[#F8F9F4]"
+                      className="flex items-center gap-2 px-2 py-1.5 rounded text-[11px] cursor-pointer hover:bg-[#F6FEFA]"
                       style={{ color: P.textMuted }}
                     >
                       <Play size={9} style={{ color: P.sage }} /> {lesson}
@@ -257,7 +257,7 @@ export function CreatorScreen() {
                   {["B", "I", "H1", "H2", "• List", "{ } Code"].map((f) => (
                     <button
                       key={f}
-                      className="text-[11px] font-medium px-2 py-0.5 rounded hover:bg-[#F8F9F4]"
+                      className="text-[11px] font-medium px-2 py-0.5 rounded hover:bg-[#F6FEFA]"
                       style={{ color: P.textMid }}
                       data-prototype-action="true"
                     >

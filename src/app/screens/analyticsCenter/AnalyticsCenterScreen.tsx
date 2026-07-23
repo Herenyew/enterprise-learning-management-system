@@ -298,13 +298,13 @@ export function AnalyticsCenterScreen({
               (e.currentTarget as HTMLButtonElement).style.transform =
                 "translateY(-5px) scale(1.018)";
               (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 10px 28px rgba(107,122,58,0.14)";
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#A8B58A";
+                "0 10px 28px rgba(4,120,87,0.14)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "#6EE7B7";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.transform = "";
               (e.currentTarget as HTMLButtonElement).style.boxShadow = "";
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#D0DAB8";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "#A7F3D0";
             }}
           >
             <div className="flex items-start justify-between mb-4">

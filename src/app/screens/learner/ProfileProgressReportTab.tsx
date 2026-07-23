@@ -196,7 +196,7 @@ function CourseListPanel({
             key={course.id}
             onClick={() => navigate("course-detail", course.id)}
             aria-label={`Open details for ${course.title}`}
-            className="w-full text-left rounded-lg p-3 transition-colors hover:bg-[#F8F9F4] focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+            className="w-full text-left rounded-lg p-3 transition-colors hover:bg-[#F6FEFA] focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
             style={{ background: P.bg, border: `1px solid ${P.border}` }}
           >
             <div className="flex items-center justify-between gap-3 mb-2">

@@ -249,7 +249,7 @@ export function ConfigCertifications() {
       id: "th3",
       label: "Distinction",
       min: 90,
-      color: "#4D5B2A",
+      color: "#065F46",
       desc: "Issued with Distinction and special border",
     },
   ]);

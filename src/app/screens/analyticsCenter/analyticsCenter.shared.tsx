@@ -44,20 +44,20 @@ import {
 } from "recharts";
 
 const P = {
-  olive: "#6B7A3A",
-  darkOlive: "#4D5B2A",
-  deepOlive: "#2E3A15",
-  sage: "#A8B58A",
-  lightSage: "#E7EEDC",
-  paleGreen: "#F0F4E8",
+  olive: "#047857",
+  darkOlive: "#065F46",
+  deepOlive: "#064E3B",
+  sage: "#6EE7B7",
+  lightSage: "#D1FAE5",
+  paleGreen: "#ECFDF5",
   gold: "#C8A85D",
   goldLight: "#FDF5E0",
   goldMid: "#F0E2B8",
-  bg: "#F8F9F4",
-  text: "#2C3015",
-  textMid: "#5A6A3A",
-  textMuted: "#7A8A5A",
-  border: "#D0DAB8",
+  bg: "#F6FEFA",
+  text: "#052E26",
+  textMid: "#047857",
+  textMuted: "#4B7468",
+  border: "#A7F3D0",
 };
 
 const AC = {
@@ -189,7 +189,7 @@ const AC = {
   ],
 };
 
-const TS = { background: "white", border: "1px solid #D0DAB8", borderRadius: 8, fontSize: 11 };
+const TS = { background: "white", border: "1px solid #A7F3D0", borderRadius: 8, fontSize: 11 };
 
 function AnaStatCard({
   label,

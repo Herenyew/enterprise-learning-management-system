@@ -152,7 +152,7 @@ export function HRProgramTypeSection({ ctx }: { ctx: HRProgramCreateTabContext }
                         setEditIdx(i);
                         setEditVal(t.name);
                       }}
-                      className="p-1 rounded hover:bg-[#F0F4E8] transition-colors"
+                      className="p-1 rounded hover:bg-[#ECFDF5] transition-colors"
                       title="Rename"
                       style={{ color: P.olive }}
                     >
@@ -170,7 +170,7 @@ export function HRProgramTypeSection({ ctx }: { ctx: HRProgramCreateTabContext }
                     ) : (
                       <button
                         onClick={() => restoreProgramType(t.id)}
-                        className="p-1 rounded hover:bg-[#F0F4E8] transition-colors"
+                        className="p-1 rounded hover:bg-[#ECFDF5] transition-colors"
                         title="Restore"
                         style={{ color: P.olive }}
                       >

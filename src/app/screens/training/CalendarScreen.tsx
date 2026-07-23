@@ -249,7 +249,7 @@ export function CalendarScreen({ navigate }: { navigate: (s: string) => void }) 
                   return (
                     <div
                       key={day}
-                      className="h-24 p-1.5 cursor-pointer hover:bg-[#F8F9F4] transition-colors"
+                      className="h-24 p-1.5 cursor-pointer hover:bg-[#F6FEFA] transition-colors"
                       style={{
                         borderRight: `1px solid ${P.border}`,
                         borderBottom: `1px solid ${P.border}`,
@@ -452,7 +452,7 @@ export function CalendarScreen({ navigate }: { navigate: (s: string) => void }) 
                     <div
                       key={e.id}
                       onClick={() => setSelectedEvent(e.id)}
-                      className="flex items-center gap-2.5 cursor-pointer p-2 rounded-lg hover:bg-[#F8F9F4] transition-colors"
+                      className="flex items-center gap-2.5 cursor-pointer p-2 rounded-lg hover:bg-[#F6FEFA] transition-colors"
                     >
                       <div
                         className="w-1.5 h-8 rounded-full flex-shrink-0"

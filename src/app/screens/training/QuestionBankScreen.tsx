@@ -781,7 +781,7 @@ export function QuestionBankScreen({
             {filtered.map((q) => (
               <tr
                 key={q.id}
-                className="hover:bg-[#F8F9F4] transition-colors"
+                className="hover:bg-[#F6FEFA] transition-colors"
                 style={{ borderBottom: `1px solid ${P.border}50` }}
               >
                 <td className="px-4 py-3">
@@ -826,14 +826,14 @@ export function QuestionBankScreen({
                 <td className="px-4 py-3">
                   <div className="flex gap-1.5">
                     <button
-                      className="p-1.5 rounded hover:bg-[#F0F4E8]"
+                      className="p-1.5 rounded hover:bg-[#ECFDF5]"
                       data-prototype-action="true"
                     >
                       <Edit size={12} style={{ color: P.sage }} />
                     </button>
                     <button
                       onClick={() => copyQuestion(q)}
-                      className="p-1.5 rounded hover:bg-[#F0F4E8]"
+                      className="p-1.5 rounded hover:bg-[#ECFDF5]"
                     >
                       <Copy size={12} style={{ color: P.sage }} />
                     </button>

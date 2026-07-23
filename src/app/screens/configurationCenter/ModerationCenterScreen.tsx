@@ -579,7 +579,7 @@ export function ModerationCenterScreen({ navigate }: { navigate: (s: string) => 
                   <tr
                     key={c.id}
                     onClick={() => setSelectedCourse(c.id)}
-                    className="hover:bg-[#F8F9F4] transition-colors cursor-pointer"
+                    className="hover:bg-[#F6FEFA] transition-colors cursor-pointer"
                     style={{ borderBottom: `1px solid ${P.border}50` }}
                   >
                     <td className="px-4 py-3">

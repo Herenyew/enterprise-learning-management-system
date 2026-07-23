@@ -53,7 +53,7 @@ export function Sidebar({
           <div className="space-y-0.5">
             <p
               className="text-[10px] font-semibold uppercase tracking-widest px-2 mb-2"
-              style={{ color: "rgba(168,181,138,0.4)" }}
+              style={{ color: "rgba(110,231,183,0.4)" }}
             >
               Navigation
             </p>

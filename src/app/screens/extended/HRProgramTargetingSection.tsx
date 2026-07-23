@@ -205,7 +205,7 @@ export function HRProgramTargetingSection({ ctx }: { ctx: HRProgramCreateTabCont
                           setEditIdx(i + 1000);
                           setEditVal(d);
                         }}
-                        className="p-1 rounded hover:bg-[#F0F4E8]"
+                        className="p-1 rounded hover:bg-[#ECFDF5]"
                         style={{ color: P.olive }}
                       >
                         <Edit size={10} />
@@ -377,7 +377,7 @@ export function HRProgramTargetingSection({ ctx }: { ctx: HRProgramCreateTabCont
                           setEditIdx(i + 2000);
                           setEditVal(r);
                         }}
-                        className="p-1 rounded hover:bg-[#F0F4E8]"
+                        className="p-1 rounded hover:bg-[#ECFDF5]"
                         style={{ color: P.olive }}
                       >
                         <Edit size={10} />

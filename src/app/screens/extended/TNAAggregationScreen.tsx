@@ -457,7 +457,7 @@ export function TNAAggregationScreen({ navigate }: { navigate: (s: string) => vo
               {TNA_REQUESTS.map((req) => (
                 <tr
                   key={req.id}
-                  className="hover:bg-[#F8F9F4] transition-colors"
+                  className="hover:bg-[#F6FEFA] transition-colors"
                   style={{ borderBottom: `1px solid ${P.border}50` }}
                 >
                   <td className="px-4 py-3">

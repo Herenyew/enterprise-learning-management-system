@@ -155,7 +155,7 @@ export function CertificatesScreen() {
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLDivElement).style.transform = "translateY(-6px) scale(1.02)";
               (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 12px 32px rgba(107,122,58,0.16)";
+                "0 12px 32px rgba(4,120,87,0.16)";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLDivElement).style.transform = "";
@@ -265,7 +265,7 @@ export function CertificatesScreen() {
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.04)";
                     (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                      "0 4px 12px rgba(107,122,58,0.4)";
+                      "0 4px 12px rgba(4,120,87,0.4)";
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.transform = "";

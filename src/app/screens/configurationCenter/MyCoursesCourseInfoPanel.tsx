@@ -524,7 +524,7 @@ export function MyCoursesCourseInfoPanel({ ctx }: { ctx: MyCoursesBuilderViewCon
                             setShowContactDrop(false);
                             setContactSearch("");
                           }}
-                          className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#F8F9F4] transition-colors text-left"
+                          className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#F6FEFA] transition-colors text-left"
                           style={{ borderBottom: `1px solid ${P.border}50` }}
                         >
                           <div
@@ -633,7 +633,7 @@ export function MyCoursesCourseInfoPanel({ ctx }: { ctx: MyCoursesBuilderViewCon
                           if (!prereqs.includes(c.title)) setPrereqs((p) => [...p, c.title]);
                           setPrereqSearch("");
                         }}
-                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[#F8F9F4] text-left"
+                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[#F6FEFA] text-left"
                         style={{ borderBottom: `1px solid ${P.border}50` }}
                       >
                         <img src={c.thumb} alt="" className="w-8 h-5 rounded object-cover" />

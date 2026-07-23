@@ -175,7 +175,7 @@ export function AnaCustom() {
         {saved.map((r) => (
           <div
             key={r.name}
-            className="flex items-center gap-4 px-5 py-3.5 hover:bg-[#F8F9F4] transition-colors"
+            className="flex items-center gap-4 px-5 py-3.5 hover:bg-[#F6FEFA] transition-colors"
             style={{ borderBottom: `1px solid ${P.border}50` }}
           >
             <div

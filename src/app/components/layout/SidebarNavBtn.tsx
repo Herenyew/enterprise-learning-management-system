@@ -17,7 +17,7 @@ export function SidebarNavBtn({
       onClick={() => navigate(id as Screen)}
       className="nav-item w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left"
       style={{
-        background: active ? "rgba(107,122,58,0.22)" : "transparent",
+        background: active ? "rgba(4,120,87,0.22)" : "transparent",
         color: active ? "white" : P.sage,
         paddingLeft: active ? 12 : undefined,
         transition: "background 180ms ease, color 180ms ease, padding-left 180ms ease",

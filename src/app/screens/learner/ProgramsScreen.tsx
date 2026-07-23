@@ -82,7 +82,7 @@ export function ProgramsScreen({ navigate }: { navigate: NavigateFn }) {
                   (e.currentTarget as HTMLDivElement).style.transform =
                     "translateY(-5px) scale(1.018)";
                   (e.currentTarget as HTMLDivElement).style.boxShadow =
-                    "0 10px 28px rgba(107,122,58,0.14)";
+                    "0 10px 28px rgba(4,120,87,0.14)";
                   (e.currentTarget as HTMLDivElement).style.borderColor = P.sage;
                 }}
                 onMouseLeave={(e) => {

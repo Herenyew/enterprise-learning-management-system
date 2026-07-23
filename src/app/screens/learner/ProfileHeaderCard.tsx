@@ -51,7 +51,7 @@ export function ProfileHeaderCard({
           </div>
           <div className="flex items-center gap-2 pb-1">
             <button
-              className="px-4 py-2 rounded-lg text-sm flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+              className="px-4 py-2 rounded-lg text-sm flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
               style={{ border: `1px solid ${P.border}`, color: P.textMid }}
               type="button"
               data-prototype-action="true"
@@ -59,7 +59,7 @@ export function ProfileHeaderCard({
               <Edit size={14} /> Edit
             </button>
             <button
-              className="px-4 py-2 text-white rounded-lg text-sm font-semibold flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+              className="px-4 py-2 text-white rounded-lg text-sm font-semibold flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
               style={{ background: P.olive }}
               type="button"
               data-prototype-action="true"
@@ -122,7 +122,7 @@ export function ProfileHeaderCard({
             <button
               key={tab}
               onClick={() => onTabChange(tab)}
-              className="px-4 py-2.5 text-xs font-semibold capitalize whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+              className="px-4 py-2.5 text-xs font-semibold capitalize whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
               style={
                 activeTab === tab
                   ? { color: P.olive, borderBottom: `2px solid ${P.olive}` }

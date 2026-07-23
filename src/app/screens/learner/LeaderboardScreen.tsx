@@ -471,7 +471,7 @@ export function LeaderboardScreen({
                 className="text-[9px] px-1 py-0.5 rounded"
                 style={{
                   background:
-                    activeMetric === id ? "rgba(255,255,255,0.25)" : "rgba(107,122,58,0.12)",
+                    activeMetric === id ? "rgba(255,255,255,0.25)" : "rgba(4,120,87,0.12)",
                   color: activeMetric === id ? "white" : P.olive,
                 }}
               >

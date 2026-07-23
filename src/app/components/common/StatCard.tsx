@@ -25,7 +25,7 @@ export function StatCard({
       style={{ borderColor: P.border, transition: "box-shadow 300ms ease, transform 200ms ease" }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)";
-        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 6px 20px rgba(107,122,58,0.13)";
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 6px 20px rgba(4,120,87,0.13)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLDivElement).style.transform = "";

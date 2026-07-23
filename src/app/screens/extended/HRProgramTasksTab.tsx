@@ -241,7 +241,7 @@ export function HRProgramTasksTab({ ctx }: { ctx: HRProgramTasksTabContext }) {
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => openTaskModal(task.type, task)}
-                      className="p-1.5 rounded hover:bg-[#F8F9F4]"
+                      className="p-1.5 rounded hover:bg-[#F6FEFA]"
                     >
                       <Edit size={13} style={{ color: P.sage }} />
                     </button>
@@ -256,7 +256,7 @@ export function HRProgramTasksTab({ ctx }: { ctx: HRProgramTasksTabContext }) {
                           ),
                         );
                       }}
-                      className="p-1.5 rounded hover:bg-[#F8F9F4]"
+                      className="p-1.5 rounded hover:bg-[#F6FEFA]"
                     >
                       <Trash2 size={13} style={{ color: "#C0392B" }} />
                     </button>

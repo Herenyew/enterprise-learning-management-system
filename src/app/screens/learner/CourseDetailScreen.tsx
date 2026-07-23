@@ -84,7 +84,7 @@ export function CourseAssessmentModal({
                 : preAssessmentDescription}
             </p>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[#F8F9F4]" type="button">
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[#F6FEFA]" type="button">
             <X size={16} style={{ color: P.textMuted }} />
           </button>
         </div>

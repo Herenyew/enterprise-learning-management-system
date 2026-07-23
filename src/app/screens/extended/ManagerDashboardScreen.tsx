@@ -216,7 +216,7 @@ export function ManagerDashboardScreen({ navigate }: { navigate: (s: string) => 
                 <tr
                   key={m.name}
                   onClick={() => setSelected(m.name === selected ? null : m.name)}
-                  className="hover:bg-[#F8F9F4] transition-colors cursor-pointer"
+                  className="hover:bg-[#F6FEFA] transition-colors cursor-pointer"
                   style={{
                     borderBottom: `1px solid ${P.border}50`,
                     background: selected === m.name ? `${P.lightSage}50` : undefined,

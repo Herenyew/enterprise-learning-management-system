@@ -29,7 +29,7 @@ export function CourseCard({
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLDivElement).style.transform = "translateY(-5px) scale(1.02)";
-        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 10px 28px rgba(107,122,58,0.15)";
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 10px 28px rgba(4,120,87,0.15)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLDivElement).style.transform = "";
@@ -117,7 +117,7 @@ export function CourseCard({
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.06)";
                 (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                  "0 4px 12px rgba(107,122,58,0.5)";
+                  "0 4px 12px rgba(4,120,87,0.5)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.transform = "";

@@ -244,7 +244,7 @@ export function AnaLearning() {
               {courseReports.map((course) => (
                 <tr
                   key={course.name}
-                  className="hover:bg-[#F8F9F4] transition-colors"
+                  className="hover:bg-[#F6FEFA] transition-colors"
                   style={{ borderBottom: `1px solid ${P.border}40` }}
                 >
                   <td className="px-4 py-3">
@@ -328,7 +328,7 @@ export function AnaLearning() {
                 ].map(([name, dept, courses, xp, level, streak, pct]) => (
                   <tr
                     key={name as string}
-                    className="hover:bg-[#F8F9F4] transition-colors"
+                    className="hover:bg-[#F6FEFA] transition-colors"
                     style={{ borderBottom: `1px solid ${P.border}40` }}
                   >
                     <td className="px-4 py-3">

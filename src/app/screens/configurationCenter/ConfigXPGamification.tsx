@@ -264,11 +264,11 @@ const loadXpGamificationConfig = (): XPGamificationConfig => {
 
 export function ConfigXPGamification() {
   const [levels, setLevels] = useState([
-    { id: "l1", name: "Learner", min: 0, max: 999, color: "#A8B58A" },
-    { id: "l2", name: "Explorer", min: 1000, max: 2999, color: "#6B7A3A" },
+    { id: "l1", name: "Learner", min: 0, max: 999, color: "#6EE7B7" },
+    { id: "l2", name: "Explorer", min: 1000, max: 2999, color: "#047857" },
     { id: "l3", name: "Achiever", min: 3000, max: 5999, color: "#C8A85D" },
     { id: "l4", name: "Expert", min: 6000, max: 9999, color: "#4A7A5A" },
-    { id: "l5", name: "Master", min: 10000, max: 99999, color: "#2E3A15" },
+    { id: "l5", name: "Master", min: 10000, max: 99999, color: "#064E3B" },
   ]);
   const [xpGamificationConfig, setXpGamificationConfig] =
     useState<XPGamificationConfig>(loadXpGamificationConfig);

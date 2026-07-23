@@ -56,7 +56,7 @@ export function GroupedSidebarNav({
                 }}
                 className="nav-item flex-1 flex items-center gap-2.5 px-3 py-2 rounded-lg text-left"
                 style={{
-                  background: hasActive ? "rgba(107,122,58,0.22)" : "transparent",
+                  background: hasActive ? "rgba(4,120,87,0.22)" : "transparent",
                   color: hasActive ? "white" : P.sage,
                   transition: "background 180ms ease, color 180ms ease, padding-left 180ms ease",
                   position: "relative",
@@ -93,7 +93,7 @@ export function GroupedSidebarNav({
                 className="w-7 h-8 rounded-lg flex items-center justify-center transition-colors"
                 style={{
                   color: hasActive ? "white" : P.sage,
-                  background: hasActive ? "rgba(107,122,58,0.22)" : "transparent",
+                  background: hasActive ? "rgba(4,120,87,0.22)" : "transparent",
                 }}
                 aria-label={`${open ? "Collapse" : "Expand"} ${group.label}`}
               >

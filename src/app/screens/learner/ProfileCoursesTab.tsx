@@ -64,7 +64,7 @@ export function ProfileCoursesTab({ navigate }: { navigate: NavigateFn }) {
                   key={c.id}
                   onClick={() => navigate("course-detail", c.id)}
                   aria-label={`Open details for ${c.title}`}
-                  className="w-full text-left flex items-center gap-3 p-3 rounded-lg hover:bg-[#F8F9F4] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+                  className="w-full text-left flex items-center gap-3 p-3 rounded-lg hover:bg-[#F6FEFA] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
                   style={{ background: P.bg }}
                 >
                   <div

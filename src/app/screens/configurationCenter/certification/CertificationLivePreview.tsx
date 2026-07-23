@@ -102,7 +102,7 @@ export function CertificationLivePreview({ ctx }: CertificationLivePreviewProps)
                           ? "flex-end"
                           : "center",
                     background:
-                      selectedElementId === element.id ? "rgba(107,122,58,0.08)" : "transparent",
+                      selectedElementId === element.id ? "rgba(4,120,87,0.08)" : "transparent",
                     border:
                       selectedElementId === element.id
                         ? `1px dashed ${P.olive}`
@@ -176,7 +176,7 @@ export function CertificationLivePreview({ ctx }: CertificationLivePreviewProps)
                       style={{
                         color: P.textMuted,
                         background:
-                          "repeating-linear-gradient(45deg,#2C3015 0 3px,#FFFFFF 3px 6px)",
+                          "repeating-linear-gradient(45deg,#052E26 0 3px,#FFFFFF 3px 6px)",
                         boxShadow: "inset 0 0 0 5px white",
                       }}
                     >

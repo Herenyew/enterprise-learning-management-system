@@ -209,7 +209,7 @@ export function ProgramDashboardScreen({ navigate }: { navigate: (s: string) => 
               return (
                 <tr
                   key={pt.type}
-                  className="hover:bg-[#F8F9F4] transition-colors"
+                  className="hover:bg-[#F6FEFA] transition-colors"
                   style={{ borderBottom: `1px solid ${P.border}50`, opacity: isRetired ? 0.5 : 1 }}
                 >
                   <td className="px-5 py-3">

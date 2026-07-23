@@ -50,7 +50,7 @@ export function ProfileHistoryTab() {
           {HISTORY_ITEMS.map(({ action, detail, date, xp, icon: Icon, color }) => (
             <div
               key={detail}
-              className="flex items-center gap-4 p-3 rounded-xl hover:bg-[#F8F9F4] transition-colors"
+              className="flex items-center gap-4 p-3 rounded-xl hover:bg-[#F6FEFA] transition-colors"
             >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"

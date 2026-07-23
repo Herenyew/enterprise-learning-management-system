@@ -39,20 +39,20 @@ import {
 } from "lucide-react";
 
 const P = {
-  olive: "#6B7A3A",
-  darkOlive: "#4D5B2A",
-  deepOlive: "#2E3A15",
-  sage: "#A8B58A",
-  lightSage: "#E7EEDC",
-  paleGreen: "#F0F4E8",
+  olive: "#047857",
+  darkOlive: "#065F46",
+  deepOlive: "#064E3B",
+  sage: "#6EE7B7",
+  lightSage: "#D1FAE5",
+  paleGreen: "#ECFDF5",
   gold: "#C8A85D",
   goldLight: "#FDF5E0",
   goldMid: "#F0E2B8",
-  bg: "#F8F9F4",
-  text: "#2C3015",
-  textMid: "#5A6A3A",
-  textMuted: "#7A8A5A",
-  border: "#D0DAB8",
+  bg: "#F6FEFA",
+  text: "#052E26",
+  textMid: "#047857",
+  textMuted: "#4B7468",
+  border: "#A7F3D0",
 };
 
 // ─── Status badge ─────────────────────────────────────────────
@@ -477,7 +477,7 @@ export function CrudShell<T extends CrudRow>({
             {pagedRows.map((row) => (
               <tr
                 key={row.id}
-                className="hover:bg-[#F8F9F4] transition-colors"
+                className="hover:bg-[#F6FEFA] transition-colors"
                 style={{ borderBottom: `1px solid ${P.border}40` }}
               >
                 <td className="pl-4 py-3">
@@ -506,7 +506,7 @@ export function CrudShell<T extends CrudRow>({
                         key={a.label}
                         onClick={() => a.onClick(row)}
                         title={a.label}
-                        className="p-1.5 rounded-lg hover:bg-[#F0F4E8] transition-colors"
+                        className="p-1.5 rounded-lg hover:bg-[#ECFDF5] transition-colors"
                         style={{ color: P.textMuted }}
                       >
                         <a.icon size={13} />
@@ -515,7 +515,7 @@ export function CrudShell<T extends CrudRow>({
                     <button
                       onClick={() => setEditing(row)}
                       title="Edit"
-                      className="p-1.5 rounded-lg hover:bg-[#F0F4E8] transition-colors"
+                      className="p-1.5 rounded-lg hover:bg-[#ECFDF5] transition-colors"
                       style={{ color: P.olive }}
                     >
                       <Edit size={13} />
@@ -523,7 +523,7 @@ export function CrudShell<T extends CrudRow>({
                     <button
                       onClick={() => clone(row)}
                       title={duplicateLabel}
-                      className="p-1.5 rounded-lg hover:bg-[#F0F4E8] transition-colors"
+                      className="p-1.5 rounded-lg hover:bg-[#ECFDF5] transition-colors"
                       style={{ color: P.textMuted }}
                     >
                       <Copy size={13} />
@@ -536,7 +536,7 @@ export function CrudShell<T extends CrudRow>({
                             ? (toggleStatus.disableLabel ?? "Disable")
                             : (toggleStatus.enableLabel ?? "Enable")
                         }
-                        className="p-1.5 rounded-lg hover:bg-[#F0F4E8] transition-colors"
+                        className="p-1.5 rounded-lg hover:bg-[#ECFDF5] transition-colors"
                         style={{
                           color: row.status === toggleStatus.enabled ? P.textMuted : P.olive,
                         }}
@@ -552,7 +552,7 @@ export function CrudShell<T extends CrudRow>({
                       <button
                         onClick={() => archive(row.id)}
                         title="Archive"
-                        className="p-1.5 rounded-lg hover:bg-[#F0F4E8] transition-colors"
+                        className="p-1.5 rounded-lg hover:bg-[#ECFDF5] transition-colors"
                         style={{ color: P.textMuted }}
                       >
                         <Archive size={13} />

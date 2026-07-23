@@ -209,7 +209,7 @@ export function TNAScreen({ navigate }: { navigate: NavigateFn }) {
             ].map(({ priority, label, dept, impact, color }) => (
               <div
                 key={label}
-                className="flex items-start gap-3 p-3 rounded-xl border hover:bg-[#F8F9F4] transition-colors"
+                className="flex items-start gap-3 p-3 rounded-xl border hover:bg-[#F6FEFA] transition-colors"
                 style={{ borderColor: P.border }}
               >
                 <div

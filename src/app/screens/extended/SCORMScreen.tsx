@@ -195,7 +195,7 @@ export function SCORMScreen({ navigate }: { navigate: (s: string) => void }) {
                 <div
                   key={pkg.id}
                   onClick={() => setSelected(pkg.id === selected ? null : pkg.id)}
-                  className="flex items-start gap-4 px-5 py-4 cursor-pointer hover:bg-[#F8F9F4] transition-colors"
+                  className="flex items-start gap-4 px-5 py-4 cursor-pointer hover:bg-[#F6FEFA] transition-colors"
                   style={{ background: selected === pkg.id ? `${P.lightSage}50` : undefined }}
                 >
                   <div
@@ -238,13 +238,13 @@ export function SCORMScreen({ navigate }: { navigate: (s: string) => void }) {
                   </div>
                   <div className="flex gap-1.5 flex-shrink-0">
                     <button
-                      className="p-1.5 rounded-lg hover:bg-[#F0F4E8]"
+                      className="p-1.5 rounded-lg hover:bg-[#ECFDF5]"
                       data-prototype-action="true"
                     >
                       <Link size={13} style={{ color: P.sage }} />
                     </button>
                     <button
-                      className="p-1.5 rounded-lg hover:bg-[#F0F4E8]"
+                      className="p-1.5 rounded-lg hover:bg-[#ECFDF5]"
                       data-prototype-action="true"
                     >
                       <Download size={13} style={{ color: P.sage }} />

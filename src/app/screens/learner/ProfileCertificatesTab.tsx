@@ -159,7 +159,7 @@ export function ProfileCertificatesTab() {
               </div>
               <button
                 onClick={closeUpload}
-                className="p-1.5 rounded-lg hover:bg-[#F8F9F4]"
+                className="p-1.5 rounded-lg hover:bg-[#F6FEFA]"
                 type="button"
               >
                 <X size={16} style={{ color: P.textMuted }} />
@@ -395,7 +395,7 @@ function ProfileTextField({
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full px-3 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+        className="w-full px-3 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
         style={{ border: `1px solid ${P.border}`, color: P.text }}
       />
     </label>
