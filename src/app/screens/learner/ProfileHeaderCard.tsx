@@ -11,6 +11,8 @@ const PROFILE_STATS = [
 ];
 
 const tabs = ["overview", "skills", "courses", "certificates", "report", "history"] as const;
+const learnerPhoto =
+  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=faces&fit=crop&h=240&w=240&q=80";
 
 export type ProfileTab = (typeof tabs)[number];
 
@@ -27,31 +29,31 @@ export function ProfileHeaderCard({
       style={{ borderColor: P.border }}
     >
       <div
-        className="h-28"
+        className="h-32"
         style={{ background: `linear-gradient(135deg, ${P.darkOlive}, ${P.olive})` }}
       />
-      <div className="px-6 pb-5">
-        <div className="flex flex-col gap-4 -mt-10 mb-4 md:flex-row md:items-end">
+      <div className="px-8 pb-6">
+        <div className="flex flex-col gap-5 -mt-8 mb-6 md:flex-row md:items-start">
           <div
-            className="w-20 h-20 rounded-2xl border-4 border-white flex items-center justify-center text-white text-2xl font-bold shadow-md"
+            className="w-24 h-24 rounded-2xl border-4 border-white overflow-hidden shadow-lg"
             style={{ background: P.olive }}
           >
-            AM
+            <img src={learnerPhoto} alt="Alex Mercer" className="h-full w-full object-cover" />
           </div>
-          <div className="flex-1 pb-1">
+          <div className="flex-1 md:pt-10">
             <h1
-              className="text-xl font-bold"
+              className="text-3xl font-bold leading-tight"
               style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: P.text }}
             >
               Alex Mercer
             </h1>
-            <p className="text-sm" style={{ color: P.textMuted }}>
+            <p className="mt-1 text-base" style={{ color: P.textMuted }}>
               Senior Engineer - Engineering - Level 8
             </p>
           </div>
-          <div className="flex items-center gap-2 pb-1">
+          <div className="flex flex-wrap items-center gap-3 md:pt-10">
             <button
-              className="px-4 py-2 rounded-lg text-sm flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
+              className="btn-secondary px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
               style={{ border: `1px solid ${P.border}`, color: P.textMid }}
               type="button"
               data-prototype-action="true"
@@ -59,7 +61,7 @@ export function ProfileHeaderCard({
               <Edit size={14} /> Edit
             </button>
             <button
-              className="px-4 py-2 text-white rounded-lg text-sm font-semibold flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
+              className="btn-primary px-5 py-2.5 text-white rounded-lg text-sm font-semibold flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
               style={{ background: P.olive }}
               type="button"
               data-prototype-action="true"
@@ -69,7 +71,7 @@ export function ProfileHeaderCard({
           </div>
         </div>
 
-        <div className="rounded-xl p-4 mb-4" style={{ background: P.bg }}>
+        <div className="rounded-xl p-5 mb-5" style={{ background: P.bg }}>
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-2">
             <div className="flex items-center gap-2">
               <div
@@ -122,7 +124,7 @@ export function ProfileHeaderCard({
             <button
               key={tab}
               onClick={() => onTabChange(tab)}
-              className="px-4 py-2.5 text-xs font-semibold capitalize whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
+              className="px-5 py-3 text-xs font-semibold capitalize whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-[#6EE7B7]"
               style={
                 activeTab === tab
                   ? { color: P.olive, borderBottom: `2px solid ${P.olive}` }
