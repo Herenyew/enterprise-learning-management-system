@@ -1,0 +1,140 @@
+import React from "react";
+import { Edit, Share2, Zap } from "lucide-react";
+import { PBar } from "../../components/common";
+import { P } from "../../constants/theme.constants";
+
+const PROFILE_STATS = [
+  ["21", "Courses"],
+  ["9", "Badges"],
+  ["3", "Certs"],
+  ["#4", "Rank"],
+];
+
+const tabs = ["overview", "skills", "courses", "certificates", "report", "history"] as const;
+
+export type ProfileTab = (typeof tabs)[number];
+
+export function ProfileHeaderCard({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: ProfileTab;
+  onTabChange: (tab: ProfileTab) => void;
+}) {
+  return (
+    <section
+      className="bg-white rounded-2xl border overflow-hidden"
+      style={{ borderColor: P.border }}
+    >
+      <div
+        className="h-28"
+        style={{ background: `linear-gradient(135deg, ${P.darkOlive}, ${P.olive})` }}
+      />
+      <div className="px-6 pb-5">
+        <div className="flex flex-col gap-4 -mt-10 mb-4 md:flex-row md:items-end">
+          <div
+            className="w-20 h-20 rounded-2xl border-4 border-white flex items-center justify-center text-white text-2xl font-bold shadow-md"
+            style={{ background: P.olive }}
+          >
+            AM
+          </div>
+          <div className="flex-1 pb-1">
+            <h1
+              className="text-xl font-bold"
+              style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: P.text }}
+            >
+              Alex Mercer
+            </h1>
+            <p className="text-sm" style={{ color: P.textMuted }}>
+              Senior Engineer - Engineering - Level 8
+            </p>
+          </div>
+          <div className="flex items-center gap-2 pb-1">
+            <button
+              className="px-4 py-2 rounded-lg text-sm flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+              style={{ border: `1px solid ${P.border}`, color: P.textMid }}
+              type="button"
+              data-prototype-action="true"
+            >
+              <Edit size={14} /> Edit
+            </button>
+            <button
+              className="px-4 py-2 text-white rounded-lg text-sm font-semibold flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+              style={{ background: P.olive }}
+              type="button"
+              data-prototype-action="true"
+            >
+              <Share2 size={14} /> Share
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-xl p-4 mb-4" style={{ background: P.bg }}>
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-7 h-7 rounded-lg flex items-center justify-center"
+                style={{ background: P.lightSage }}
+              >
+                <Zap size={14} style={{ color: P.olive }} />
+              </div>
+              <div>
+                <p className="text-xs font-semibold" style={{ color: P.text }}>
+                  Level 8 - Senior Engineer
+                </p>
+                <p className="text-[10px]" style={{ color: P.textMuted }}>
+                  11,250 XP - 2,750 XP to Level 9
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 text-center">
+              {PROFILE_STATS.map(([value, label]) => (
+                <div key={label}>
+                  <p
+                    className="text-lg font-bold"
+                    style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: P.text }}
+                  >
+                    {value}
+                  </p>
+                  <p className="text-[10px]" style={{ color: P.textMuted }}>
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <PBar value={(11250 / 14000) * 100} color={P.olive} height={8} />
+          <div
+            className="flex justify-between text-[10px] font-mono mt-1"
+            style={{ color: P.textMuted }}
+          >
+            <span>11,250 XP</span>
+            <span>14,000 XP (L9)</span>
+          </div>
+        </div>
+
+        <nav
+          className="flex gap-1 overflow-x-auto"
+          style={{ borderBottom: `1px solid ${P.border}` }}
+          aria-label="Profile tabs"
+        >
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => onTabChange(tab)}
+              className="px-4 py-2.5 text-xs font-semibold capitalize whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-[#A8B58A]"
+              style={
+                activeTab === tab
+                  ? { color: P.olive, borderBottom: `2px solid ${P.olive}` }
+                  : { color: P.textMuted }
+              }
+              type="button"
+            >
+              {tab === "report" ? "Progress Report" : tab}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </section>
+  );
+}
