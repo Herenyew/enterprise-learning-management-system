@@ -374,7 +374,7 @@ export default function App() {
       className="flex h-screen overflow-hidden"
       style={{ fontFamily: "'Inter',sans-serif", background: P.bg }}
     >
-      <Sidebar screen={screen} navigate={navigate} role={role} setRole={setRole} />
+      <Sidebar screen={screen} navigate={navigate} role={role} />
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {!isFullBleed && (
           <TopBar

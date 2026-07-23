@@ -10,30 +10,14 @@ export function Sidebar({
   screen,
   navigate,
   role,
-  setRole,
 }: {
   screen: Screen;
   navigate: NavigateFn;
   role: Role;
-  setRole: (r: Role) => void;
 }) {
   const useGrouped = role === "hr" || role === "admin";
   const nav = ROLE_NAV[role];
   const groups = role === "admin" ? ADMIN_NAV_GROUPS : HR_NAV_GROUPS;
-  const roles: { id: Role; label: string }[] = [
-    { id: "learner", label: "Learner" },
-    { id: "hr", label: "HR Admin" },
-    { id: "manager", label: "Manager" },
-    { id: "creator", label: "Creator" },
-    { id: "admin", label: "Admin" },
-  ];
-  const defaultScreen: Record<Role, Screen> = {
-    learner: "dashboard",
-    hr: "hr-dashboard",
-    manager: "manager",
-    creator: "my-courses-builder",
-    admin: "hr-dashboard",
-  };
 
   return (
     <aside
@@ -59,30 +43,6 @@ export function Sidebar({
               Enterprise Learning
             </p>
           </div>
-        </div>
-      </div>
-
-      <div className="px-3 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <p
-          className="text-[10px] font-semibold uppercase tracking-widest px-2 mb-1.5"
-          style={{ color: "rgba(168,181,138,0.45)" }}
-        >
-          Demo Role
-        </p>
-        <div className="flex flex-wrap gap-1">
-          {roles.map((r) => (
-            <button
-              key={r.id}
-              onClick={() => {
-                setRole(r.id);
-                navigate(defaultScreen[r.id]);
-              }}
-              className="text-[10px] font-medium px-2 py-0.5 rounded-md transition-colors"
-              style={role === r.id ? { background: P.olive, color: "white" } : { color: P.sage }}
-            >
-              {r.label}
-            </button>
-          ))}
         </div>
       </div>
 
