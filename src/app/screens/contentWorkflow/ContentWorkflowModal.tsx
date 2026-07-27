@@ -203,7 +203,7 @@ export function ContentWorkflowModal({
   if (activeType === "Live Session")
     return <LiveSessionWorkflow onClose={handleBack} onSave={() => handleSave()} />;
   if (activeType === "External Link")
-    return <ExternalLinkWorkflow onClose={handleBack} onSave={() => handleSave()} />;
+    return <ExternalLinkWorkflow onClose={handleBack} onSave={handleWorkflowSave} />;
   if (activeType === "Quiz")
     return (
       <QuizWorkflow

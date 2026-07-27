@@ -1,0 +1,624 @@
+Business Requirement Document (BRD)
+For Learning Management System (LMS)
+By: Human Resource and Corporate Service Department
+May 15, 2026Document No.: Adiu-MS-F-074May 15, 2026Document No.: Adiu-MS-F-074
+May 15, 2026
+Document No.: Adiu-MS-F-074
+May 15, 2026
+Document No.: Adiu-MS-F-074
+Table of Contents
+1.	Introduction	3
+2. Scope and Stakeholders	3
+2.	Key Terms	3
+4. LMS Portal	4
+5. My Profile	4
+6. Course Catalog and Discovery	5
+7.	XP Configuration	6
+8.	Course Creation and Configuration	7
+9.	Quiz and Assessment	8
+10.	Certification	9
+11.	Publishing, Visibility, and Enrollment Policy	10
+12.	Ratings, Reviews, and Comments	11
+13.	XP and Engagement	11
+14.	Learning Programs (HR Managed)	12
+15.	Content Lifecycle Management	13
+16.	Reporting and Analytics	14
+17.	Enrollment & Assignment Logic	15
+18.	Quiz	15
+19.	Learning Programs (Detailed)	16
+20.	Notifications and Automation	17
+21.	Templates for Functional Requirements	17
+22.	Configurable Content Types	18
+24.	Learning Programs Creation & Management	19
+25.	Training Needs Analysis (TNA) Integration	21
+26.	External Certification Provider Integration	22
+27.	Training Calendar Integration	23
+28.	Pre-Course and Post-Course Effectiveness	24
+29.	Core Business Rules	25
+Introduction
+Purpose. This BRD defines the functional and business requirements for an enterprise LMS designed to streamline learning, centralize organizational knowledge, and support employee development and HR-led learning programs.
+Business Objectives. The LMS shall provide an end-to-end flow from content creation and publishing to learning delivery, quiz assessment, certification, XP tracking, and program management.
+In Scope. Employee learning portal, course catalog, course authoring, content delivery, quizzes, certifications, XP, learning programs, feedback, reporting, notifications, role-based administration, TNA integration, training calendar, and effectiveness measurement.
+2. Scope and Stakeholders
+Primary stakeholders: CEO, HR, system administrators, course owners, managers, and employees.
+Primary user groups: Admin, HR user, course creator / content owner, manager, learner / employee.
+The LMS shall support both mandatory learning and optional self-service learning.
+Key Terms
+Term
+Definition
+XP
+Experience points awarded to employees for learning activities.
+Learning Program
+A structured learning path managed by HR for a target audience such as new employees or trainees.
+Course Attendee
+An employee assigned to or enrolled in a course.
+Certification
+A credential issued after a learner meets the configured course requirements.
+Chapter
+A logical content grouping inside a course.
+TNA
+Training Needs Analysis – a process to identify skill gaps and training requirements.
+Learning Program Type
+A category of learning program, e.g., Onboarding, Leadership Development, Technical Certification, Compliance Training, etc.
+Work Unit
+A department, team, or functional group that can initiate a TNA request.
+4. LMS Portal
+FR ID
+Functional Requirement
+Description
+LMS-FR-001
+Display announcements on the LMS landing page
+The system shall display announcements for new courses, certifications, and important learning updates on the LMS portal home page.
+LMS-FR-002
+Display best learners
+The system shall show a best learners widget or leaderboard highlighting top performers based on configurable criteria such as XP or course completions.
+LMS-FR-003
+Provide quick navigation to admin and profile areas
+The system shall provide direct navigation links to the Admin area and My Profile area from the portal.
+LMS-FR-004
+Show continue learning content
+The system should display in-progress or recently accessed courses on the portal for quick resume access.
+5. My Profile
+FR ID
+Functional Requirement
+Description
+LMS-FR-005
+Display my courses
+The system shall show the learner's assigned, enrolled, in-progress, and completed courses in the My Profile area.
+LMS-FR-006
+Display my certifications
+The system shall show all earned certifications, including active and expired certificates, in the learner profile.
+LMS-FR-007
+Display enrolled and completed courses
+The system shall separate enrolled courses from completed courses for easy tracking.
+LMS-FR-008
+Display learner XP and progress
+The system shall show total XP earned, course progress, and learning level if levels are enabled.
+LMS-FR-009
+Display learning history
+The system should provide a chronological history of learning activities, quiz attempts, certifications, and awards.
+6. Course Catalog and Discovery
+FR ID
+Functional Requirement
+Description
+LMS-FR-010
+Display courses with thumbnails
+The system shall present all courses in the catalog with thumbnails and short summary information.
+LMS-FR-011
+Categorize courses by field
+The system shall organize courses into categories based on the field or section defined during course creation.
+LMS-FR-012
+Provide course search
+The system shall provide search functionality for finding courses by title, keyword, category, or description.
+LMS-FR-013
+Show course details page
+The system shall provide a detailed course page showing title, description, content summary, attendance policy, and learning actions.
+LMS-FR-014
+Display document metadata
+For document content, the system shall show the number of pages and number of readers where available.
+LMS-FR-015
+Display video metadata
+For video content, the system shall show duration and number of viewers where available.
+LMS-FR-016
+Provide course call to action
+The system shall provide an action such as View, Enroll, Start, or Continue based on the learner's access state.
+XP Configuration
+FR ID
+Functional Requirement
+Description
+FR-XP-017
+Configure Base XP per Course
+System shall allow Admin/HR to define a default Base XP value awarded upon course completion.
+FR-XP-018
+Configure Completion Criteria
+System shall allow Admin/HR to define minimum completion requirements (e.g., 100% content completion) to qualify for XP.
+Course Creation and Configuration
+FR ID
+Functional Requirement
+Description
+LMS-FR-019
+Create course title and description
+The system shall allow authorized users to create a course title and description.
+LMS-FR-020
+Assign course attendees
+The system shall allow adding course attendees individually or by group assignment.
+LMS-FR-021
+Configure course level
+The system shall allow course level configuration such as Beginner, Intermediate, or Advanced.
+LMS-FR-022
+Configure course chapters
+The system shall allow the course owner to create and arrange course chapters.
+LMS-FR-023
+Add content items to chapters
+The system shall allow content items to be added under chapters using supported content types.
+LMS-FR-024
+Support content type document
+The system shall allow document content to be attached to a chapter.
+LMS-FR-025
+Support content type video
+The system shall allow video content to be attached to a chapter.
+LMS-FR-026
+Support content type quiz
+The system shall allow a quiz to be attached to a chapter or learning sequence.
+LMS-FR-027
+Select content source
+The system shall allow the content source to be selected from upload or Google Drive retrieval.
+LMS-FR-028
+Store document metadata
+The system shall store metadata for document content including pages, description, downloadable status, and attached resources.
+LMS-FR-029
+Store video metadata
+The system shall store metadata for video content including duration, description, downloadable status, and attached resources.
+LMS-FR-030
+Allow content download control
+The system shall allow the course owner to enable or disable download for each content item.
+LMS-FR-031
+Attach additional resources
+The system shall allow additional files or links to be attached to each content item.
+Quiz and Assessment
+FR ID
+Functional Requirement
+Description
+LMS-FR-032
+Attach quizzes to content
+The system shall allow a quiz to be created as part of a course chapter or after a content item.
+LMS-FR-033
+Support multiple question types
+The system shall support different question types, including multiple choice, true/false, short answer, and other configurable question formats.
+LMS-FR-034
+Assign question weights
+The system shall allow each question to have an assigned weight contributing to the final quiz score.
+LMS-FR-035
+Configure trial attempts
+The system shall allow quiz attempts to be limited to a configurable number of trials.
+LMS-FR-036
+Configure per-trial scoring
+The system shall allow answer points to vary by attempt number, where required by policy.
+LMS-FR-037
+Allow or deny retries
+The system shall allow the course owner to enable or disable retry attempts for a quiz.
+LMS-FR-038
+Calculate quiz results
+The system shall calculate the quiz result using configured weights, scoring rules, and pass thresholds.
+LMS-FR-039
+Store quiz attempt history
+The system shall store quiz attempts and scores for each learner for audit and progress tracking.
+Certification
+FR ID
+Functional Requirement
+Description
+LMS-FR-040
+Issue certification based on result
+The system shall issue a certification when the learner meets the minimum passing score defined in the course configuration.
+LMS-FR-041
+Configure certification threshold
+The system shall allow the minimum score required for certification to be configured per course.
+LMS-FR-042
+Manage certificate templates
+The system shall allow certificate templates to be added, removed, and selected per course.
+LMS-FR-043
+Manage certificate signatures
+The system shall allow signatures to be added or removed from the certificate template.
+LMS-FR-044
+Manage certificate signers
+The system shall allow signers to be added or removed from the certificate template.
+LMS-FR-045
+Manage certificate stamp
+The system shall allow a stamp or seal to be added or removed from the certificate template.
+LMS-FR-046
+Store issued certificates
+The system shall store issued certificates in the learner profile and certificate archive.
+Publishing, Visibility, and Enrollment Policy
+FR ID
+Functional Requirement
+Description
+LMS-FR-047
+Control course visibility
+The system shall allow each course to be published with visibility settings such as Everyone, Signed In users, Course Attendees, or Invitation Only.
+LMS-FR-048
+Control enrollment policy
+The system shall allow each course to be configured as Open, On Invitation, or On Payment.
+LMS-FR-049
+Control course publishing
+The system shall allow a course to be saved as draft or published based on admin approval or owner action.
+LMS-FR-050
+Assign responsible person
+The system shall allow a responsible person or course manager to be assigned for support and governance.
+LMS-FR-051
+Show course contact information
+The system shall display a contact person or contact method for each published course.
+Ratings, Reviews, and Comments
+FR ID
+Functional Requirement
+Description
+LMS-FR-052
+Allow star rating
+The system shall allow learners to rate completed or accessible courses using a star rating scale.
+LMS-FR-053
+Allow course comments
+The system shall allow learners to submit comments or written reviews for courses.
+LMS-FR-054
+Moderate reviews
+The system should allow course owners or admins to moderate, hide, or remove inappropriate comments.
+XP and Engagement
+FR ID
+Functional Requirement
+Description
+LMS-FR-055
+Award XP for course completion
+The system shall award XP to learners when they complete configured course requirements.
+LMS-FR-056
+Award XP for quiz performance
+The system shall award XP based on quiz completion or quiz performance according to configurable rules.
+LMS-FR-057
+Display XP totals
+The system shall show the learner's accumulated XP in the profile and optional leaderboard views.
+LMS-FR-058
+Support configurable leaderboard
+The system shall provide a leaderboard based on configurable criteria such as XP, completions, or program performance.
+LMS-FR-059
+Support leveling rules
+The system should support optional learning levels tied to XP thresholds.
+Learning Programs (HR Managed)
+FR ID
+Functional Requirement
+Description
+LMS-FR-060
+Create HR-managed learning programs
+The system shall allow HR to create structured learning programs such as New Employees, Graduate Trainee, and Leadership Development Program.
+LMS-FR-061
+Assign users to programs
+The system shall allow HR to assign employees to specific learning programs.
+LMS-FR-062
+Assign tasks within a program
+The system shall allow HR to assign tasks inside a program, including reading, video, and quiz tasks.
+LMS-FR-063
+Track reading completion
+The system shall track reading completion based on configured duration or time spent on documents/books.
+LMS-FR-064
+Track video completion
+The system shall track video completion based on watched duration or percentage watched against the configured duration.
+LMS-FR-065
+Track quiz completion in programs
+The system shall track quiz completion and score as part of program task validation.
+LMS-FR-066
+Show program progress
+The system shall show program progress and completion status for HR and participants.
+LMS-FR-067
+Enforce program validation rules
+The system shall mark program tasks as valid only when the configured rules for reading, video watching, and quiz results are satisfied.
+Content Lifecycle Management
+FR ID
+Functional Requirement
+Description
+LMS-FR-068
+Support course content lifecycle states
+The system shall support content states including Draft, In Review, Approved, Published, Archived, and Retired.
+LMS-FR-069
+Enable review and approval workflow
+The system shall allow course content to pass through an approval workflow before publishing.
+LMS-FR-070
+Support versioning of courses and content
+The system shall maintain version history for courses and content updates without affecting past enrollments.
+LMS-FR-071
+Notify users on content updates
+The system shall notify enrolled users when course content is updated or replaced.
+LMS-FR-072
+Archive outdated courses
+The system shall allow courses to be archived while preserving historical learning records.
+LMS-FR-073
+Control content visibility by version
+The system shall ensure learners always access the correct version of content based on enrollment date.
+Reporting and Analytics
+FR ID
+Functional Requirement
+Description
+LMS-FR-074
+Show learner progress reports
+The system shall provide progress reports for individual learners, including completed courses, pending courses, certifications, XP, and attempts.
+LMS-FR-075
+Show HR program reports
+The system shall provide reports for program enrollment, completion, overdue tasks, and validation status.
+LMS-FR-076
+Show course completion reports
+The system shall provide course-level completion and participation reports.
+LMS-FR-077
+Show quiz analytics
+The system shall provide quiz analytics including average score, pass rate, and attempt count.
+LMS-FR-078
+Show certification reports
+The system shall provide reports on issued, active, and expired certifications.
+LMS-FR-079
+Support exportable reports
+The system shall allow reports to be exported in commonly used formats such as spreadsheet or PDF.
+Enrollment & Assignment Logic
+FR ID
+Functional Requirement
+Description
+LMS-FR-080
+Support prerequisite-based enrollment
+The system shall allow courses to define prerequisite courses that must be completed before enrollment.
+LMS-FR-081
+Support auto and manual enrollment rules
+The system shall allow users to be enrolled manually or automatically based on HR or system-defined rules.
+LMS-FR-082
+Support conditional learning paths
+The system shall allow progression rules where next modules depend on completion or quiz results.
+LMS-FR-083
+Support course capacity limits
+The system shall allow limits on the number of learners per course when required.
+LMS-FR-084
+Support reassignment rules
+The system shall reassign or remove learners from courses when organizational changes occur.
+LMS-FR-085
+Support waitlist management
+The system should allow learners to join a waitlist when a course is full.
+Quiz
+FR ID
+Functional Requirement
+Description
+LMS-FR-086
+Support question bank management
+The system shall allow creation of reusable question banks for quizzes related to specific contents or COurses.
+LMS-FR-087
+Support randomized quizzes
+The system shall support random selection of questions per quiz attempt.
+LMS-FR-088
+Support timed quizzes
+The system shall allow time limits to be configured per quiz or per section.
+LMS-FR-089
+Support negative marking
+The system should allow optional negative marking for incorrect answers.
+LMS-FR-090
+Support partial scoring
+The system shall support partial credit for multi-select or structured questions.
+LMS-FR-091
+Support attempt-based variation
+The system shall allow quiz difficulty or scoring rules to vary per attempt.
+LMS-FR-092
+Prevent cheating in quizzes
+The system shall support anti-cheating controls such as tab-switch detection or locked mode (configurable).
+LMS-FR-093
+Configure quiz review mode
+The system shall allow configuration of whether correct answers are shown after submission.
+Learning Programs (Detailed)
+FR ID
+Functional Requirement
+Description
+LMS-FR-094
+Define program start and end dates
+The system shall allow HR to define start and end dates for learning programs.
+LMS-FR-095
+Support scheduled learning tasks
+The system shall allow tasks to be scheduled within a program timeline by HR.
+LMS-FR-096
+Support cohort-based enrollment
+The system shall group users into cohorts or batches within programs.
+LMS-FR-097
+Enforce program timeline rules
+The system shall restrict task completion outside configured program time windows.
+LMS-FR-098
+Support program milestones
+The system shall allow definition of milestones within a learning program.
+LMS-FR-099
+Track overdue program tasks
+The system shall track and report overdue tasks within programs.
+Notifications and Automation
+FR ID
+Functional Requirement
+Description
+LMS-FR-104
+Send course announcements
+The system shall notify learners about new courses, certifications, and learning updates.
+LMS-FR-105
+Send assignment reminders
+The system shall send reminders for assigned courses or program tasks that are not completed on time.
+LMS-FR-106
+Send certification expiry reminders
+The system shall notify learners and HR when a certification is nearing expiry, if expiry is configured.
+Templates for Functional Requirements
+FR ID
+Functional Requirement
+Description
+LMS-FR-107
+Course creation template
+The system shall allow Admin/HR to define reusable course creation templates including title, description, level, category, chapters, content items, XP value, and pass threshold.
+LMS-FR-108
+Quiz configuration template
+The system shall allow reusable quiz configuration templates including question bank selection, time limit, attempts allowed, and scoring rules.
+LMS-FR-109
+Certification template
+The system shall allow reusable certification design templates including template name, signature fields, stamp/seal, and expiry period.
+LMS-FR-110
+Learning program template
+The system shall allow HR to create, save, and reuse program templates including target audience, start/end dates, task list, and milestones.
+Configurable Content Types
+FR ID
+Functional Requirement
+Description
+LMS-FR-111
+Enable/disable content types
+The system shall allow Administrators to enable or disable specific content types at system level.
+LMS-FR-112
+SCORM/xAPI content
+The system shall support SCORM/xAPI content with configurable launch URL, completion threshold, and tracking mode.
+LMS-FR-113
+External link content
+The system shall support external links with configurable parameters: URL, open in new tab, time requirement.
+LMS-FR-114
+Audio content
+The system shall support audio content with configurable duration, downloadable flag, and transcript.
+LMS-FR-115
+Interactive video
+The system shall support interactive video with branching logic and embedded questions.
+LMS-FR-116
+Assignment/Worksheet
+The system shall support assignments with submission type (file/text), due date, and peer review flag.
+LMS-FR-117
+Live session (Zoom/Teams)
+The system shall support live session content with join URL, attendance tracking, and recording link.
+LMS-FR-118
+Survey/Feedback
+The system shall support survey content with question sets and anonymous flag.
+Learning Programs Creation & Management
+This section defines the ability to create, configure, and manage different types of learning programs (e.g., Onboarding, Leadership Development, Technical Certification, Compliance Training, etc.) as needed by the organization.
+FR ID
+Functional Requirement
+Description
+LMS-FR-119
+Define learning program types
+The system shall allow Admin/HR to define and manage multiple learning program types (e.g., Onboarding, Leadership, Technical, Compliance, Sales Enablement, etc.). Program types shall be configurable and extendable.
+LMS-FR-120
+Create learning program from type
+The system shall allow HR to create a new learning program by selecting a program type. Each program type may have default settings (e.g., default duration, default certification template, default XP multiplier).
+LMS-FR-121
+Configure program metadata
+The system shall allow setting program name, description, target audience, program type, visibility (public/private), and program owner for each learning program.
+LMS-FR-122
+Manage program templates
+The system shall allow HR to save any learning program as a reusable template for future programs of the same type. Templates may include course lists, task sequences, milestones, and assessment rules.
+LMS-FR-123
+Copy existing program
+The system shall allow HR to duplicate an existing program (with all its courses, tasks, and rules) to create a new program, reducing setup time.
+LMS-FR-127
+Approval workflows per program type
+The system shall allow configuration of approval workflows for program enrollment or completion, varying by program type.
+LMS-FR-128
+Program catalog and discovery
+The system shall allow learners to browse available learning programs by program type, with filtering and search.
+LMS-FR-129
+Program dashboard
+The system shall provide a dashboard for HR and program owners showing all active programs, participant counts, completion rates, and overdue tasks, grouped by program type.
+LMS-FR-130
+Archive and retire program types
+The system shall allow Admin to archive or retire a program type. Retired types shall not be available for new program creation but historical data shall remain.
+Training Needs Analysis (TNA) Integration
+FR ID
+Functional Requirement
+Description
+LMS-FR-125
+TNA intake form
+The system shall provide a configurable TNA intake form that can be submitted by employees (individual) or on behalf of a work unit (department/team). The form shall support designation of the requesting entity type.
+LMS-FR-126
+Free or paid TNA requests
+The system shall allow the TNA form to be configured as free or paid. For paid requests, the system shall capture budget, cost center, and plan approval by CEO, HR will submit the plans collected.
+LMS-FR-127
+TNA approval workflow
+The system shall support a multi-step approval workflow for TNA requests. The workflow may include manager approval, HR review, budget approval (for paid requests), and final authorization by CEO.
+LMS-FR-129
+TNA aggregation dashboard
+The system shall provide a dashboard to aggregate TNA requests by department, work unit, role, competency, or request type (free/paid).
+LMS-FR-130
+TNA-to-course mapping
+The system shall allow linking approved TNA requests to existing courses or triggering new course creation requests.
+LMS-FR-132
+Automated training recommendation
+Based on approved TNA output, the system shall automatically suggest or assign learning programs to employees or work units from available .
+LMS-FR-133
+TNA collection process workflow
+The system shall support the following steps: form submission (employee or work unit), classification as free/paid, approval routing, gap aggregation, HR review, training assignment, and ongoing traceability.
+LMS-FR-134
+TNA progress tracking
+The system shall track TNA metrics: submission completion rate, approval turnaround time, gap closure rate, training impact score, and a dashboard of unaddressed gaps.
+External Certification Provider Integration
+FR ID
+Functional Requirement
+Description
+LMS-FR-133
+API integration with providers
+The system shall support API integration with third-party certification providers to auto-sync certification status or provide courses on the LMS.
+LMS-FR-134
+Credential parsing
+The system shall allow learners to upload external certificates; system extracts metadata (issuer, date, expiry).
+LMS-FR-136
+Renewal tracking
+The system shall track expiry dates and send reminders for external certifications.
+LMS-FR-137
+Provider marketplace
+The system shall provide a directory of supported certification providers.
+Training Calendar Integration
+FR ID
+Functional Requirement
+Description
+LMS-FR-139
+Event-based training
+The system shall support scheduling instructor-led training (ILT) or virtual sessions with date/time.
+LMS-FR-140
+Calendar views
+The system shall provide daily, weekly, and monthly views of all training activities.
+LMS-FR-141
+Personal calendar
+Each learner shall see assigned courses, deadlines, and live sessions in their personal calendar.
+LMS-FR-142
+iCal/Outlook sync
+The system shall allow export of training events to external calendars.
+LMS-FR-143
+Conflict detection
+The system shall alert HR/Admin if a learner is double-booked for training sessions.
+LMS-FR-145
+Automated waitlist
+When a session is full, the system shall offer a waitlist with auto-enrollment on cancellation.
+Pre-Course and Post-Course Effectiveness
+FR ID
+Functional Requirement
+Description
+LMS-FR-146
+Pre-course assessment
+The system shall allow an optional quiz before course start to measure baseline knowledge.
+LMS-FR-147
+Post-course assessment
+The system shall allow the same or similar quiz after course completion.
+LMS-FR-148
+Effectiveness score calculation
+The system shall calculate lift = (Post Score - Pre Score) / (100 - Pre Score) × 100.
+LMS-FR-150
+Kirkpatrick Level 1 (Reaction)
+The system shall allow a reaction survey immediately after course completion.
+LMS-FR-151
+Kirkpatrick Level 2 (Learning)
+The system shall measure learning via pre/post score difference.
+LMS-FR-152
+Kirkpatrick Level 3 (Behavior)
+The system shall send a behavior change survey to the learner's manager 30-90 days after course completion.
+LMS-FR-153
+Effectiveness dashboard
+The system shall provide a dashboard aggregating effectiveness scores by course, department, or program.
+LMS-FR-154
+Export effectiveness reports
+The system shall allow export of pre/post comparisons for compliance or ROI reporting.
+Core Business Rules
+All learning activities and XP transactions must be auditable with timestamp and user ID.
+Certification expiry and renewal rules, where configured, shall be enforced automatically.
+Course content versioning shall preserve historical learning records without altering past completions.
+TNA data shall be retained for trend analysis and annual planning, with full traceability of every request (free/paid) and its approval chain.
+Pre/post effectiveness data shall be stored per learner per course and aggregated anonymously for reporting.
+Learning program types shall be extensible; new types can be added by Admin without code changes.
+Rev. No.: 01/26
+INTERNAL
+1 of 17
+ENRICHING LIVES
+11
+1
+1
+Business Requirement Document
+Document No.: Adiu-MS-F-074

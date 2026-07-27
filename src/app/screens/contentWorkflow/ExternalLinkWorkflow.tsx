@@ -58,7 +58,7 @@ export function ExternalLinkWorkflow({
   onSave,
 }: {
   onClose: () => void;
-  onSave: () => void;
+  onSave: (item: ContentWorkflowSavePayload) => void;
 }) {
   const [form, setForm] = useState({
     url: "",
@@ -77,6 +77,24 @@ export function ExternalLinkWorkflow({
       return false;
     }
   };
+  const saveExternalLink = () =>
+    onSave({
+      title: form.title.trim(),
+      meta: form.url.trim(),
+      duration: form.completionRule === "time" ? `${form.requiredMinutes} min` : "External link",
+      source: "external",
+      primaryFile: form.url.trim(),
+      attachments: [
+        {
+          name: form.title.trim(),
+          source: "External link",
+          detail:
+            form.completionRule === "time"
+              ? `${form.requiredMinutes} min required`
+              : `${form.completionRule} completion`,
+        },
+      ],
+    });
 
   return (
     <div
@@ -175,7 +193,7 @@ export function ExternalLinkWorkflow({
       <div className="mt-5">
         <NavButtons
           onBack={onClose}
-          onSave={onSave}
+          onSave={saveExternalLink}
           nextDisabled={!form.url || !isValidUrl(form.url) || !form.title.trim()}
         />
       </div>

@@ -1,0 +1,970 @@
+
+
+--- PAGE 1 ---
+LMS  TEMPLATES  &  USER  JOURNEYS  
+  
+PART  1:  DETAILED  TEMPLATES  
+Template  1:  Course  Creation  &  Configuration  
+1.1  Course  Metadata  
+Field                 
+Description  Type  Required  Business  Rules  
+Course  ID  Auto-generated  unique  identifier  
+System-generated  
+Yes  Auto-increment,  immutable  
+Course  Title  Official  course  name  (max  100  chars)  
+Text  Yes  Must  be  unique  within  category  
+Course  Description  
+Detailed  overview  (max  500  chars)  
+Rich  text  Yes  SEO-friendly,  include  keywords  
+Short  Summary  Max  150  characters  for  listings  Text  Yes  Teaser  for  catalog  display  
+Course  Category  Primary  functional  area  Dropdown  Yes  LMS-FR-011:  Predefined  categories  
+Course  Level  Beginner  /  Intermediate  /  Advanced  
+Radio  Yes  Determines  audience  scope  
+Course  Owner  Person  responsible  for  content  User  lookup  Yes  Must  be  active  user  in  system  
+Responsible  Person  
+Support  contact  for  learners  User  lookup  Yes  Can  differ  from  owner  
+Course  Duration  Estimated  hours  to  complete  Number  No  Used  for  scheduling/capacity  
+Target  Audience  Department  /  Role  /  All  Users  Multi-select  No  Enables  targeted  promotions  
+Language  Course  language  Dropdown  Yes  Enables  multi-language  support  
+
+--- PAGE 2 ---
+Thumbnail  Image  
+Course  visual  (400x300px)  File  upload  No  LMS-FR-010:  Displays  in  catalog  
+Course  Visibility  Everyone  /  Signed-in  /  Attendees  /  Invitation  
+Radio  Yes  LMS-FR-047:  Publishing  control  
+Enrollment  Policy  
+Open  /  By  Invitation  /  Payment  Radio  Yes  LMS-FR-048:  Access  control    
+1.2  Course  Structure  ·
+       
+Chapter  Configuration  
+Element  Details  Constraints  
+Chapter  Name  Section/module  name  (max  100  chars)  Must  be  unique  within  course  
+Chapter  Sequence  Order  of  appearance  (1,  2,  3...)  Auto-calculated  on  drag-drop  
+Chapter  Description  Optional  overview  (max  300  chars)  Displayed  in  TOC  
+Chapter  Prerequisites  Previous  chapters  that  must  be  completed  Can  be  empty  for  first  chapter  
+Chapter  Status  Draft  /  In  Review  /  Approved  /  Published  Workflow  status    ·
+       
+Content  Items  per  Chapter  (LMS-FR-023)  
+Content  Type  Metadata  Required  Storage  Example  
+Document  (PDF/DOC)  
+Pages,  File  size,  Download  permission,  Description  
+Cloud  storage  +  DB  Company  handbook  (15  pages)  
+Video  (MP4/WebM)  Duration,  Thumbnail,  Download  permission,  Transcript  
+Video  CDN  Product  demo  (5  min  30  sec)  
+Quiz  (Assessment)  Question  count,  Pass  score,  Time  limit,  Attempts  
+LMS  database  Module  1  assessment  (10  Q)  
+External  Link  URL,  Open  in  new  tab,  Time  requirement  
+URL  reference  External  certification  link  
+SCORM/xAPI  Content  
+Launch  URL,  Completion  threshold,  Tracking  mode  
+SCORM  wrapper  Third-party  content  module  
+Live  Session  Platform  (Zoom/Teams),  Join  URL,  Attendance  tracking,  Recording  link  
+Reference  Weekly  sync  session  
+Assignment  Submission  type  (file/text),  Due  date,  Peer  review  flag  
+File  storage  Case  study  submission  
+Survey/Feedback  Question  set,  Anonymous  flag  Response  storage  Post-course  feedback    
+
+--- PAGE 3 ---
+1.3  Assessment  &  Completion  Rules  
+Configuration  Options  Business  Impact  Examples  
+Completion  Method  View  all  content  /  Complete  quiz  /  Hybrid  
+Determines  certification  eligibility  
+100%  content  OR  70%  quiz  score  
+Pass  Score  Threshold  
+40%  -  100%  Certification  issued  if  met  70%  =  standard,  80%  =  advanced  
+Minimum  Time  Spent  
+0  min  -  480  min  per  content  Anti-fraud  control  10  min  on  video  (actual  duration  8  min)  
+Quiz  Retry  Policy  Allowed:  1,  2,  Unlimited  /  Not  allowed  
+Learner  experience  &  fairness  
+2  attempts,  best  score  counts  
+Attempt  Scoring  Rule  
+Best  score  /  Last  score  /  Average  
+Fairness  consideration  Best  score  =  encourages  retry  
+Negative  Marking  Off  /  -0.25  per  wrong  /  -0.5  per  wrong  
+Assessment  rigor  Optional  for  advanced  courses  
+Content  Versioning  Learner  locked  to  enrollment  version  
+Historical  accuracy  Updates  don't  affect  past  learners    
+1.4  XP  &  Engagement  Configuration  (FR-XP-017,  FR-XP-018)  
+XP  Event  Base  Points  Condition  Multipliers  
+Course  Completion  100  (configurable)  All  completion  criteria  met  Department  bonus:  +25%  
+Quiz  Perfect  Score  50  (bonus)  100%  correct  None  
+First  Completion  75  (base)  Fastest  10%  of  cohort  Tiered  leaderboard  
+Peer  Review  25  per  review  Completes  3+  peer  reviews  None  
+Course  Rating  10  points  Submits  rating/comment  None  
+Certification  Renewal  50  points  Renews  external  cert  None    
+1.5  Course  Publishing  Workflow  ·
+       
+Draft  State:  Course  owner  compiles  content,  creates  quiz,  configures  settings  ·
+       
+Submit  for  Approval:  Owner  clicks  'Request  Review'  →  Notification  to  HR/Admin  ·
+       
+Review  Phase:  HR  reviews  course  content,  quiz  quality,  compliance  (max  5  business  days)  ·
+       
+Approval  Decision:  HR  accepts,  requests  revisions,  or  rejects  with  feedback  ·
+       
+Published:  Course  becomes  visible  based  on  visibility  settings  ·
+       
+Archived:  Course  removed  from  catalog  (historical  data  preserved)  
+
+--- PAGE 4 ---
+  
+Template  2:  Learning  Program  (HR-Managed)  
+2.1  Program  Type  Definition  ·
+       
+Onboarding:  New  employees,  60-90  days,  mandatory  ·
+       
+Leadership  Development:  Mid-level  to  senior,  6-12  months,  elective  ·
+       
+Compliance  Training:  Legal/regulatory,  quarterly,  mandatory  ·
+       
+Technical  Certification:  Role-specific  skills,  3-6  months,  self-paced  ·
+       
+Sales  Enablement:  Product  knowledge,  2-4  weeks,  mandatory  for  sales    
+2.2  Program  Metadata  
+Field  Example  Purpose  Validation  Rules  
+Program  Name  New  Hire  Onboarding  -  July  2026  Batch  
+Identification  +  Versioning  Unique  +  Date  format  
+Program  Type  Onboarding  Classification  for  templating  LMS-FR-119:  Predefined  list  
+Program  Owner  Abebe  Kebde  (HR  Manager)  
+Accountability  Must  be  HR  role  
+Target  Audience  Finance  Department,  New  Hires  
+Auto-enrollment  eligibility  Dept  OR  Role  OR  Custom  filter  
+Cohort/Batch  Batch  2026-Q3  Group  identification  For  bulk  operations  
+Start  Date  2026-07-01  Program  timeline  boundary  Cannot  be  in  past  
+End  Date  2026-09-30  Program  completion  deadline  
+Must  be  after  start  date  
+Program  Duration  90  days  (auto-calculated)  Reference  only  End  -  Start  
+Visibility  HR  Users  Only  /  Public  Discovery  access  Determines  who  can  browse  
+  
+2.3  Program  Structure  &  Tasks  
+Week/Phase  Task  Type  Duration  Mandatory?  Validation  Rule  
+Week  1  Company  orientation  video  
+Video  45  min  Yes  100%  watch  OR  30+  min  
+
+--- PAGE 5 ---
+Week  1  Handbook  review  Document  2  hours  Yes  Time  spent  ≥  90  min  
+Week  1  System  setup  quiz  Quiz  30  min  Yes  Score  ≥  70%  
+Week  2-4  Manager  1:1  (Zoom)  Live  Session  1  hour  Yes  Attendance  ≥  1  session  
+Week  4  Policies  assessment  Quiz  20  min  Yes  Score  ≥  80%  
+Week  8  Mid-program  survey  Survey  10  min  No  Completion  optional  
+Week  12  Capstone  project  Assignment  Varies  Yes  Submission  +  Manager  approval    
+2.4  Milestones  &  Timeline  Enforcement  
+Milestone  Target  Date  Progress  Marker  Action  if  Late  Communication  
+System  Access  Complete  
+Day  1  All  tools  configured  HR  escalates  Email  reminder  on  Day  0  
+Orientation  Done  Day  7  Video  watched  +  Quiz  passed  
+Manager  follow-up  Weekly  progress  email  
+First  Project  Started  
+Day  28  Assignment  submitted  Escalation  to  manager  
+Reminder  on  Day  25  
+Probation  Assessment  
+Day  60  Manager  review  completed  
+HR  reviews  feedback  
+Calendar  invite  sent  at  Day  45  
+Program  Completion  
+Day  90  All  tasks  done  Extends  deadline  OR  manual  approval  
+Final  completion  certificate  
+  
+2.5  Enrollment  Automation  Rules  ·
+       
+Trigger:  Employee  hired  in  Finance  Dept  ·
+       
+Condition:  Effective  date  is  current  month  ·
+       
+Action:  Enroll  in  'New  Hire  Onboarding  -  July  2026'  program  ·
+       
+Notification:  Email  to  employee  +  manager  +  HR    
+Template  3:  Quiz  Configuration  &  Assessment  
+3.1  Quiz  Metadata  
+Field  Details  Impact  
+
+--- PAGE 6 ---
+Quiz  Title  Assessment  name  Displayed  to  learners  
+Quiz  Description  Context/purpose  Help  learners  prepare  
+Question  Count  5-100  questions  UX  consideration  
+Pass  Score  40-100%  Certification  eligibility  
+Time  Limit  15-120  minutes  OR  None  Test  rigor  
+Attempts  Allowed  1,  2,  3,  Unlimited  Learner  experience  
+Randomize  Questions  Yes/No  Anti-cheating  
+Randomize  Answers  Yes/No  Increased  difficulty  
+Show  Correct  Answers  Immediately/Never/After  all  submit  Learning  value  
+Question  Review  Show  attempted  Q  after  submission  Learning  reinforcement    
+3.2  Question  Bank  Structure  
+Question  Type  Example  Scoring  Method  Use  Case  
+Multiple  Choice  (1  correct)  
+Which  is  the  capital  of  France?  a)  Lyon  b)  Paris  c)  Marseille  
+0  or  1  point  Knowledge  recall  
+Multiple  Select  (N  correct)  
+Select  all  compliance  requirements  (2+  correct)  
+Partial  credit  (N-wrong)  Complex  understanding  
+True/False  HR  policies  apply  to  contractors:  True/False  
+0  or  1  point  Quick  assessments  
+Short  Answer  (manual  review)  
+Describe  your  experience  with  XYZ...  
+0/50/100  points  Subjective  evaluation  
+Matching  Match  product  features  to  benefits  Cumulative  scoring  Relationship  identification  
+Fill  in  the  Blank  The  _____  framework  ensures  compliance  
+0  or  1  point  Terminology  recall  
+Drag-and-Drop  Ordering  
+Order  steps  in  the  process  0  or  1  per  item  Procedural  knowledge    
+3.3  Scoring  Scenarios  
+Scenario  A:  Best  Score  Model  (Standard)  ·
+       
+Attempt  1:  65%  (Fail)  
+
+--- PAGE 7 ---
+·
+       
+Attempt  2:  80%  (Pass)  ←  Counted  for  certification  ·
+       
+Final  Score:  80%  ·
+       
+Certification:  Issued    
+Scenario  B:  Performance-Based  XP  ·
+       
+Attempt  1  Score:  90%  →  XP  awarded  =  45  points  (90/100  ×  50)  ·
+       
+Attempt  2  Score:  85%  →  XP  awarded  =  42.5  points  (85/100  ×  50,  lower  on  retry)  ·
+       
+Total  XP:  87.5  points    
+Scenario  C:  Anti-Cheating  Controls  ·
+       
+Lockdown  Browser:  Yes  →  Fullscreen  enforced,  no  alt-tab  ·
+       
+Proctoring:  Optional  →  Manual  review  of  flagged  attempts  ·
+       
+Tab  Switch  Detection:  Yes  →  Flags  if  learner  leaves  tab  >2  times       
+Template  4:  Certification  &  Credentials  
+4.1  Certificate  Template  Design  
+Element  Description  Customization  
+Background  Official  certificate  paper/border  design  Company  logo,  colors  
+Title  CERTIFICATE  OF  COMPLETION  /  ACHIEVEMENT  
+Text  +  Styling  
+Recipient  Name  {{LEARNER_NAME}}  (auto-populated)  Position:  centered  
+Credential  Text  For  successfully  completing  [COURSE_NAME]  Dynamic  field  binding  
+Date  Issued  {{COMPLETION_DATE}}  (auto-populated)  Format:  Jan  15,  2026  
+Certificate  Number  CERT-2026-00001  (unique  ID)  For  verification  
+Validity  Period  Valid  for  2  years  until  {{EXPIRY_DATE}}  Optional  field  
+Signature  Fields  2-3  authorized  signers  (name  +  title)  Position:  bottom-right  
+Seal/Stamp  Official  organizational  seal  Image  or  QR  code  
+Verification  Link  www.org.com/verify?cert=XXXX  Anti-fraud  QR  code    
+4.2  Certification  Issuance  Logic  
+
+--- PAGE 8 ---
+Trigger  Point  ·
+       
+Learner  completes  final  quiz  ·
+       
+System  calculates  score:  75%  ·
+       
+Compares  vs  Pass  Threshold:  70%  ·
+       
+Result:  75%  ≥  70%  →  Certificate  Eligible    
+Issuance  &  Storage  ·
+       
+System  generates  PDF  certificate  ·
+       
+Stores  in:  Learner  profile  +  Certificate  archive  +  Cloud  storage  ·
+       
+Sends  notification:  Email  with  downloadable  PDF  ·
+       
+Updates  learner  profile:  'Earned  1  certification'  ·
+       
+Awards  XP:  +50  points  for  certification  (if  configured)    
+4.3  Expiry  &  Renewal  
+Scenario  Configuration  System  Action  Notification  
+No  Expiry  Expiry  Period  =  None  Certificate  never  expires  None  
+2-Year  Expiry  Expiry  Period  =  24  months  
+Certificate  expires  at  issued  date  +  24mo  
+90-day  reminder,  expiry  alert  
+Renewal  Required  Renewal:  Take  quiz  again  Learner  must  retake  quiz  to  renew  
+Reminder  30  days  before  expiry  
+External  Cert  Renewal  
+Third-party  certification  Manual  upload  or  API  sync  30-day  renewal  reminder  
+     
+PART  2:  DETAILED  USER  JOURNEYS  
+Journey  1:  EMPLOYEE/LEARNER  -  Complete  Learning  
+Experience
+ 
+1.1  User  Profile  &  Persona  
+Attribute  Details  
+Name  Abebe  Sharma  
+
+--- PAGE 9 ---
+Role  Accounts  Payable  Specialist  
+Department  Finance  
+Experience  Level  Mid-career  (5  years)  
+Learning  Style  Visual  +  hands-on  
+Devices  Desktop  (80%)  +  Mobile  (20%)  
+Time  Zone  GMT+3  
+Goals  Develop  Excel  skills,  pursue  financial  analyst  promotion    
+1.2  Journey:  New  Hire  Onboarding  Program  
+Phase  1:  Discovery  (Day  0)  ·
+       
+HR  sends  onboarding  email:  'Welcome!  Your  learning  program  starts  today'  ·
+       
+Abebe  logs  into  LMS  portal  ·
+       
+Sees:  Personalized  dashboard  with  'New  Employee  Onboarding  (90  days)'  card  ·
+       
+Data  shown:  Program  name,  start  date,  completion  date,  progress  (0%),  7  tasks  ·
+       
+Action:  Clicks  'View  Program'  →  Sees  detailed  timeline    
+Phase  2:  Content  Engagement  (Week  1)  
+Day  1:  System  Access  ·
+       
+Task:  'Complete  IT  Setup  Video'  (mandatory,  45  min)  ·
+       
+Abebe:  Opens  video  player  →  Plays  @0.75x  speed  →  Pauses  twice  ·
+       
+System  tracking:  35  min  watch  time  (77.8%  completion)  ·
+       
+Requirement:  30+  min  watch  to  mark  complete  ·
+       
+Result:  Task  marked  'Complete'  ✓  |  XP  earned:  +15    
+Day  2-3:  Document  Review  ·
+       
+Task:  'Read  Handbook'  (mandatory,  2  hours)  ·
+       
+Content:  42-page  PDF  handbook  ·
+       
+Abebe:  Downloads  PDF,  reads  25  pages,  spends  90  minutes  ·
+       
+System:  Records  time  spent  =  95  min  (note:  ≥90  min  required)  ·
+       
+System:  Cannot  fully  track  page-by-page,  relies  on  document  open  time  ·
+       
+Result:  Task  marked  'Complete'  ✓  |  XP  earned:  +20    
+Day  4:  First  Assessment  
+
+--- PAGE 10 ---
+·
+       
+Task:  'System  Access  Quiz'  (mandatory,  10  questions,  70%  pass  score)  ·
+       
+Quiz  config:  1  attempt  allowed,  15  min  time  limit,  show  answers  after  submit  ·
+       
+Abebe:  Takes  quiz,  completes  in  12  min  ·
+       
+Score:  8/10  =  80%  ·
+       
+Result:  80%  ≥  70%  →  PASSED  ✓  |  XP  earned:  +30  (base)  +  5  (bonus  for  >75%)  ·
+       
+Follow-up:  Correct  answers  shown,  Abebe  reviews  missed  questions  ·
+       
+Total  XP  so  far:  70  points  (15  +  20  +  30  +  5)    
+Phase  3:  Mid-Program  Progress  (Week  4)  ·
+       
+Milestone:  'Start  First  Project'  ·
+       
+Task:  Assignment  submission  (upload  Excel  file  with  analysis)  ·
+       
+Due:  Day  28  (configurable  deadline)  ·
+       
+Abebe  submits  on  Day  26  ·
+       
+System:  Stores  file,  notifies  manager  for  review  ·
+       
+Manager  (Rajesh):  Reviews,  approves  with  comment  'Great  start!'  ·
+       
+Result:  Task  marked  'Complete'  |  XP  earned:  +25  ·
+       
+Program  Progress:  57%  complete  (4/7  tasks  done)    
+Phase  4:  Engagement  &  Social  (Throughout)  ·
+       
+After  completing  'Excel  Fundamentals'  course:  ·
+       
+-  Abebe  rates  course:  5/5  stars  ·
+       
+-  Writes  review:  'Very  practical  examples,  great  pacing!'  ·
+       
+-  XP  awarded:  +10  for  rating  +  comment  ·
+       
+Profile  update:  ·
+       
+-  Total  XP:  105  points  (70  +  25  +  10)  ·
+       
+-  Leaderboard  rank:  8th  out  of  20  in  Finance  Dept  ·
+       
+-  Certificates  earned:  2  (New  Hire,  Excel  Fundamentals)    
+Phase  5:  Completion  &  Beyond  (Day  90)  ·
+       
+All  7  program  tasks  completed  ·
+       
+System  generates:  'New  Employee  Onboarding  Certificate'  ·
+       
+Email  sent:  'Congratulations  on  completing  your  onboarding!  Download  your  certificate.'  ·
+       
+XP  awarded:  +75  (program  completion  bonus)  ·
+       
+Total  XP:  180  points  (105  +  75)  ·
+       
+HR/Manager  notification:  'Abebe  Sharma  completed  onboarding  program'  ·
+       
+Abebe's  next  action:  Browse  'Advanced  Excel'  course  in  catalog       
+
+--- PAGE 11 ---
+Journey  2:  COURSE  CREATOR  -  Content  Development  &  
+Publishing
+ 
+2.1  User  Profile  &  Persona  
+Attribute  Details  
+Name  Tigist  Bekele  
+Role  Senior  Finance  Manager  
+Responsibility  Financial  Planning  &  Analysis  (FP&A)  
+Teaching  Experience  First  course  creation  
+Tech  Comfort  Intermediate  (uses  Office,  basic  IT)  
+Deadline  Course  needed  by  end  of  Q2    
+2.2  Journey:  Creating  'Financial  Reporting  Essentials'  Course  
+Phase  1:  Planning  &  Setup  (Week  1)  ·
+       
+Tigist  logs  into  'Course  Creator'  area  ·
+       
+Clicks  'Create  New  Course'  ·
+       
+Fills  out  course  metadata:  ·
+       
+Title:  'Financial  Reporting  Essentials'  ·
+       
+Description:  'Learn  core  financial  reporting  principles,  GAAP  compliance,  and  report  
+generation...'
+ ·
+       
+Level:  Intermediate  ·
+       
+Category:  Finance  ·
+       
+Course  Owner:  Tigist  Bekele  ·
+       
+Responsible  Person:  Tigist  Bekele  (support  contact)  ·
+       
+Base  XP:  100  points  ·
+       
+Completion  Criteria:  100%  content  +  Quiz  ≥70%  ·
+       
+System  creates:  Course  ID  CRS-2026-001  ·
+       
+Status:  DRAFT    
+Phase  2:  Structure  Design  (Week  2)  ·
+       
+Tigist  creates  4  chapters:  ·
+       
+Chapter  1:  'GAAP  Principles'  (Sequence:  1)  ·
+       
+Chapter  2:  'Financial  Statement  Analysis'  (Sequence:  2)  ·
+       
+Chapter  3:  'Reporting  &  Compliance'  (Sequence:  3)  ·
+       
+Chapter  4:  'Assessment'  (Sequence:  4)  
+
+--- PAGE 12 ---
+·
+       
+For  each  chapter,  Tigist  defines:  ·
+       
+Prerequisites:  Chapters  1-3  must  be  completed  before  Chapter  4  ·
+       
+Chapter  description  &  estimated  duration    
+Phase  3:  Content  Development  (Week  3-4)  
+Chapter  1:  GAAP  Principles  ·
+       
+Tigist  uploads  PDF:  'GAAP-Principles-v2.pdf'  (12  pages)  ·
+       
+System  extracts  metadata:  12  pages,  2.3  MB,  File  stored  in  CDN  ·
+       
+Metadata  stored:  Page  count,  download  enabled,  description  ·
+       
+Tigist  uploads  video:  'GAAP-Overview.mp4'  (8  min  32  sec)  ·
+       
+System:  Extracts  duration,  generates  thumbnail  (3rd  minute),  uploads  to  video  CDN  ·
+       
+Metadata:  Duration  8.5  min,  download  disabled,  transcript:  [auto-generated]  ·
+       
+Tigist  attaches  resource:  'GAAP-Glossary.docx'  (reference  material)    
+Chapter  2-3:  Repeat  similar  process  ·
+       
+Chapter  2:  2  videos  +  1  PDF  +  1  resource  ·
+       
+Chapter  3:  1  video  +  2  PDFs  +  External  link  (SEC  regulations)    
+Phase  4:  Assessment  Design  (Week  4)  
+Tigist  creates  quiz  in  Chapter  4:  ·
+       
+Quiz  metadata:  ·
+       
+Title:  'Financial  Reporting  Essentials  -  Final  Quiz'  ·
+       
+Questions:  15  total  ·
+       
+Pass  score:  70%  ·
+       
+Time  limit:  30  minutes  ·
+       
+Attempts:  2  allowed,  best  score  counted  ·
+       
+Show  answers:  After  submit  (learning  reinforcement)  ·
+       
+Tigist  adds  15  questions  (mix  of  types):  ·
+       
+Q1-8:  Multiple  choice  (1  point  each)  ·
+       
+Q9-12:  True/False  (1  point  each)  ·
+       
+Q13-15:  Multi-select  (2  points  each,  partial  credit)  ·
+       
+Total  possible:  18  points  ·
+       
+Pass  threshold:  12.6  points  (70%  of  18)  ·
+       
+Tigist  uploads  answer  key  (hidden  from  learners)  ·
+       
+Saves  quiz    
+
+--- PAGE 13 ---
+Phase  5:  Preview  &  Testing  (Week  4)  ·
+       
+Tigist  clicks  'Preview  as  Learner'  ·
+       
+Simulates:  View  course  catalog  page,  enroll,  progress  through  all  chapters  ·
+       
+Tests:  Video  playback,  document  download,  quiz  timing,  scoring  ·
+       
+Takes  practice  quiz  (not  recorded)  ·
+       
+Finds  issue:  Chapter  3  external  link  broken  ·
+       
+Fixes:  Updates  URL  to  correct  SEC  link  ·
+       
+Status:  READY  FOR  SUBMISSION    
+Phase  6:  Submission  for  Approval  (Week  5,  Day  1)  ·
+       
+Tigist  clicks  'Submit  for  Review'  ·
+       
+System  prompt:  Confirm  publishing  details  (visibility,  enrollment  policy,  etc.)  ·
+       
+Tigist  selects:  ·
+       
+Visibility:  'Signed-in  users'  (all  employees)  ·
+       
+Enrollment:  'Open'  (self-service)  ·
+       
+Thumbnail:  Uploads  image  (company  branding)  ·
+       
+Course  status:  SUBMITTED  ·
+       
+Notification:  Sent  to  HR  Admin  (Robert.Alemu@company.com)  ·
+       
+Email:  'New  course  pending  review:  Financial  Reporting  Essentials'    
+Phase  7:  HR  Review  &  Feedback  (Week  5,  Day  2-4)  ·
+       
+Robert  (HR  Admin)  reviews  course:  ·
+       
+Content  accuracy:  ✓  (validates  against  finance  team)  ·
+       
+Compliance:  ✓  (no  confidential  data  exposed)  ·
+       
+Assessment  quality:  ⚠  (requests  minor  revision)  ·
+       
+Robert  adds  comment:  'Great  content!  Please  add  5  more  questions  to  Chapter  2  quiz.'  ·
+       
+Status:  CHANGES  REQUESTED  ·
+       
+Email  to  Tigist:  'Your  course  needs  revisions  before  approval'    
+Phase  8:  Revision  &  Resubmission  (Week  5,  Day  5)  ·
+       
+Tigist  reviews  feedback  ·
+       
+Adds  5  more  questions  to  Chapter  2  quiz  ·
+       
+Re-tests  quiz  logic  ·
+       
+Clicks  'Resubmit  for  Review'  ·
+       
+Status:  RESUBMITTED  ·
+       
+Robert  reviews  again  within  1  business  day  ·
+       
+Approves:  Status  changed  to  APPROVED    
+
+--- PAGE 14 ---
+Phase  9:  Publishing  (Week  6,  Day  1)  ·
+       
+Robert:  Clicks  'Publish  Course'  ·
+       
+Status:  PUBLISHED  ·
+       
+Course  visible  in  catalog:  Finance  category  ·
+       
+Announcement  sent:  'New  course:  Financial  Reporting  Essentials'  ·
+       
+Email  to  relevant  employees    
+Phase  10:  Management  &  Iteration  (Ongoing)  ·
+       
+Week  6-10:  Monitor  enrollments  (currently:  24  enrolled)  ·
+       
+Review  learner  feedback:  Avg  rating  4.5/5  ·
+       
+View  quiz  analytics:  Avg  score  75%,  pass  rate  85%  ·
+       
+Q3:  Update  content  (new  SEC  regulations),  resubmit  for  review  ·
+       
+Version  control:  New  version  created  (v1.1),  past  learners  stay  on  v1.0       
+Journey  3:  HR  ADMINISTRATOR  -  Program  Management  &  
+TNA
+ 
+3.1  User  Profile  &  Persona  
+Attribute  Details  
+Name  Abebe  Kebede  
+Role  Head  of  Learning  &  Development  
+Department  Human  Resources  
+Team  Size  3  Learning  Managers  
+Experience  8  years  in  L&D  
+Key  Responsibility  Strategic  learning  initiatives  
+Priority  Scale  programs  to  2000+  employees    
+3.2  Journey:  Managing  Quarterly  New  Hire  Onboarding  
+Phase  1:  Program  Planning  (Week  1-2  of  Previous  Quarter)  ·
+       
+Abebe  accesses  'Learning  Programs'  >  'Onboarding'  template  ·
+       
+Program  metadata:  
+
+--- PAGE 15 ---
+·
+       
+Name:  'New  Hire  Onboarding  -  Q2  2026'  ·
+       
+Type:  Onboarding  (predefined)  ·
+       
+Start  Date:  2026-04-01  ·
+       
+End  Date:  2026-06-30  ·
+       
+Expected  Cohort  Size:  35  new  hires  ·
+       
+Program  Owner:  Abebe  Kebede  ·
+       
+Abebe  selects  courses  from  catalog:  ·
+       
+Week  1:  Company  Overview,  IT  Setup,  Finance  Intro  ·
+       
+Week  2:  Role-specific  training  (varies  by  department)  ·
+       
+Week  4:  Capstone  assignment  +  manager  evaluation  ·
+       
+Defines  milestones  &  validation  rules:  ·
+       
+M1  (Day  7):  Complete  IT  setup  quiz  (70%  pass)  ·
+       
+M2  (Day  21):  Submit  manager  check-in  form  ·
+       
+M3  (Day  60):  Capstone  approved  by  manager  ·
+       
+Configures  notifications:  ·
+       
+Employee:  Day  0  (enrollment),  Day  28  reminder,  Day  70  final  reminder  ·
+       
+Manager:  Weekly  progress  report  ·
+       
+HR:  Overdue  task  alerts  ·
+       
+Configures  enrollment  rules:  ·
+       
+Trigger:  Hire  date  =  current  month  ·
+       
+Filter:  All  departments  ·
+       
+Action:  Auto-enroll  in  program  on  start  date  ·
+       
+Status:  DRAFT    
+Phase  2:  Configuration  &  Approval  (Week  3)  ·
+       
+Abebe  submits  program  for  internal  approval  (HR  and  CEO  review)  ·
+       
+Approval  workflow:  ·
+       
+L1:  HR  reviews  and  approves  budget  (checks  budget/capacity)  ·
+       
+L2:  CEO  signs  off  (strategic  alignment)  ·
+       
+Status:  APPROVED  ·
+       
+Program  goes  LIVE  on  start  date  (2026-04-01)    
+Phase  3:  Active  Monitoring  (April-June)  ·
+       
+Abebe  accesses  'Program  Dashboard':  ·
+       
+Enrollment:  35  active  participants  ·
+       
+Overall  Progress:  62%  ·
+       
+At  Risk:  3  employees  (overdue  tasks)  ·
+       
+Milestone  M1  Completion:  32/35  (91%)  ·
+       
+Abebe  reviews  'At  Risk'  list:  ·
+       
+Abebe  Sharma:  Capstone  overdue  by  2  days  ·
+       
+Action:  Send  reminder  email  +  escalate  to  manager  
+
+--- PAGE 16 ---
+·
+       
+Abebe  runs  'Program  Effectiveness  Report':  ·
+       
+Avg  time  to  complete  milestone  M1:  8.3  days  (target:  7)  ·
+       
+Quiz  pass  rate:  88%  ·
+       
+Employee  satisfaction  (survey):  4.2/5  ·
+       
+Insight:  One  video  is  too  long  (avg  drop-off  at  15  min  mark)  ·
+       
+Abebe  shares  report  with  leadership    
+Phase  4:  TNA  Request  Processing  
+Scenario:  Finance  Dept  requests  training  ·
+       
+Manager  submits  TNA  form  (on  behalf  of  team):  ·
+       
+Requesting  entity:  Finance  Department  ·
+       
+Gap  identified:  Advanced  Excel  skills  ·
+       
+Affected  employees:  12  ·
+       
+Timeline:  Within  3  months  ·
+       
+Type:  Paid  (budget  =  $8,000)  ·
+       
+Abebe  reviews  TNA  in  admin  dashboard:  ·
+       
+Classification:  Paid  TNA  ·
+       
+Approval  workflow  initiated:  ·
+       
+L1:  Finance  Manager  approves  request  ·
+       
+L2:  HR  approves  budget  ($8,000)  ·
+       
+L3:  CEO  signs  off  (strategic  priority)  ·
+       
+TNA  Status:  APPROVED  ·
+       
+Abebe  maps  TNA  to  solution:  ·
+       
+Existing  option:  'Advanced  Excel'  course  (3-week  self-paced)  ·
+       
+Cost:  $4,500  (covers  12  employees)  ·
+       
+Abebe  auto-assigns  course  to  12  Finance  employees  ·
+       
+Email  sent:  'Your  development  request  has  been  approved.  Enroll  in...'  ·
+       
+TNA  Status:  FULFILLED  ·
+       
+90  days  later,  Abebe  measures  impact:  ·
+       
+Completion  rate:  11/12  (92%)  ·
+       
+Avg  score:  82%  (vs  pre-test  45%)  ·
+       
+Knowledge  lift  (LMS-FR-148  formula:  (post-pre)/(100-pre)  ×  100):  67.3%  ·
+       
+Behavior  change  survey  (Kirkpatrick  L3):  67%  report  using  Excel  skills  on  job  ·
+       
+ROI:  High  training  effectiveness  (lift  >50%  per  LMS-FR-148  threshold,  satisfaction  and  
+behavior-change
+ 
+criteria
+ 
+met
+ 
+per
+ 
+LMS-FR-150
+ 
+to
+ 
+LMS-FR-152)
+      
+
+--- PAGE 17 ---
+PART  3:  DATA  FLOWS  &  SYSTEM  
+INTERACTIONS
+ 
+Course  Completion  &  Certification  Flow  
+Step  Trigger  System  Action  Data  Stored  
+1  Learner  completes  final  quiz  System  calculates  score  quiz_attempt  table  
+2  Score  ≥  Pass  threshold  System  checks  cert  eligibility  course_completion  table  
+3  Eligible  for  cert  Generates  PDF  certificate  certificate  table  
+4  PDF  generated  Sends  notification  email  notification_log  table  
+5  Email  sent  Awards  XP  points  xp_transaction  table  
+6  XP  updated  Updates  learner  profile  learner_profile  table    
+Learning  Program  Auto-Enrollment  Logic  ·
+       
+Daily  scheduler  runs  at  2  AM  (configurable)  ·
+       
+For  each  active  program  with  auto-enrollment  enabled:  ·
+       
+Query  employees  matching  criteria  (e.g.,  hire_date  =  current  month  AND  dept  =  'Finance')  ·
+       
+For  each  matching  employee:  ·
+       
+Check  if  already  enrolled  in  program  ·
+       
+If  not:  Create  enrollment  record  ·
+       
+Send  welcome  email  ·
+       
+Set  program  start  date  =  enrollment  date  ·
+       
+Log  enrollment  events  for  audit  trail    
+Quiz  Attempt  Validation  &  Scoring  ·
+       
+Learner  submits  quiz  answers  ·
+       
+System  validates:  ·
+       
+Time  limit  not  exceeded  ·
+       
+All  questions  answered  ·
+       
+Attempt  count  <  max  allowed  ·
+       
+System  scores  each  question:  ·
+       
+Multiple  choice:  1  point  if  correct,  0  if  wrong  ·
+       
+Multi-select:  Award  partial  credit  (e.g.,  0.5  per  correct)  
+
+--- PAGE 18 ---
+·
+       
+Calculate  total:  Sum  weighted  scores  ·
+       
+Calculate  percentage:  (total  score  /  max  score)  ×  100  ·
+       
+Compare  vs  pass  threshold  →  Pass  /  Fail  determination  ·
+       
+Store  attempt  record  (timestamp,  score,  answers,  flags)  ·
+       
+Calculate  XP  reward  (if  applicable)    
+PART  4:  EDGE  CASES  &  ERROR  
+HANDLING
+ 
+Scenario:  Learner  Exceeds  Quiz  Time  Limit  ·
+       
+Quiz  time  limit:  30  minutes  ·
+       
+Learner  submits  at  31  min  15  sec  ·
+       
+System  action:  Reject  submission,  show  error:  'Time  limit  exceeded'  ·
+       
+If  auto-submit  enabled:  Accept  submission  but  flag  in  report  ·
+       
+Learner  notification:  'Quiz  attempt  not  recorded.  Contact  support.'    
+Scenario:  Course  Content  Updated  While  Learner  is  Enrolled  ·
+       
+Status:  Learner  60%  through  course  (old  version)  ·
+       
+Course  owner  uploads  new  content  (v1.1)  ·
+       
+System  action:  Learner  locked  to  v1.0  (enrollment  version)  ·
+       
+New  enrollees:  Automatically  get  v1.1  ·
+       
+Notification  to  learner:  'Course  content  updated,  but  your  version  is  locked'  ·
+       
+Option:  Learner  can  re-start  with  v1.1  (progress  reset)    
+Scenario:  Employee  Transferred  Mid-Program  ·
+       
+Employee:  50%  through  onboarding  program  ·
+       
+Reassignment:  Finance  →  Sales  department  ·
+       
+System  action:  HR  reviews  reassignment  rules  ·
+       
+Option  1:  Keep  in  current  program  (most  common)  ·
+       
+Option  2:  Remove  from  program  +  enroll  in  sales-specific  program  ·
+       
+Option  3:  Continue  +  additionally  enroll  in  sales  training  ·
+       
+HR  decision:  Option  3  (comprehensive  onboarding)  ·
+       
+System  action:  ·
+       
+Keep  original  program  enrollment  ·
+       
+Add  new  program  (Sales  Enablement)  
+
+--- PAGE 19 ---
+·
+       
+Send  notification:  'Your  role  has  changed...'    
+Scenario:  Certificate  Expiry  Reminder  ·
+       
+Certificate  issued:  Jan  1,  2024  ·
+       
+Expiry  date:  Jan  1,  2026  (2  years)  ·
+       
+Current  date:  Oct  15,  2025  (78  days  before  expiry)  ·
+       
+Daily  scheduler  checks:  ·
+       
+Expiry  date  =  today  +  90  days?  ·
+       
+If  yes:  Send  reminder  email  ·
+       
+Email  to  learner:  'Your  [Course]  certification  expires  in  78  days.  Renew  now.'  ·
+       
+Email  to  HR:  'Employee  X  has  expiring  certification'  ·
+       
+On  expiry  date:  Cert  status  changes  to  'Expired'  ·
+       
+Learner  can  retake  course/quiz  to  renew    
+CONCLUSION  
+This  detailed  guide  provides  comprehensive  step-by-step  journeys,  templates,  and  configuration  examples  
+for
+ 
+implementing
+ 
+an
+ 
+enterprise
+ 
+LMS.
+ 
+Each
+ 
+section
+ 
+includes
+ 
+realistic
+ 
+scenarios,
+ 
+business
+ 
+rules,
+ 
+and
+ 
+system
+ 
+validations
+ 
+to
+ 
+ensure
+ 
+robust
+ 
+learning
+ 
+operations
+ 
+at
+ 
+scale.
+  

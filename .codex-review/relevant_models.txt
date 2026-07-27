@@ -1,0 +1,1020 @@
+
+### CourseTemplate
+id                       Int             @id @default(autoincrement())
+companyId                Int
+name                     String          @db.VarChar(255)
+description              String?         @db.Text
+categoryId               Int
+difficultyLevel          DifficultyLevel
+visibility               VisibilityType
+estimatedDurationMinutes Int
+passingScore             Decimal         @db.Decimal(5, 2)
+completionThreshold      Decimal         @db.Decimal(5, 2)
+attendanceRequired       Boolean         @default(false)
+minimumAttendance        Decimal?        @db.Decimal(5, 2)
+certificateRequired      Boolean         @default(true)
+language                 String?         @db.VarChar(20)
+isActive                 Boolean         @default(true)
+createdBy Int
+updatedBy Int?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+targetAudiences TargetAudience[]
+company  Company        @relation(fields: [companyId], references: [id])
+category CourseCategory @relation(fields: [categoryId], references: [id])
+creator  AppUser        @relation("CourseTemplateCreator", fields: [createdBy], references: [id])
+updater  AppUser?       @relation("CourseTemplateUpdater", fields: [updatedBy], references: [id])
+
+### ProgramTemplate
+id                  Int            @id @default(autoincrement())
+companyId           Int
+categoryId          Int?
+name                String         @db.VarChar(255)
+description         String?        @db.Text
+durationWeeks       Int?
+visibility          VisibilityType
+isMandatory         Boolean        @default(false)
+autoEnroll          Boolean        @default(false)
+certificateEnabled  Boolean        @default(true)
+xpEnabled           Boolean        @default(true)
+allowSelfEnrollment Boolean        @default(true)
+rollingEnrollment   Boolean        @default(false)
+capacity            Int?
+isActive            Boolean        @default(true)
+createdBy Int
+updatedBy Int?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+targetAudiences TargetAudience[]
+company  Company          @relation(fields: [companyId], references: [id])
+category ProgramCategory? @relation(fields: [categoryId], references: [id])
+creator  AppUser          @relation("ProgramTemplateCreator", fields: [createdBy], references: [id])
+updater  AppUser?         @relation("ProgramTemplateUpdater", fields: [updatedBy], references: [id])
+
+### AssessmentTemplate
+id                    Int            @id @default(autoincrement())
+companyId             Int
+name                  String         @db.VarChar(255)
+description           String?        @db.Text
+assessmentType        AssessmentType
+passingScore          Decimal        @db.Decimal(5, 2)
+maxAttempts           Int            @default(2)
+timeLimitMinutes      Int?
+randomizeQuestions    Boolean        @default(false)
+randomizeOptions      Boolean        @default(false)
+showResultImmediately Boolean        @default(false)
+allowReview           Boolean        @default(true)
+lockdownBrowser       Boolean        @default(false)
+proctoringEnabled     Boolean        @default(false)
+isActive              Boolean        @default(true)
+createdBy Int
+updatedBy Int?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+targetAudiences TargetAudience[]
+company Company  @relation(fields: [companyId], references: [id])
+creator AppUser  @relation("AssessmentTemplateCreator", fields: [createdBy], references: [id])
+updater AppUser? @relation("AssessmentTemplateUpdater", fields: [updatedBy], references: [id])
+assessments Assessment[]
+
+### SurveyTemplate
+id               Int              @id @default(autoincrement())
+companyId        Int
+name             String           @db.VarChar(255)
+description      String?          @db.Text
+surveyType       SurveyType
+kirkpatrickLevel KirkpatrickLevel
+isAnonymous      Boolean          @default(false)
+availableDays    Int?
+isActive         Boolean          @default(true)
+createdBy        Int
+updatedBy        Int?
+createdAt        DateTime         @default(now())
+updatedAt        DateTime         @updatedAt
+deletedAt        DateTime?
+company          Company          @relation(fields: [companyId], references: [id])
+creator          AppUser          @relation("SurveyTemplateCreator", fields: [createdBy], references: [id])
+updater          AppUser?         @relation("SurveyTemplateUpdater", fields: [updatedBy], references: [id])
+
+### CertificateTemplate
+id                    Int              @id @default(autoincrement())
+companyId             Int
+courseVersionId       Int?             @unique
+learningProgramId     Int?             @unique
+name                  String           @db.VarChar(255)
+certificateType       CertificateType
+templateFile          String?
+certificateIdPattern  String           @db.VarChar(100)
+validityMonths        Int?
+sealImage             String?
+qrVerificationEnabled Boolean          @default(true)
+backgroundImage       String?
+status                TemplateStatus
+createdBy             Int
+updatedBy             Int?
+createdAt             DateTime         @default(now())
+updatedAt             DateTime         @updatedAt
+deletedAt             DateTime?
+company               Company          @relation(fields: [companyId], references: [id])
+courseVersion         CourseVersion?   @relation(fields: [courseVersionId], references: [id])
+learningProgram       LearningProgram? @relation(fields: [learningProgramId], references: [id])
+createdByUser         AppUser          @relation("CertTemplateCreatedBy", fields: [createdBy], references: [id])
+updatedByUser         AppUser?         @relation("CertTemplateUpdatedBy", fields: [updatedBy], references: [id])
+signers         CertificateTemplateSigner[]
+certificates    Certificate[]
+targetAudiences TargetAudience[]
+
+### CertificateTemplateSigner
+id           Int                 @id @default(autoincrement())
+companyId    Int
+templateId   Int
+employeeId   String              @db.VarChar(20)
+displayOrder Int
+createdAt    DateTime            @default(now())
+updatedAt    DateTime            @updatedAt
+company      Company             @relation(fields: [companyId], references: [id])
+template     CertificateTemplate @relation(fields: [templateId], references: [id])
+employee     Employee            @relation(fields: [employeeId], references: [id])
+
+### Certificate
+id                  Int               @id @default(autoincrement())
+companyId           Int
+completionId        Int?              @unique
+programCompletionId Int?              @unique
+templateId          Int
+certificateNumber   String            @db.VarChar(100)
+issuedAt            DateTime
+expiresAt           DateTime?
+verificationCode    String            @unique @db.VarChar(100)
+verificationQrUrl   String?
+status              CertificateStatus
+revokedAt           DateTime?
+revokedReason       String?           @db.Text
+createdAt           DateTime          @default(now())
+updatedAt           DateTime          @updatedAt
+deletedAt           DateTime?
+company             Company           @relation(fields: [companyId], references: [id])
+completion        CourseCompletion?         @relation(fields: [completionId], references: [id])
+programCompletion ProgramCompletion?        @relation(fields: [programCompletionId], references: [id])
+template          CertificateTemplate       @relation(fields: [templateId], references: [id])
+verificationLogs  CertificateVerification[]
+
+### ExternalCertificate
+id                 Int                      @id @default(autoincrement())
+companyId          Int
+employeeId         String                   @db.VarChar(20)
+providerId         Int
+certificateName    String                   @db.VarChar(255)
+credentialNumber   String?
+issueDate          DateTime
+expiryDate         DateTime?
+verificationStatus ExternalCredentialStatus
+source             CredentialSource
+uploadedFile       String?
+apiReference       String?
+createdAt          DateTime                 @default(now())
+updatedAt          DateTime                 @updatedAt
+deletedAt          DateTime?
+company            Company                  @relation(fields: [companyId], references: [id])
+employee           Employee                 @relation(fields: [employeeId], references: [id])
+provider           ExternalProvider         @relation(fields: [providerId], references: [id])
+
+### ExternalProvider
+id              Int                   @id @default(autoincrement())
+companyId       Int
+name            String                @db.VarChar(150)
+providerType    ProviderType
+apiEndpoint     String?
+apiKeyReference String?
+isActive        Boolean               @default(true)
+createdAt       DateTime              @default(now())
+updatedAt       DateTime              @updatedAt
+company         Company               @relation(fields: [companyId], references: [id])
+certificates    ExternalCertificate[]
+
+### ProgramTask
+id          Int     @id @default(autoincrement())
+companyId   Int
+programId   Int
+title       String  @db.VarChar(255)
+description String? @db.Text
+taskType TaskType // refined enum
+courseVersionId Int?
+courseContentId Int?
+assessmentId    Int?
+liveSessionId   Int?
+surveyId        Int?
+isRequired   Boolean @default(true)
+isBlocking   Boolean @default(false)
+displayOrder Int
+phaseNumber  Int?
+dueDate            DateTime?
+dueOffsetDays      Int?
+minimumTimeMinutes Int?
+minimumScore       Decimal?  @db.Decimal(5, 2)
+minimumAttendance  Decimal?  @db.Decimal(5, 2)
+requiresManagerApproval Boolean @default(false)
+peerReviewRequired      Boolean @default(false)
+xpAward Int?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+company       Company         @relation(fields: [companyId], references: [id])
+program       LearningProgram @relation(fields: [programId], references: [id])
+courseVersion CourseVersion?  @relation(fields: [courseVersionId], references: [id])
+courseContent CourseContent?  @relation(fields: [courseContentId], references: [id])
+assessment    Assessment?     @relation(fields: [assessmentId], references: [id])
+liveSession   LiveSession?    @relation(fields: [liveSessionId], references: [id])
+survey        Survey?         @relation(fields: [surveyId], references: [id])
+submissions ProgramTaskSubmission[]
+
+### ProgramTaskSubmission
+id             Int         @id @default(autoincrement())
+companyId      Int
+taskId         Int
+employeeId     String      @db.VarChar(20)
+status         TaskStatus
+submittedAt    DateTime?
+reviewedAt     DateTime?
+reviewedBy     Int?
+score          Decimal?    @db.Decimal(5, 2)
+remarks        String?     @db.Text
+submissionText String?     @db.Text
+submissionUrl  String?
+fileUrl        String?
+completedAt    DateTime?
+deletedAt      DateTime?
+company        Company     @relation(fields: [companyId], references: [id])
+task           ProgramTask @relation(fields: [taskId], references: [id])
+employee       Employee    @relation(fields: [employeeId], references: [id])
+reviewer       AppUser?    @relation("TaskReviewer", fields: [reviewedBy], references: [id])
+
+### ProgramMilestone
+id                   Int                        @id @default(autoincrement())
+companyId            Int
+programId            Int
+title                String                     @db.VarChar(255)
+milestonePercentage  Decimal                    @db.Decimal(5, 2)
+targetDate           DateTime?
+targetOffsetDays     Int?
+completionExpression Json?
+overdueAction        String?                    @db.Text
+reminderOffsetsDays  Int[]
+company              Company                    @relation(fields: [companyId], references: [id])
+program              LearningProgram            @relation(fields: [programId], references: [id])
+progresses           ProgramMilestoneProgress[]
+
+### ProgramCohort
+id          Int                 @id @default(autoincrement())
+companyId   Int
+programId   Int
+name        String              @db.VarChar(100)
+capacity    Int?
+startDate   DateTime?
+endDate     DateTime?
+company     Company             @relation(fields: [companyId], references: [id])
+program     LearningProgram     @relation(fields: [programId], references: [id])
+enrollments ProgramEnrollment[]
+
+### ApprovalWorkflow
+id          Int                @id @default(autoincrement())
+companyId   Int
+name        String             @db.VarChar(255)
+entityType  WorkflowEntityType
+description String?            @db.Text
+isDefault   Boolean            @default(false)
+isSystem    Boolean            @default(false) // ← NEW: Protects system workflows
+isActive    Boolean            @default(true)
+createdBy Int
+updatedBy Int?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+company Company  @relation(fields: [companyId], references: [id])
+creator AppUser  @relation("ApprovalWorkflowCreator", fields: [createdBy], references: [id])
+updater AppUser? @relation("ApprovalWorkflowUpdater", fields: [updatedBy], references: [id])
+steps     ApprovalWorkflowStep[]
+instances ApprovalWorkflowInstance[]
+
+### ApprovalWorkflowStep
+id                 Int                @id @default(autoincrement())
+workflowId         Int
+approvalOrder      Int
+approverRole       String?            @db.VarChar(100)
+approverEmployeeId String?            @db.VarChar(20)
+isRequired         Boolean            @default(true)
+autoApprove        Boolean            @default(false)
+timeoutDays        Int?
+createdAt          DateTime           @default(now())
+updatedAt          DateTime           @updatedAt
+workflow           ApprovalWorkflow   @relation(fields: [workflowId], references: [id])
+approver           Employee?          @relation(fields: [approverEmployeeId], references: [id])
+decisions          ApprovalDecision[]
+
+### ApprovalWorkflowInstance
+id                Int                    @id @default(autoincrement())
+companyId         Int
+workflowId        Int
+entityType        WorkflowEntityType
+courseVersionId   Int?
+learningProgramId Int?
+status            WorkflowInstanceStatus @default(DRAFT)
+submittedBy       Int?
+submittedAt       DateTime?
+completedAt       DateTime?
+latestComment     String?                @db.Text
+createdAt         DateTime               @default(now())
+updatedAt         DateTime               @updatedAt
+company           Company                @relation(fields: [companyId], references: [id])
+workflow          ApprovalWorkflow       @relation(fields: [workflowId], references: [id])
+courseVersion     CourseVersion?         @relation(fields: [courseVersionId], references: [id])
+learningProgram   LearningProgram?       @relation(fields: [learningProgramId], references: [id])
+submittedByUser   AppUser?               @relation("ApprovalInstanceSubmittedBy", fields: [submittedBy], references: [id])
+decisions         ApprovalDecision[]
+
+### ApprovalDecision
+id             Int                      @id @default(autoincrement())
+companyId      Int
+instanceId     Int
+workflowStepId Int
+status         ApprovalStatus
+comment        String?                  @db.Text
+decidedBy      Int?
+decidedAt      DateTime                 @default(now())
+company        Company                  @relation(fields: [companyId], references: [id])
+instance       ApprovalWorkflowInstance @relation(fields: [instanceId], references: [id])
+workflowStep   ApprovalWorkflowStep     @relation(fields: [workflowStepId], references: [id])
+decidedByUser  AppUser?                 @relation("ApprovalDecisionMadeBy", fields: [decidedBy], references: [id])
+
+### CourseContent
+id                  Int                @id @default(autoincrement())
+companyId           Int
+chapterId           Int
+contentTypeId       Int
+title               String             @db.VarChar(255)
+description         String?            @db.Text
+displayOrder        Int
+durationMinutes     Int?
+externalUrl         String?
+isRequired          Boolean            @default(true)
+allowDownload       Boolean            @default(false)
+transcriptUrl       String?
+pageCount           Int?
+completionThreshold Decimal?           @db.Decimal(5, 2)
+minimumTimeMinutes  Int?
+scormLaunchUrl      String?
+scormTrackingMode   String?            @db.VarChar(50)
+createdAt           DateTime           @default(now())
+updatedAt           DateTime           @updatedAt
+deletedAt           DateTime?
+contentType         ContentType        @relation(fields: [contentTypeId], references: [id])
+company             Company            @relation(fields: [companyId], references: [id])
+chapter             CourseChapter      @relation(fields: [chapterId], references: [id])
+files               ContentFile[]
+assessments         Assessment[]
+lessonProgress      LessonProgress[]
+learningProgresses  LearningProgress[]
+programTasks        ProgramTask[]
+
+### ContentFile
+id               Int             @id @default(autoincrement())
+companyId        Int
+contentId        Int
+fileTypeId       Int
+originalFileName String          @db.VarChar(255)
+storedFileName   String          @db.VarChar(255)
+mimeType         String          @db.VarChar(100)
+fileExtension    String?         @db.VarChar(20)
+fileSizeBytes    BigInt
+checksum         String? //duplicate detection.
+s3Bucket         String          @db.VarChar(255)
+s3Key            String          @db.VarChar(1000)
+s3Region         String?         @db.VarChar(100)
+version          Int             @default(1)
+isActive         Boolean         @default(true)
+uploadedBy       Int?
+createdAt        DateTime        @default(now())
+updatedAt        DateTime        @updatedAt
+deletedAt        DateTime?
+fileType         ContentFileType @relation(fields: [fileTypeId], references: [id])
+company          Company         @relation(fields: [companyId], references: [id])
+content          CourseContent   @relation(fields: [contentId], references: [id])
+uploadedByUser   AppUser?        @relation(fields: [uploadedBy], references: [id])
+
+### ContentType
+id          Int     @id @default(autoincrement())
+slug        String  @unique
+name        String
+description String?
+icon        String?
+isActive    Boolean @default(true)
+sortOrder   Int     @default(0)
+contents CourseContent[]
+
+### Assessment
+id                               Int            @id @default(autoincrement())
+companyId                        Int
+courseVersionId                  Int
+contentId                        Int?
+templateId                       Int?
+title                            String         @db.VarChar(255)
+description                      String?        @db.Text
+assessmentType                   AssessmentType
+gradingMethod                    GradingMethod
+passScore                        Decimal        @db.Decimal(5, 2)
+maxAttempts                      Int
+durationMinutes                  Int?
+negativeMarking                  Decimal?       @db.Decimal(8, 2)
+showCorrectAnswersAfterAllSubmit Boolean        @default(false)
+allowQuestionReview              Boolean        @default(true)
+autoSubmitOnTimeLimit            Boolean        @default(false)
+tabSwitchLimit                   Int?
+lockdownBrowser       Boolean          @default(false)
+proctoringEnabled     Boolean          @default(false)
+randomizeQuestions    Boolean          @default(false)
+randomizeOptions      Boolean          @default(false)
+showResultImmediately Boolean          @default(false)
+status                AssessmentStatus
+pairedAssessmentId Int?
+createdBy          Int
+updatedBy          Int?
+createdAt          DateTime              @default(now())
+updatedAt          DateTime              @updatedAt
+deletedAt          DateTime?
+company            Company               @relation(fields: [companyId], references: [id])
+courseVersion      CourseVersion         @relation(fields: [courseVersionId], references: [id])
+content            CourseContent?        @relation(fields: [contentId], references: [id])
+template           AssessmentTemplate?   @relation(fields: [templateId], references: [id])
+pairedAssessment   Assessment?           @relation("AssessmentPair", fields: [pairedAssessmentId], references: [id])
+pairedWith         Assessment[]          @relation("AssessmentPair")
+createdByUser      AppUser               @relation("AssessmentCreatedBy", fields: [createdBy], references: [id])
+updatedByUser      AppUser?              @relation("AssessmentUpdatedBy", fields: [updatedBy], references: [id])
+questions          AssessmentQuestion[]
+blueprints         AssessmentBlueprint[]
+attempts           AssessmentAttempt[]
+programTasks       ProgramTask[]
+targetAudiences TargetAudience[]
+
+### AssessmentBlueprint
+id            Int              @id @default(autoincrement())
+companyId     Int
+assessmentId  Int
+topicId       Int?
+difficulty    DifficultyLevel?
+questionType  QuestionType?
+questionCount Int
+company       Company          @relation(fields: [companyId], references: [id])
+assessment    Assessment       @relation(fields: [assessmentId], references: [id])
+topic         Topic?           @relation(fields: [topicId], references: [id])
+
+### AssessmentAttempt
+id           Int                @id @default(autoincrement())
+companyId    Int
+enrollmentId Int
+assessmentId Int
+attemptNo    Int
+status       AttemptStatus
+startedAt    DateTime
+submittedAt  DateTime?
+gradedAt     DateTime?
+gradedBy     Int?
+score        Decimal?           @db.Decimal(8, 2)
+passed       Boolean?
+snapshot     Json?
+deletedAt    DateTime?
+company      Company            @relation(fields: [companyId], references: [id])
+enrollment   Enrollment         @relation(fields: [enrollmentId], references: [id])
+assessment   Assessment         @relation(fields: [assessmentId], references: [id])
+gradedByUser AppUser?           @relation("GradedBy", fields: [gradedBy], references: [id])
+answers      AssessmentAnswer[]
+
+### AssessmentAnswer
+id                Int                           @id @default(autoincrement())
+companyId         Int
+attemptId         Int
+questionVersionId Int
+earnedMarks       Decimal?                      @db.Decimal(8, 2)
+isCorrect         Boolean?
+answerSnapshot    Json?
+approvalStatus    QuestionVersionApprovalStatus
+approvedBy        Int?
+approvedAt        DateTime?
+company           Company                       @relation(fields: [companyId], references: [id])
+attempt           AssessmentAttempt             @relation(fields: [attemptId], references: [id])
+questionVersion   QuestionVersion               @relation(fields: [questionVersionId], references: [id])
+approvedByUser    AppUser?                      @relation(fields: [approvedBy], references: [id])
+
+### Question
+id               Int                  @id @default(autoincrement())
+companyId        Int
+currentVersionId Int?                 @unique
+topicId          Int?
+difficulty       DifficultyLevel
+questionType     QuestionType
+status           QuestionStatus
+createdBy        Int
+createdAt        DateTime             @default(now())
+updatedAt        DateTime             @updatedAt
+deletedAt        DateTime?
+company          Company              @relation(fields: [companyId], references: [id])
+currentVersion   QuestionVersion?     @relation("CurrentQuestionVersion", fields: [currentVersionId], references: [id])
+createdByUser    AppUser              @relation(fields: [createdBy], references: [id])
+versions         QuestionVersion[]    @relation("QuestionVersions")
+mappings         AssessmentQuestion[]
+topic            Topic?               @relation(fields: [topicId], references: [id])
+
+### QuestionVersion
+id                  Int                  @id @default(autoincrement())
+companyId           Int
+questionId          Int
+versionNo           Int
+questionText        String               @db.Text
+explanation         String?              @db.Text
+defaultScore        Decimal              @db.Decimal(8, 2)
+createdBy           Int
+createdAt           DateTime             @default(now())
+company             Company              @relation(fields: [companyId], references: [id])
+question            Question             @relation("QuestionVersions", fields: [questionId], references: [id])
+currentQuestion     Question?            @relation("CurrentQuestionVersion")
+createdByUser       AppUser              @relation(fields: [createdBy], references: [id])
+options             QuestionOption[]
+assessmentQuestions AssessmentQuestion[]
+answers             AssessmentAnswer[]
+
+### QuestionOption
+id                Int             @id @default(autoincrement())
+companyId         Int
+questionVersionId Int
+optionLabel       String?
+optionText        String          @db.Text
+isCorrect         Boolean
+displayOrder      Int
+createdAt         DateTime        @default(now())
+company           Company         @relation(fields: [companyId], references: [id])
+questionVersion   QuestionVersion @relation(fields: [questionVersionId], references: [id])
+
+### Survey
+id               Int              @id @default(autoincrement())
+companyId        Int
+courseVersionId  Int?
+title            String           @db.VarChar(255)
+description      String?          @db.Text
+surveyType       SurveyType
+kirkpatrickLevel KirkpatrickLevel
+isAnonymous      Boolean          @default(false) // UI/report-level anonymity only — see SurveyResponse note
+status           SurveyStatus
+availableFrom    DateTime?
+availableUntil   DateTime?
+createdBy        Int
+updatedBy        Int?
+createdAt        DateTime         @default(now())
+updatedAt        DateTime         @updatedAt
+deletedAt        DateTime?
+company          Company          @relation(fields: [companyId], references: [id])
+courseVersion    CourseVersion?   @relation(fields: [courseVersionId], references: [id])
+createdByUser    AppUser          @relation("SurveyCreatedBy", fields: [createdBy], references: [id])
+updatedByUser    AppUser?         @relation("SurveyUpdatedBy", fields: [updatedBy], references: [id])
+questions        SurveyQuestion[]
+responses        SurveyResponse[]
+programTasks     ProgramTask[]
+
+### SurveyQuestion
+id           Int                @id @default(autoincrement())
+companyId    Int
+surveyId     Int
+questionText String             @db.Text
+questionType SurveyQuestionType
+displayOrder Int
+isRequired   Boolean            @default(true)
+createdAt    DateTime           @default(now())
+updatedAt    DateTime           @updatedAt
+company      Company            @relation(fields: [companyId], references: [id])
+survey       Survey             @relation(fields: [surveyId], references: [id])
+responses    SurveyAnswer[]
+
+### SurveyResponse
+id           Int @id @default(autoincrement())
+companyId    Int
+surveyId     Int
+completionId Int
+employeeId  String?          @db.VarChar(20)
+submittedAt DateTime         @default(now())
+createdAt   DateTime         @default(now())
+company     Company          @relation(fields: [companyId], references: [id])
+survey      Survey           @relation(fields: [surveyId], references: [id])
+completion  CourseCompletion @relation(fields: [completionId], references: [id])
+employee    Employee?        @relation(fields: [employeeId], references: [id])
+answers     SurveyAnswer[]
+
+### SurveyAnswer
+id             Int            @id @default(autoincrement())
+companyId      Int
+responseId     Int
+questionId     Int
+ratingValue    Int?
+selectedOption String?
+textAnswer     String?        @db.Text
+createdAt      DateTime       @default(now())
+company        Company        @relation(fields: [companyId], references: [id])
+response       SurveyResponse @relation(fields: [responseId], references: [id])
+question       SurveyQuestion @relation(fields: [questionId], references: [id])
+
+### XpRule
+id           Int            @id @default(autoincrement())
+companyId    Int
+name         String         @db.VarChar(150)
+category     XpRuleCategory
+triggerEvent XpTriggerEvent
+xpAmount     Int
+maximumAward Int?
+multiplier   Decimal?       @db.Decimal(5, 2) // e.g. 1.25 for 25% bonus
+targetAudienceId Int?
+conditionExpression Json? // Fallback for complex custom logic
+courseVersionId     Int?
+programId           Int?
+isActive            Boolean @default(true)
+createdBy Int
+updatedBy Int?
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+company        Company          @relation(fields: [companyId], references: [id])
+targetAudience TargetAudience?  @relation(fields: [targetAudienceId], references: [id])
+courseVersion  CourseVersion?   @relation(fields: [courseVersionId], references: [id])
+program        LearningProgram? @relation(fields: [programId], references: [id])
+createdByUser AppUser  @relation("XpRuleCreatedBy", fields: [createdBy], references: [id])
+updatedByUser AppUser? @relation("XpRuleUpdatedBy", fields: [updatedBy], references: [id])
+transactions XpTransaction[]
+
+### XpTransaction
+id         Int          @id @default(autoincrement())
+companyId  Int
+employeeId String       @db.VarChar(20)
+ruleId     Int?
+sourceType XpSourceType
+sourceId   Int?
+xpAwarded  Int
+multiplier Decimal? @db.Decimal(5, 2)
+remarks    String?
+createdAt  DateTime @default(now())
+company    Company  @relation(fields: [companyId], references: [id])
+employee   Employee @relation(fields: [employeeId], references: [id])
+rule       XpRule?  @relation(fields: [ruleId], references: [id])
+
+### TrainingNeedRequest
+id         Int    @id @default(autoincrement())
+companyId  Int
+employeeId String @db.VarChar(20)
+requestTypeId Int
+fundingType   FundingType
+status        TnaStatus
+priority      PriorityLevel
+targetAudienceId Int?
+departmentId   Int?
+jobTitleId     Int?
+jobLevelId     Int?
+employmentType String? @db.VarChar(50) // e.g. "NEW_HIRE", "FULL_TIME"
+trainingTitle         String  @db.VarChar(255)
+providerName          String? @db.VarChar(255)
+objective             String? @db.Text
+competencyGap         String  @db.Text
+businessJustification String  @db.Text
+expectedOutcome       String? @db.Text
+preferredFormat      TrainingFormat?
+preferredStartDate   DateTime?
+targetCompletionDate DateTime?
+estimatedCost        Decimal?        @db.Decimal(12, 2)
+attachmentUrl        String?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+company        Company              @relation(fields: [companyId], references: [id])
+employee       Employee             @relation(fields: [employeeId], references: [id])
+requestType    TnaRequestTypeConfig @relation(fields: [requestTypeId], references: [id])
+targetAudience TargetAudience?      @relation(fields: [targetAudienceId], references: [id])
+department     Department?          @relation(fields: [departmentId], references: [id])
+jobTitle       JobTitle?            @relation(fields: [jobTitleId], references: [id])
+skills          TrainingNeedSkill[]
+approvals       TnaApproval[]
+recommendations TnaRecommendation[]
+
+### TnaApproval
+id             Int                     @id @default(autoincrement())
+companyId      Int
+requestId      Int
+workflowStepId Int // FK to TnaApprovalWorkflowStep, replaces the fixed ApprovalLevel enum
+approverId     String                  @db.VarChar(20)
+status         ApprovalStatus // existing shared enum, unchanged
+comments       String?                 @db.Text
+approvedAt     DateTime?
+createdAt      DateTime                @default(now())
+company        Company                 @relation(fields: [companyId], references: [id])
+request        TrainingNeedRequest     @relation(fields: [requestId], references: [id])
+workflowStep   TnaApprovalWorkflowStep @relation(fields: [workflowStepId], references: [id])
+approver       Employee                @relation(fields: [approverId], references: [id])
+
+### TnaApprovalWorkflowStep
+id                 Int           @id @default(autoincrement())
+companyId          Int
+stepOrder          Int // 1, 2, 3... defines sequence
+name               String        @db.VarChar(150) // e.g. "Manager Approval", "HR Review", "Finance Sign-off"
+approverJobTitleId Int? // who is expected to approve at this step (optional — can also be resolved dynamically, e.g. "requester's manager")
+isFinal            Boolean       @default(false) // marks the terminal step — request is fully approved once this step passes
+isActive           Boolean       @default(true)
+createdAt          DateTime      @default(now())
+updatedAt          DateTime      @updatedAt
+company            Company       @relation(fields: [companyId], references: [id])
+approverJobTitle   JobTitle?     @relation(fields: [approverJobTitleId], references: [id])
+approvals          TnaApproval[]
+
+### TnaRecommendation
+id                Int  @id @default(autoincrement())
+companyId         Int
+requestId         Int?
+courseVersionId   Int?
+learningProgramId Int?
+recommendationSource RecommendationSource
+confidenceScore      Decimal?             @db.Decimal(5, 2)
+recommendationReason String?
+targetAudienceId Int?
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+company         Company              @relation(fields: [companyId], references: [id])
+request         TrainingNeedRequest? @relation(fields: [requestId], references: [id])
+courseVersion   CourseVersion?       @relation(fields: [courseVersionId], references: [id])
+learningProgram LearningProgram?     @relation(fields: [learningProgramId], references: [id])
+targetAudience  TargetAudience?      @relation(fields: [targetAudienceId], references: [id])
+skills TnaRecommendationSkill[]
+
+### CourseReview
+id              Int              @id @default(autoincrement())
+companyId       Int
+completionId    Int              @unique
+courseId        Int
+rating          Int
+reviewTitle     String?          @db.VarChar(255)
+reviewText      String?          @db.Text
+isAnonymous     Boolean          @default(false)
+isPublished     Boolean          @default(true)
+moderatedBy     Int?
+moderatedAt     DateTime?
+createdAt       DateTime         @default(now())
+updatedAt       DateTime         @updatedAt
+deletedAt       DateTime?
+company         Company          @relation(fields: [companyId], references: [id])
+completion      CourseCompletion @relation(fields: [completionId], references: [id])
+course          Course           @relation(fields: [courseId], references: [id])
+moderatedByUser AppUser?         @relation(fields: [moderatedBy], references: [id])
+
+### SystemSetting
+id            Int             @id @default(autoincrement())
+companyId     Int
+category      SettingCategory
+settingKey    String          @db.VarChar(150)
+settingValue  Json
+description   String?         @db.Text
+updatedBy     Int
+createdAt     DateTime        @default(now())
+updatedAt     DateTime        @updatedAt
+company       Company         @relation(fields: [companyId], references: [id])
+updatedByUser AppUser         @relation(fields: [updatedBy], references: [id])
+
+### NotificationTemplate
+id                  Int                 @id @default(autoincrement())
+companyId           Int
+name                String              @db.VarChar(255)
+description         String?             @db.Text
+channel             NotificationChannel
+eventCode           String              @db.VarChar(100)
+subject             String?             @db.VarChar(255)
+body                String              @db.Text
+variables           Json?
+language            String?             @db.VarChar(20)
+isActive            Boolean             @default(true)
+createdBy           Int
+updatedBy           Int?
+createdAt           DateTime            @default(now())
+updatedAt           DateTime            @updatedAt
+deletedAt           DateTime?
+company             Company             @relation(fields: [companyId], references: [id])
+creator             AppUser             @relation("NotificationTemplateCreator", fields: [createdBy], references: [id])
+updater             AppUser?            @relation("NotificationTemplateUpdater", fields: [updatedBy], references: [id])
+notificationEvent   NotificationEvent?  @relation(fields: [notificationEventId], references: [id])
+notificationEventId Int?
+
+### NotificationEvent
+id          Int                    @id @default(autoincrement())
+companyId   Int
+code        String                 @db.VarChar(100)
+name        String
+description String?
+module      NotificationModule
+isActive    Boolean                @default(true)
+company     Company                @relation(fields: [companyId], references: [id])
+templates   NotificationTemplate[]
+
+### LiveSession
+id                   Int                     @id @default(autoincrement())
+companyId            Int
+courseVersionId      Int
+learningProgramId    Int?
+title                String                  @db.VarChar(255)
+description          String?                 @db.Text
+sessionType          SessionType
+status               LiveSessionStatus
+startTime            DateTime
+endTime              DateTime
+timezone             String                  @db.VarChar(100)
+venue                String?                 @db.VarChar(255)
+meetingUrl           String?
+meetingProvider      MeetingProvider?
+capacity             Int
+waitlistCapacity     Int?
+recordingUrl         String?
+attendanceRequired   Boolean                 @default(true)
+createdBy            Int
+updatedBy            Int?
+createdAt            DateTime                @default(now())
+updatedAt            DateTime                @updatedAt
+deletedAt            DateTime?
+company              Company                 @relation(fields: [companyId], references: [id])
+courseVersion        CourseVersion           @relation("CourseVersionLiveSessions", fields: [courseVersionId], references: [id])
+learningProgram      LearningProgram?        @relation(fields: [learningProgramId], references: [id])
+createdByUser        AppUser                 @relation("LiveSessionCreatedBy", fields: [createdBy], references: [id])
+updatedByUser        AppUser?                @relation("LiveSessionUpdatedBy", fields: [updatedBy], references: [id])
+instructors          LiveSessionInstructor[]
+attendees            LiveSessionAttendance[]
+liveSessionWaitlists LiveSessionWaitlist[]
+programTasks         ProgramTask[]
+targetAudiences      TargetAudience[]
+
+### LiveSessionAttendance
+id                   Int               @id @default(autoincrement())
+companyId            Int
+sessionId            Int
+enrollmentId         Int
+attendanceStatus     AttendanceStatus
+checkInTime          DateTime?
+checkOutTime         DateTime?
+attendancePercentage Decimal?          @db.Decimal(5, 2)
+attendanceMethod     AttendanceMethod?
+remarks              String?           @db.Text
+createdAt            DateTime          @default(now())
+updatedAt            DateTime          @updatedAt
+deletedAt            DateTime?
+company              Company           @relation(fields: [companyId], references: [id])
+session              LiveSession       @relation(fields: [sessionId], references: [id])
+enrollment           Enrollment        @relation(fields: [enrollmentId], references: [id])
+
+### LiveSessionWaitlist
+id            Int            @id @default(autoincrement())
+companyId     Int
+sessionId     Int
+enrollmentId  Int
+queuePosition Int
+status        WaitlistStatus
+offeredAt     DateTime?
+acceptedAt    DateTime?
+expiredAt     DateTime?
+createdAt     DateTime       @default(now())
+updatedAt     DateTime       @updatedAt
+company       Company        @relation(fields: [companyId], references: [id])
+session       LiveSession    @relation(fields: [sessionId], references: [id])
+enrollment    Enrollment     @relation(fields: [enrollmentId], references: [id])
+
+### Enrollment
+id                     Int                     @id @default(autoincrement())
+companyId              Int
+employeeId             String                  @db.VarChar(20)
+courseVersionId        Int
+programEnrollmentId    Int?
+/**
+* Allows multiple enrollments (retakes, renewals).
+* Default = 1 (first enrollment)
+*/
+enrollmentNo           Int                     @default(1)
+enrollmentType         EnrollmentType
+enrollmentSource       EnrollmentSource
+status                 EnrollmentStatus
+approvalStatus         ApprovalStatus?
+enrolledAt             DateTime                @default(now())
+approvedAt             DateTime?
+startedAt              DateTime?
+dueDate                DateTime?
+completedAt            DateTime?
+cancelledAt            DateTime?
+expiredAt              DateTime?
+assignedBy             Int?
+approvedBy             Int?
+cancelledReason        String?                 @db.Text
+createdAt              DateTime                @default(now())
+updatedAt              DateTime                @updatedAt
+deletedAt              DateTime?
+company                Company                 @relation(fields: [companyId], references: [id])
+employee               Employee                @relation(fields: [employeeId], references: [id])
+programEnrollment      ProgramEnrollment?      @relation(fields: [programEnrollmentId], references: [id])
+courseVersion          CourseVersion           @relation(fields: [courseVersionId], references: [id])
+assignmentUser         AppUser?                @relation("EnrollmentAssignedBy", fields: [assignedBy], references: [id])
+approvalUser           AppUser?                @relation("EnrollmentApprovedBy", fields: [approvedBy], references: [id])
+progress               LearningProgress?
+completion             CourseCompletion?
+assessmentAttempts     AssessmentAttempt[]
+waitlistEntry          WaitlistEntry?
+sessions               LearningSession[]
+activityLogs           EnrollmentActivityLog[]
+liveSessionAttendances LiveSessionAttendance[]
+liveSessionWaitlists   LiveSessionWaitlist[]
+
+### EnrollmentRule
+id          Int     @id @default(autoincrement())
+companyId   Int
+name        String  @db.VarChar(255)
+description String? @db.Text
+entityType      EnrollmentEntityType // "COURSE" or "PROGRAM"
+courseVersionId Int?
+programId       Int?
+ruleType            EnrollmentRuleType // AUTO_ENROLL, RESTRICT_ACCESS, WAITLIST, etc.
+priority            Int                @default(1)
+isActive            Boolean            @default(true)
+targetAudienceId    Int?
+conditionExpression Json?
+createdBy Int
+updatedBy Int?
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+company        Company          @relation(fields: [companyId], references: [id])
+courseVersion  CourseVersion?   @relation("EnrollmentRuleCourseVersion", fields: [courseVersionId], references: [id])
+program        LearningProgram? @relation("EnrollmentRuleProgram", fields: [programId], references: [id])
+targetAudience TargetAudience?  @relation(fields: [targetAudienceId], references: [id])
+creator        AppUser          @relation("EnrollmentRuleCreator", fields: [createdBy], references: [id])
+updater        AppUser?         @relation("EnrollmentRuleUpdater", fields: [updatedBy], references: [id])
+
+### LearningProgress
+id           Int @id @default(autoincrement())
+companyId    Int
+enrollmentId Int @unique
+overallProgress      Decimal          @db.Decimal(5, 2)
+completedLessons     Int
+totalLessons         Int
+completedAssessments Int
+totalAssessments     Int
+totalLearningMinutes Int
+lastAccessedAt       DateTime?
+lastContentId        Int?
+createdAt            DateTime         @default(now())
+updatedAt            DateTime         @updatedAt
+company              Company          @relation(fields: [companyId], references: [id])
+enrollment           Enrollment       @relation(fields: [enrollmentId], references: [id])
+lastContent          CourseContent?   @relation(fields: [lastContentId], references: [id])
+lessonProgress       LessonProgress[]
+
+### LessonProgress
+id                  Int              @id @default(autoincrement())
+companyId           Int
+learningProgressId  Int
+contentId           Int
+status              ProgressStatus // reusing shared enum, not a separate LessonStatus
+watchPercentage     Decimal?         @db.Decimal(5, 2)
+lastPositionSeconds Int?             @default(0) // enables exact resume, restored from earlier design
+attempts            Int              @default(0) // for quiz/assignment-type content specifically
+startedAt           DateTime?
+completedAt         DateTime?
+timeSpentMinutes    Int              @default(0)
+createdAt           DateTime         @default(now())
+updatedAt           DateTime         @updatedAt
+company             Company          @relation(fields: [companyId], references: [id])
+learningProgress    LearningProgress @relation(fields: [learningProgressId], references: [id])
+content             CourseContent    @relation(fields: [contentId], references: [id])
+
+### CourseCompletion
+id                 Int           @id @default(autoincrement())
+companyId          Int
+enrollmentId       Int           @unique
+finalScore         Decimal       @db.Decimal(5, 2)
+passed             Boolean
+completedAt        DateTime
+completionSnapshot Json?
+createdAt          DateTime      @default(now())
+updatedAt          DateTime      @updatedAt
+company            Company       @relation(fields: [companyId], references: [id])
+enrollment         Enrollment    @relation(fields: [enrollmentId], references: [id])
+review             CourseReview?
+certificate      Certificate?
+effectiveness    TrainingEffectiveness?
+skillAssessments EmployeeSkillAssessment[]
+surveyResponses  SurveyResponse[]
+
+### ProgramCompletion
+id                  Int               @id @default(autoincrement())
+companyId           Int
+programEnrollmentId Int               @unique
+completedAt         DateTime
+completionSnapshot  Json?
+createdAt           DateTime          @default(now())
+updatedAt           DateTime          @updatedAt
+company             Company           @relation(fields: [companyId], references: [id])
+programEnrollment   ProgramEnrollment @relation(fields: [programEnrollmentId], references: [id])
+certificate         Certificate?
