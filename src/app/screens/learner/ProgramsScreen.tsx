@@ -1,275 +1,466 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   BookOpen,
+  CalendarDays,
   CheckCircle,
   ChevronLeft,
   ChevronRight,
+  ClipboardCheck,
   Clock,
-  Sparkles,
+  Flag,
+  Target,
   Users,
 } from "lucide-react";
 import { Chip, PBar } from "../../components/common";
 import { COURSES, PROGRAMS } from "../../constants/mockData";
 import { P } from "../../constants/theme.constants";
 import type { NavigateFn } from "../../models/app.model";
+
+type ProgramMilestone = {
+  week: string;
+  title: string;
+  items: string[];
+  status: "done" | "active" | "upcoming";
+};
+
+type LearnerProgramAssignment = {
+  programId: string;
+  cohort: string;
+  cohortStart: string;
+  cohortEnd: string;
+  assignedBy: string;
+  courseIds: string[];
+  milestones: ProgramMilestone[];
+};
+
+const LEARNER_PROGRAM_ASSIGNMENTS: LearnerProgramAssignment[] = [
+  {
+    programId: "pg1",
+    cohort: "Cohort A - 2026",
+    cohortStart: "Jun 9, 2026",
+    cohortEnd: "Jul 20, 2026",
+    assignedBy: "HR Onboarding",
+    courseIds: ["4", "1", "3", "7"],
+    milestones: [
+      {
+        week: "Week 1",
+        title: "Program kickoff",
+        items: ["Orientation", "Baseline assessment"],
+        status: "done",
+      },
+      {
+        week: "Week 2",
+        title: "Core learning",
+        items: ["Communication course", "AI foundations quiz"],
+        status: "done",
+      },
+      {
+        week: "Week 3",
+        title: "Compliance check",
+        items: ["Security assessment", "Policy task"],
+        status: "active",
+      },
+      {
+        week: "Week 4",
+        title: "Applied work",
+        items: ["Manager assignment", "Peer discussion"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 5",
+        title: "Feedback",
+        items: ["Program survey", "Cohort reflection"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 6",
+        title: "Final review",
+        items: ["Capstone submission", "Certificate check"],
+        status: "upcoming",
+      },
+    ],
+  },
+  {
+    programId: "pg2",
+    cohort: "Leadership Cohort B",
+    cohortStart: "Jul 1, 2026",
+    cohortEnd: "Sep 23, 2026",
+    assignedBy: "Leadership Academy",
+    courseIds: ["2", "7", "6", "8"],
+    milestones: [
+      {
+        week: "Week 1",
+        title: "Leadership baseline",
+        items: ["Pre-assessment", "Goal setting"],
+        status: "done",
+      },
+      {
+        week: "Week 2",
+        title: "Decision practice",
+        items: ["Leadership course", "Reflection task"],
+        status: "active",
+      },
+      {
+        week: "Week 4",
+        title: "Team practice",
+        items: ["Peer review", "Manager feedback"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 6",
+        title: "Midpoint review",
+        items: ["Cohort survey", "Knowledge check"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 9",
+        title: "Final project",
+        items: ["Case project", "Presentation"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 12",
+        title: "Completion",
+        items: ["Post-assessment", "Certificate review"],
+        status: "upcoming",
+      },
+    ],
+  },
+  {
+    programId: "pg4",
+    cohort: "Engineering Cohort 2026",
+    cohortStart: "Jul 6, 2026",
+    cohortEnd: "Oct 26, 2026",
+    assignedBy: "Engineering Enablement",
+    courseIds: ["1", "3", "7", "aws-cloud-practitioner", "gcp-digital-leader"],
+    milestones: [
+      {
+        week: "Week 1",
+        title: "Technical kickoff",
+        items: ["Skills baseline", "Architecture reading"],
+        status: "active",
+      },
+      {
+        week: "Week 3",
+        title: "Cloud foundations",
+        items: ["Provider course", "Cloud quiz"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 6",
+        title: "Secure delivery",
+        items: ["Cybersecurity course", "Lab assignment"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 10",
+        title: "Engineering review",
+        items: ["Peer review", "Pulse survey"],
+        status: "upcoming",
+      },
+      {
+        week: "Week 16",
+        title: "Capstone",
+        items: ["Architecture project", "Manager sign-off"],
+        status: "upcoming",
+      },
+    ],
+  },
+];
+
+const assignedPrograms = PROGRAMS.map((program) => {
+  const assignment = LEARNER_PROGRAM_ASSIGNMENTS.find((item) => item.programId === program.id);
+  return assignment ? { ...program, assignment } : null;
+}).filter(Boolean) as Array<(typeof PROGRAMS)[number] & { assignment: LearnerProgramAssignment }>;
+
+function getAssignedCourses(courseIds: string[]) {
+  return courseIds
+    .map((courseId) => COURSES.find((course) => course.id === courseId))
+    .filter((course): course is (typeof COURSES)[number] => Boolean(course));
+}
+
+function statusVariant(status: ProgramMilestone["status"]) {
+  if (status === "done") return "green";
+  if (status === "active") return "olive";
+  return "neutral";
+}
+
 export function ProgramsScreen({ navigate }: { navigate: NavigateFn }) {
   const [selected, setSelected] = useState<string | null>(null);
-  const prog = selected ? PROGRAMS.find((p) => p.id === selected) : null;
+  const prog = selected ? assignedPrograms.find((item) => item.id === selected) : null;
 
-  return (
-    <div className="p-6 space-y-5 max-w-[1200px]">
-      {!selected ? (
-        <>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1
-                className="text-xl font-bold mb-1"
-                style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: P.text }}
-              >
-                Learning Programs
-              </h1>
-              <p className="text-sm" style={{ color: P.textMuted }}>
-                Structured learning paths to advance your career
-              </p>
-            </div>
-            <button
-              className="flex items-center gap-1.5 text-sm font-medium"
-              style={{ color: P.olive }}
-              data-prototype-action="true"
-            >
-              <Sparkles size={14} style={{ color: P.gold }} /> AI-suggested programs
-            </button>
-          </div>
-          <div
-            className="rounded-2xl p-6 text-white flex items-center justify-between"
-            style={{ background: `linear-gradient(135deg, ${P.darkOlive}, ${P.olive})` }}
-          >
-            <div>
-              <Chip label="Featured Program" variant="gold" />
-              <h2
-                className="text-xl font-bold mt-2 mb-1"
-                style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}
-              >
-                Future-Ready Leader Track 🌿
-              </h2>
-              <p className="text-sm mb-4 max-w-lg" style={{ color: "rgba(231,238,220,0.85)" }}>
-                Complete all 6 courses to earn the coveted Future-Ready Leader certification —
-                recognized across 120+ organizations.
-              </p>
-              <button
-                onClick={() => setSelected("p1")}
-                className="px-5 py-2 rounded-xl text-sm font-semibold"
-                style={{ background: "white", color: P.darkOlive }}
-              >
-                Explore Program →
-              </button>
-            </div>
-            <div className="hidden md:block text-6xl">🌿</div>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {PROGRAMS.map((prog, i) => (
-              <div
-                key={prog.id}
-                onClick={() => setSelected(prog.id)}
-                className="bg-white rounded-xl border p-5 cursor-pointer group fade-in-up"
-                style={{
-                  borderColor: P.border,
-                  animationDelay: `${i * 70}ms`,
-                  transition:
-                    "transform 200ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 200ms ease, border-color 200ms ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform =
-                    "translateY(-5px) scale(1.018)";
-                  (e.currentTarget as HTMLDivElement).style.boxShadow =
-                    "0 10px 28px rgba(4,120,87,0.14)";
-                  (e.currentTarget as HTMLDivElement).style.borderColor = P.sage;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform = "";
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = "";
-                  (e.currentTarget as HTMLDivElement).style.borderColor = P.border;
-                }}
-              >
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="text-3xl transition-transform duration-200 group-hover:scale-110">
-                    {prog.badge}
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold" style={{ color: P.text }}>
-                      {prog.title}
-                    </h3>
-                    <p className="text-xs mt-0.5 leading-relaxed" style={{ color: P.textMuted }}>
-                      {prog.description}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {prog.skills.map((s) => (
-                    <Chip key={s} label={s} variant="sage" />
-                  ))}
-                </div>
-                <div
-                  className="flex items-center gap-4 text-[11px] mb-3"
-                  style={{ color: P.textMuted }}
-                >
-                  <span className="flex items-center gap-1">
-                    <BookOpen size={11} />
-                    {prog.courses} courses
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock size={11} />
-                    {prog.duration}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Users size={11} />
-                    {prog.enrolled.toLocaleString()}
-                  </span>
-                </div>
-                {prog.progress > 0 ? (
-                  <div>
-                    <div
-                      className="flex justify-between text-[10px] mb-1"
-                      style={{ color: P.textMuted }}
-                    >
-                      <span>Progress</span>
-                      <span style={{ color: prog.color }}>{prog.progress}%</span>
-                    </div>
-                    <PBar value={prog.progress} color={prog.color} height={5} />
-                  </div>
-                ) : (
-                  <button
-                    className="w-full py-2 text-white rounded-lg text-xs font-semibold"
-                    style={{
-                      background: P.darkOlive,
-                      transition: "transform 150ms ease, box-shadow 150ms ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.02)";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                        "0 4px 12px rgba(77,91,42,0.4)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.transform = "";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = "";
-                    }}
-                    data-prototype-action="true"
-                  >
-                    Start Program →
-                  </button>
-                )}
-                {/* Hover-reveal details */}
-                <div
-                  className="overflow-hidden transition-all duration-250 ease-out"
-                  style={{ maxHeight: 0, opacity: 0 }}
-                  ref={(el) => {
-                    if (el) {
-                      const p = el.closest(".group");
-                      if (p) {
-                        const show = () => {
-                          el.style.maxHeight = "80px";
-                          el.style.opacity = "1";
-                          el.style.marginTop = "12px";
-                        };
-                        const hide = () => {
-                          el.style.maxHeight = "0";
-                          el.style.opacity = "0";
-                          el.style.marginTop = "0";
-                        };
-                        p.addEventListener("mouseenter", show);
-                        p.addEventListener("mouseleave", hide);
-                      }
-                    }
-                  }}
-                >
-                  <div
-                    className="pt-3 flex items-center justify-between text-[10px]"
-                    style={{ borderTop: `1px solid ${P.border}`, color: P.textMuted }}
-                  >
-                    <span>🏆 {Math.round(prog.enrolled * 0.55).toLocaleString()} completed</span>
-                    <span>
-                      📅 Next milestone in <strong style={{ color: P.text }}>7 days</strong>
-                    </span>
-                    <span className="font-semibold" style={{ color: P.olive }}>
-                      View →
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        prog && (
-          <>
-            <button
-              onClick={() => setSelected(null)}
-              className="flex items-center gap-1.5 text-sm"
-              style={{ color: P.textMuted }}
-            >
-              <ChevronLeft size={16} /> All Programs
-            </button>
+  if (prog) {
+    const courses = getAssignedCourses(prog.assignment.courseIds);
+
+    return (
+      <div className="p-8 space-y-6 max-w-[1280px]">
+        <button
+          onClick={() => setSelected(null)}
+          className="flex items-center gap-2 text-sm font-semibold transition hover:-translate-x-1"
+          style={{ color: P.olive }}
+        >
+          <ChevronLeft size={16} /> Assigned programs
+        </button>
+
+        <section
+          className="rounded-2xl border bg-white p-6 shadow-sm"
+          style={{ borderColor: P.border }}
+        >
+          <div className="flex flex-wrap items-start justify-between gap-5">
             <div className="flex items-start gap-4">
-              <div className="text-5xl">{prog.badge}</div>
+              <div className="rounded-2xl p-3" style={{ background: P.lightSage, color: P.olive }}>
+                <Target size={26} />
+              </div>
               <div>
+                <Chip label={prog.assignment.cohort} variant="olive" />
                 <h1
-                  className="text-2xl font-bold"
+                  className="mt-3 text-2xl font-bold"
                   style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: P.text }}
                 >
                   {prog.title}
                 </h1>
-                <p className="text-sm mt-1 mb-3" style={{ color: P.textMuted }}>
+                <p className="mt-2 max-w-2xl text-sm leading-6" style={{ color: P.textMuted }}>
                   {prog.description}
                 </p>
-                <div className="flex items-center gap-4 text-xs" style={{ color: P.textMuted }}>
-                  <span>
-                    {prog.courses} courses · {prog.duration}
-                  </span>
-                  <span>{prog.enrolled.toLocaleString()} enrolled</span>
-                  <span className="font-semibold" style={{ color: "#5A7A2A" }}>
-                    {prog.progress > 0 ? `${prog.progress}% complete` : "Not started"}
-                  </span>
-                </div>
               </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              {COURSES.slice(0, prog.courses).map((course, i) => (
-                <div
+            <div className="min-w-[220px] rounded-2xl p-4" style={{ background: P.paleGreen }}>
+              <p
+                className="text-xs font-semibold uppercase tracking-wide"
+                style={{ color: P.textMuted }}
+              >
+                Cohort timeline
+              </p>
+              <p className="mt-2 text-sm font-bold" style={{ color: P.text }}>
+                {prog.assignment.cohortStart} - {prog.assignment.cohortEnd}
+              </p>
+              <p className="mt-1 text-xs" style={{ color: P.textMuted }}>
+                Assigned by {prog.assignment.assignedBy}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <div className="mb-2 flex justify-between text-xs" style={{ color: P.textMuted }}>
+              <span>Program progress</span>
+              <span className="font-semibold" style={{ color: prog.color }}>
+                {prog.progress}%
+              </span>
+            </div>
+            <PBar value={prog.progress} color={prog.color} height={8} />
+          </div>
+        </section>
+
+        <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <section
+            className="rounded-2xl border bg-white p-5 shadow-sm"
+            style={{ borderColor: P.border }}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-bold" style={{ color: P.text }}>
+                  Courses in this program
+                </h2>
+                <p className="text-xs" style={{ color: P.textMuted }}>
+                  {courses.length} assigned courses
+                </p>
+              </div>
+              <BookOpen size={18} style={{ color: P.olive }} />
+            </div>
+
+            <div className="space-y-3">
+              {courses.map((course, index) => (
+                <button
                   key={course.id}
                   onClick={() => navigate("course-detail", course.id)}
-                  className="bg-white rounded-xl border p-4 hover:shadow-md cursor-pointer flex items-center gap-3"
-                  style={{ borderColor: P.border }}
+                  className="group flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99]"
+                  style={{
+                    borderColor: P.border,
+                    background: course.progress ? "white" : P.paleGreen,
+                  }}
                 >
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+                  <span
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
                     style={{ background: course.color }}
                   >
-                    {i + 1}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold truncate" style={{ color: P.text }}>
+                    {index + 1}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-bold" style={{ color: P.text }}>
                       {course.title}
-                    </p>
-                    <p className="text-[10px]" style={{ color: P.textMuted }}>
-                      {course.instructor} · {course.duration}
-                    </p>
-                    {course.progress > 0 && (
-                      <PBar value={course.progress} color={course.color} height={3} />
-                    )}
-                  </div>
+                    </span>
+                    <span className="mt-1 block text-xs" style={{ color: P.textMuted }}>
+                      {course.instructor} - {course.duration}
+                    </span>
+                    <span className="mt-3 block">
+                      <PBar value={course.progress} color={course.color} height={5} />
+                    </span>
+                  </span>
                   {course.progress === 100 ? (
-                    <CheckCircle size={16} style={{ color: "#5A7A2A" }} className="flex-shrink-0" />
+                    <CheckCircle size={18} style={{ color: P.olive }} />
                   ) : (
-                    <ChevronRight size={16} style={{ color: P.sage }} className="flex-shrink-0" />
+                    <ChevronRight
+                      size={18}
+                      className="transition group-hover:translate-x-1"
+                      style={{ color: P.sage }}
+                    />
                   )}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section
+            className="rounded-2xl border bg-white p-5 shadow-sm"
+            style={{ borderColor: P.border }}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-bold" style={{ color: P.text }}>
+                  Weekly milestones
+                </h2>
+                <p className="text-xs" style={{ color: P.textMuted }}>
+                  Assessments, assignments, surveys, and final work
+                </p>
+              </div>
+              <Flag size={18} style={{ color: P.olive }} />
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              {prog.assignment.milestones.map((milestone) => (
+                <div
+                  key={`${prog.id}-${milestone.week}`}
+                  className="rounded-2xl border p-4"
+                  style={{
+                    borderColor: milestone.status === "active" ? P.sage : P.border,
+                    background: milestone.status === "active" ? P.lightSage : "white",
+                  }}
+                >
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <CalendarDays size={15} style={{ color: P.olive }} />
+                      <span className="text-xs font-semibold" style={{ color: P.textMuted }}>
+                        {milestone.week}
+                      </span>
+                    </div>
+                    <Chip label={milestone.status} variant={statusVariant(milestone.status)} />
+                  </div>
+                  <h3 className="text-sm font-bold" style={{ color: P.text }}>
+                    {milestone.title}
+                  </h3>
+                  <div className="mt-3 space-y-2">
+                    {milestone.items.map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-2 text-xs"
+                        style={{ color: P.textMuted }}
+                      >
+                        <ClipboardCheck size={13} style={{ color: P.olive }} />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
-          </>
-        )
-      )}
+          </section>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-8 space-y-6 max-w-[1280px]">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1
+            className="text-2xl font-bold"
+            style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: P.text }}
+          >
+            My Learning Programs
+          </h1>
+          <p className="mt-1 text-sm" style={{ color: P.textMuted }}>
+            Programs assigned to you by HR, grouped by cohort.
+          </p>
+        </div>
+        <div
+          className="rounded-full px-4 py-2 text-sm font-semibold"
+          style={{ background: P.lightSage, color: P.olive }}
+        >
+          {assignedPrograms.length} assigned programs
+        </div>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-3">
+        {assignedPrograms.map((program) => {
+          const courses = getAssignedCourses(program.assignment.courseIds);
+
+          return (
+            <button
+              key={program.id}
+              onClick={() => setSelected(program.id)}
+              className="group rounded-2xl border bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg active:scale-[0.99]"
+              style={{ borderColor: P.border }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div
+                  className="rounded-2xl p-3 transition group-hover:scale-105"
+                  style={{ background: P.lightSage, color: program.color }}
+                >
+                  <Target size={24} />
+                </div>
+                <Chip label={program.assignment.cohort} variant="olive" />
+              </div>
+
+              <h2 className="mt-5 text-lg font-bold" style={{ color: P.text }}>
+                {program.title}
+              </h2>
+              <p className="mt-2 line-clamp-2 text-sm leading-6" style={{ color: P.textMuted }}>
+                {program.description}
+              </p>
+
+              <div className="mt-5 grid grid-cols-3 gap-3 text-xs" style={{ color: P.textMuted }}>
+                <span className="flex items-center gap-1.5">
+                  <BookOpen size={13} /> {courses.length}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock size={13} /> {program.duration}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Users size={13} /> {program.enrolled}
+                </span>
+              </div>
+
+              <div className="mt-5">
+                <div className="mb-2 flex justify-between text-xs" style={{ color: P.textMuted }}>
+                  <span>
+                    {program.assignment.cohortStart} - {program.assignment.cohortEnd}
+                  </span>
+                  <span className="font-semibold" style={{ color: program.color }}>
+                    {program.progress}%
+                  </span>
+                </div>
+                <PBar value={program.progress} color={program.color} height={6} />
+              </div>
+
+              <div
+                className="mt-5 flex items-center justify-between border-t pt-4"
+                style={{ borderColor: P.border }}
+              >
+                <span className="text-xs" style={{ color: P.textMuted }}>
+                  {program.assignment.assignedBy}
+                </span>
+                <span
+                  className="flex items-center gap-1 text-sm font-semibold"
+                  style={{ color: P.olive }}
+                >
+                  View plan <ChevronRight size={15} />
+                </span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
-
-// ─── 11. HR DASHBOARD ─────────────────────────────────────────
