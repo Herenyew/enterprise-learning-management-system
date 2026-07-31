@@ -10,7 +10,6 @@ import {
   PROGRAM_TYPE_DEFAULTS,
   RefreshCw,
   Settings,
-  TEAM_MEMBERS,
   Textarea,
   Trash2,
   X,
@@ -28,7 +27,6 @@ type AssignmentMode = "Individual" | "By Department" | "By Role" | "Import CSV";
 
 export type HRProgramCreateTabContext = {
   activeProgTypes: ProgramTypeOption[];
-  addEmployeeToSelectedCohort: () => void;
   addManagedOption: (
     setOptions: React.Dispatch<React.SetStateAction<string[]>>,
     value: string,
@@ -39,7 +37,6 @@ export type HRProgramCreateTabContext = {
   approvalWorkflow: string;
   approvalWorkflowOptions: string[];
   assignmentMode: AssignmentMode;
-  availableCohortEmployees: typeof TEAM_MEMBERS;
   cohortName: string;
   cohortStartDate: string;
   cohortsEnabled: boolean;
@@ -66,7 +63,6 @@ export type HRProgramCreateTabContext = {
   restoreProgramType: (typeId: string) => void;
   retireProgramType: (typeId: string) => void;
   saveAsTemplate: boolean;
-  selectedCohortEmployee: string;
   selectedCohortId: string;
   selectedProgramTypeRecord?: ProgramTypeOption;
   setActiveTab: React.Dispatch<React.SetStateAction<ProgramManagementTab>>;
@@ -86,16 +82,15 @@ export type HRProgramCreateTabContext = {
   setProgramOwner: React.Dispatch<React.SetStateAction<string>>;
   setProgramOwnerOptions: React.Dispatch<React.SetStateAction<string[]>>;
   setSaveAsTemplate: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedCohortEmployee: React.Dispatch<React.SetStateAction<string>>;
   setSelectedCohortId: React.Dispatch<React.SetStateAction<string>>;
   setVisibility: React.Dispatch<React.SetStateAction<"Public" | "Private">>;
+  toggleEmployeeInSelectedCohort: (employeeName: string, assigned: boolean) => void;
   visibility: "Public" | "Private";
 };
 
 export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) {
   const {
     activeProgTypes,
-    addEmployeeToSelectedCohort,
     addManagedOption,
     addProgramCohort,
     applyProgramTemplate,
@@ -103,7 +98,6 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     approvalWorkflow,
     approvalWorkflowOptions,
     assignmentMode,
-    availableCohortEmployees,
     cohortName,
     cohortStartDate,
     cohortsEnabled,
@@ -130,7 +124,6 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     restoreProgramType,
     retireProgramType,
     saveAsTemplate,
-    selectedCohortEmployee,
     selectedCohortId,
     selectedProgramTypeRecord,
     setActiveTab,
@@ -149,10 +142,10 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     setProgramOwner,
     setProgramOwnerOptions,
     setSaveAsTemplate,
-    setSelectedCohortEmployee,
     setSelectedCohortId,
     setVisibility,
     setApprovalWorkflowOptions,
+    toggleEmployeeInSelectedCohort,
     visibility,
   } = ctx;
 

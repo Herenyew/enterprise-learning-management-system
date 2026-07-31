@@ -160,7 +160,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     "Individual" | "By Department" | "By Role" | "Import CSV"
   >("Individual");
   const [selectedCohortId, setSelectedCohortId] = useState("");
-  const [selectedCohortEmployee, setSelectedCohortEmployee] = useState("");
   const [saveAsTemplate, setSaveAsTemplate] = useState(false);
   const [programNotice, setProgramNotice] = useState("");
   const [editingProgramId, setEditingProgramId] = useState<string | null>(null);
@@ -221,13 +220,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     );
   };
 
-  const allCohortAssignedEmployeeNames = new Set(
-    programCohorts.flatMap((cohort) => cohort.employeeNames ?? []),
-  );
-  const availableCohortEmployees = TEAM_MEMBERS.filter(
-    (employee) => !allCohortAssignedEmployeeNames.has(employee.name),
-  );
-
   useEffect(() => {
     const requestedTab = window.sessionStorage.getItem("hr-programs-tab");
     if (
@@ -271,7 +263,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setCohortStartDate("");
     setAssignmentMode("Individual");
     setSelectedCohortId("");
-    setSelectedCohortEmployee("");
     setSaveAsTemplate(false);
     setEditingList(null);
   };
@@ -373,26 +364,30 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setProgramCohorts((cohorts) => cohorts.filter((cohort) => cohort.id !== id));
     if (selectedCohortId === id) {
       setSelectedCohortId("");
-      setSelectedCohortEmployee("");
     }
   };
 
-  const addEmployeeToSelectedCohort = () => {
-    if (!selectedCohortId || !selectedCohortEmployee) return;
+  const toggleEmployeeInSelectedCohort = (employeeName: string, assigned: boolean) => {
+    if (!selectedCohortId) return;
+    setProgramCohorts((cohorts) => {
+      const assignedToAnotherCohort = cohorts.some(
+        (cohort) =>
+          cohort.id !== selectedCohortId &&
+          (cohort.employeeNames ?? []).includes(employeeName),
+      );
+      if (assigned && assignedToAnotherCohort) return cohorts;
 
-    setProgramCohorts((cohorts) =>
-      cohorts.map((cohort) =>
+      return cohorts.map((cohort) =>
         cohort.id === selectedCohortId
           ? {
               ...cohort,
-              employeeNames: Array.from(
-                new Set([...(cohort.employeeNames ?? []), selectedCohortEmployee]),
-              ),
+              employeeNames: assigned
+                ? Array.from(new Set([...(cohort.employeeNames ?? []), employeeName]))
+                : (cohort.employeeNames ?? []).filter((name) => name !== employeeName),
             }
           : cohort,
-      ),
-    );
-    setSelectedCohortEmployee("");
+      );
+    });
   };
 
   const removeEmployeeFromCohort = (cohortId: string, employeeName: string) => {
@@ -573,7 +568,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setProgramCohorts(program.cohorts ?? []);
     setAssignmentMode("Individual");
     setSelectedCohortId(program.cohorts?.[0]?.id ?? "");
-    setSelectedCohortEmployee("");
     setCohortName("");
     setCohortStartDate("");
     setSaveAsTemplate(false);
@@ -771,7 +765,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
 
   const createTabContext: HRProgramCreateTabContext = {
     activeProgTypes,
-    addEmployeeToSelectedCohort,
     addManagedOption,
     addProgramCohort,
     applyProgramTemplate,
@@ -779,7 +772,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     approvalWorkflow,
     approvalWorkflowOptions,
     assignmentMode,
-    availableCohortEmployees,
     cohortName,
     cohortStartDate,
     cohortsEnabled,
@@ -806,7 +798,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     restoreProgramType,
     retireProgramType,
     saveAsTemplate,
-    selectedCohortEmployee,
     selectedCohortId,
     selectedProgramTypeRecord,
     setActiveTab,
@@ -826,9 +817,9 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setProgramOwner,
     setProgramOwnerOptions,
     setSaveAsTemplate,
-    setSelectedCohortEmployee,
     setSelectedCohortId,
     setVisibility,
+    toggleEmployeeInSelectedCohort,
     visibility,
   };
 

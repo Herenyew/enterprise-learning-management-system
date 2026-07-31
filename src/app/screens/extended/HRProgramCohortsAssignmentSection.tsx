@@ -4,10 +4,8 @@ import type { HRProgramCreateTabContext } from "./HRProgramCreateTab";
 
 export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreateTabContext }) {
   const {
-    addEmployeeToSelectedCohort,
     addProgramCohort,
     assignmentMode,
-    availableCohortEmployees,
     cohortName,
     cohortStartDate,
     cohortsEnabled,
@@ -15,15 +13,14 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
     removeEmployeeFromCohort,
     removeProgramCohort,
     saveAsTemplate,
-    selectedCohortEmployee,
     selectedCohortId,
     setAssignmentMode,
     setCohortName,
     setCohortStartDate,
     setCohortsEnabled,
     setSaveAsTemplate,
-    setSelectedCohortEmployee,
     setSelectedCohortId,
+    toggleEmployeeInSelectedCohort,
   } = ctx;
 
   return (
@@ -176,17 +173,14 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
             className="rounded-xl border p-3 space-y-3"
             style={{ borderColor: P.border, background: P.bg }}
           >
-            <div className="grid md:grid-cols-[1fr_1fr_auto] gap-2 items-end">
+            <div>
               <div>
                 <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
                   Cohort
                 </label>
                 <select
                   value={selectedCohortId}
-                  onChange={(e) => {
-                    setSelectedCohortId(e.target.value);
-                    setSelectedCohortEmployee("");
-                  }}
+                  onChange={(e) => setSelectedCohortId(e.target.value)}
                   className="w-full px-3 py-2 text-sm rounded-lg bg-white focus:outline-none"
                   style={{ border: `1px solid ${P.border}`, color: P.text }}
                   disabled={!cohortsEnabled || programCohorts.length === 0}
@@ -199,40 +193,58 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
                   ))}
                 </select>
               </div>
-              <div>
-                <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
-                  Employee
-                </label>
-                <select
-                  value={selectedCohortEmployee}
-                  onChange={(e) => setSelectedCohortEmployee(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg bg-white focus:outline-none"
-                  style={{ border: `1px solid ${P.border}`, color: P.text }}
-                  disabled={!selectedCohortId || availableCohortEmployees.length === 0}
-                >
-                  <option value="">
-                    {selectedCohortId ? "Select employee..." : "Choose a cohort first"}
-                  </option>
-                  {availableCohortEmployees.map((employee) => (
-                    <option key={employee.name} value={employee.name}>
-                      {employee.name} - {employee.role}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <button
-                type="button"
-                onClick={addEmployeeToSelectedCohort}
-                disabled={!selectedCohortId || !selectedCohortEmployee}
-                className="px-3 py-2 rounded-lg text-xs font-semibold text-white flex items-center justify-center gap-1.5"
-                style={{
-                  background: !selectedCohortId || !selectedCohortEmployee ? P.sage : P.olive,
-                  opacity: !selectedCohortId || !selectedCohortEmployee ? 0.65 : 1,
-                }}
-              >
-                <Plus size={12} /> Add to Cohort
-              </button>
             </div>
+
+            {selectedCohortId && (
+              <div>
+                <p className="mb-2 text-xs font-semibold" style={{ color: P.textMid }}>
+                  Select Employees
+                </p>
+                <div className="grid gap-2 md:grid-cols-2">
+                  {TEAM_MEMBERS.map((employee) => {
+                    const assignedCohort = programCohorts.find((cohort) =>
+                      (cohort.employeeNames ?? []).includes(employee.name),
+                    );
+                    const checked = assignedCohort?.id === selectedCohortId;
+                    const assignedElsewhere = Boolean(assignedCohort && !checked);
+
+                    return (
+                      <label
+                        key={employee.name}
+                        className="flex items-center gap-2 rounded-lg border bg-white px-3 py-2"
+                        style={{
+                          borderColor: checked ? P.olive : P.border,
+                          background: checked ? P.paleGreen : "white",
+                          cursor: assignedElsewhere ? "not-allowed" : "pointer",
+                          opacity: assignedElsewhere ? 0.55 : 1,
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          disabled={assignedElsewhere}
+                          onChange={(event) =>
+                            toggleEmployeeInSelectedCohort(employee.name, event.target.checked)
+                          }
+                          style={{ accentColor: P.olive, width: 15, height: 15 }}
+                        />
+                        <Av initials={employee.av} size={24} color={employee.color} />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-xs font-medium" style={{ color: P.text }}>
+                            {employee.name}
+                          </span>
+                          <span className="block truncate text-[10px]" style={{ color: P.textMuted }}>
+                            {assignedElsewhere
+                              ? `Assigned to ${assignedCohort?.name}`
+                              : employee.role}
+                          </span>
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {(!cohortsEnabled || programCohorts.length === 0) && (
               <div
