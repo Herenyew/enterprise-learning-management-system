@@ -324,8 +324,20 @@ export function MyCoursesBuilderView({ ctx }: { ctx: MyCoursesBuilderViewContext
 
   const builderNav =
     courseDetails?.placement === "program"
-      ? BUILDER_NAV.filter(({ id }) => id !== "visibility" && id !== "enrollment")
+      ? BUILDER_NAV.filter(
+          ({ id }) =>
+            !["attendees", "visibility", "enrollment"].includes(id),
+        )
       : BUILDER_NAV;
+
+  useEffect(() => {
+    if (
+      courseDetails?.placement === "program" &&
+      ["attendees", "visibility", "enrollment"].includes(builderPanel)
+    ) {
+      setBuilderPanel("info");
+    }
+  }, [builderPanel, courseDetails?.placement, setBuilderPanel]);
 
   return (
     <div className="flex h-full overflow-hidden">
