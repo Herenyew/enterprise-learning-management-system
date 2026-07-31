@@ -65,8 +65,7 @@ export function HRProgramTypeSection({ ctx }: { ctx: HRProgramCreateTabContext }
                     </span>
                     {defaults && (
                       <span className="block text-[10px] mt-0.5" style={{ color: P.textMuted }}>
-                        {defaults.duration} · {defaults.certificationTemplate} · XP{" "}
-                        {defaults.xpMultiplier}
+                        {defaults.duration}
                       </span>
                     )}
                   </span>

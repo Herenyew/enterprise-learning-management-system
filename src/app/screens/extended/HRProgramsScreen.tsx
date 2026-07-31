@@ -141,9 +141,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
   const [programDescription, setProgramDescription] = useState("");
   const [programType, setProgramType] = useState("Leadership");
   const [duration, setDuration] = useState(PROGRAM_TYPE_DEFAULTS.Leadership.duration);
-  const [targetAudience, setTargetAudience] = useState("Managers");
-  const [targetDepartment, setTargetDepartment] = useState("");
-  const [targetRole, setTargetRole] = useState("");
   const [visibility, setVisibility] = useState<"Public" | "Private">(
     PROGRAM_TYPE_DEFAULTS.Leadership.visibility,
   );
@@ -177,16 +174,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     { id: "technical", name: "Technical", status: "active" },
     { id: "compliance", name: "Compliance", status: "active" },
   ]);
-  const [departments, setDepartments] = useState([
-    "All",
-    "Engineering",
-    "Sales",
-    "HR",
-    "Finance",
-    "Marketing",
-    "Legal",
-    "Operations",
-  ]);
   const [programOwnerOptions, setProgramOwnerOptions] = useState(() =>
     Array.from(
       new Set([
@@ -199,43 +186,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
       ]),
     ),
   );
-  const [targetAudienceOptions, setTargetAudienceOptions] = useState([
-    "All Employees",
-    "New Hires",
-    "Graduate Trainees",
-    "Managers",
-    "Engineering Teams",
-    "Compliance Teams",
-    "Finance Analysts",
-    "Operations Staff",
-    "Sales Reps",
-    "HR Specialists",
-  ]);
-  const [roles, setRoles] = useState([
-    "All",
-    "Engineers",
-    "Managers",
-    "Analysts",
-    "Sales Reps",
-    "HR Specialists",
-    "Finance Analysts",
-    "Operations Staff",
-  ]);
-  const [certTemplateOptions, setCertTemplateOptions] = useState([
-    "Standard Completion Certificate",
-    "Graduate Talent Certificate",
-    "Executive Leadership Credential",
-    "Engineering Excellence Certificate",
-    "Compliance Attestation",
-  ]);
-  const [xpMultiplierOptions, setXpMultiplierOptions] = useState([
-    "1.0x",
-    "1.1x",
-    "1.2x",
-    "1.3x",
-    "1.5x",
-    "2.0x",
-  ]);
   const [approvalWorkflowOptions, setApprovalWorkflowOptions] = useState(() =>
     Array.from(
       new Set([
@@ -248,9 +198,7 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
   );
 
   // Inline editor state
-  const [editingList, setEditingList] = useState<"types" | "audiences" | "depts" | "roles" | null>(
-    null,
-  );
+  const [editingList, setEditingList] = useState<"types" | null>(null);
   const [newItem, setNewItem] = useState("");
   const [editIdx, setEditIdx] = useState<number | null>(null);
   const [editVal, setEditVal] = useState("");
@@ -317,9 +265,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setProgramName("");
     setProgramDescription("");
     applyProgramTypeDefaults("Leadership");
-    setTargetAudience("Managers");
-    setTargetDepartment("");
-    setTargetRole("");
     setCohortsEnabled(true);
     setProgramCohorts([]);
     setCohortName("");
@@ -619,9 +564,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setProgramDescription(program.description ?? "");
     setProgramType(program.type);
     setDuration(program.duration || defaults.duration);
-    setTargetAudience(program.audience ?? "Managers");
-    setTargetDepartment(program.targetDepartment ?? "");
-    setTargetRole(program.targetRole ?? "");
     setVisibility(program.visibility ?? defaults.visibility);
     setProgramOwner(program.owner ?? defaults.owner);
     setCertTemplate(program.certificationTemplate ?? defaults.certificationTemplate);
@@ -685,9 +627,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
         duration: duration || defaults.duration,
         color: getProgramColor(programType),
         owner: programOwner,
-        audience: targetAudience,
-        targetDepartment,
-        targetRole,
         visibility,
         description: programDescription,
         certificationTemplate: certTemplate,
@@ -733,9 +672,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
       progress: 0,
       color: getProgramColor(programType),
       owner: programOwner,
-      audience: targetAudience,
-      targetDepartment,
-      targetRole,
       visibility,
       description: programDescription,
       certificationTemplate: certTemplate,
@@ -844,14 +780,11 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     approvalWorkflowOptions,
     assignmentMode,
     availableCohortEmployees,
-    certTemplate,
-    certTemplateOptions,
     cohortName,
     cohortStartDate,
     cohortsEnabled,
     createProgram,
     createProgramType,
-    departments,
     duration,
     editIdx,
     editVal,
@@ -872,7 +805,6 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     resetProgramForm,
     restoreProgramType,
     retireProgramType,
-    roles,
     saveAsTemplate,
     selectedCohortEmployee,
     selectedCohortId,
@@ -881,12 +813,9 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setApprovalWorkflow,
     setApprovalWorkflowOptions,
     setAssignmentMode,
-    setCertTemplate,
-    setCertTemplateOptions,
     setCohortName,
     setCohortStartDate,
     setCohortsEnabled,
-    setDepartments,
     setDuration,
     setEditIdx,
     setEditingList,
@@ -896,24 +825,11 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setProgramName,
     setProgramOwner,
     setProgramOwnerOptions,
-    setRoles,
     setSaveAsTemplate,
     setSelectedCohortEmployee,
     setSelectedCohortId,
-    setTargetAudience,
-    setTargetAudienceOptions,
-    setTargetDepartment,
-    setTargetRole,
     setVisibility,
-    setXpMultiplier,
-    setXpMultiplierOptions,
-    targetAudience,
-    targetAudienceOptions,
-    targetDepartment,
-    targetRole,
     visibility,
-    xpMultiplier,
-    xpMultiplierOptions,
   };
 
   return (

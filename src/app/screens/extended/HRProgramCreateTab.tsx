@@ -23,7 +23,7 @@ import { HRProgramDefaultsSection } from "./HRProgramDefaultsSection";
 import { HRProgramCohortsAssignmentSection } from "./HRProgramCohortsAssignmentSection";
 
 type ProgramManagementTab = "programs" | "create" | "templates" | "tasks";
-type EditableProgramList = "types" | "audiences" | "depts" | "roles" | null;
+type EditableProgramList = "types" | null;
 type AssignmentMode = "Individual" | "By Department" | "By Role" | "Import CSV";
 
 export type HRProgramCreateTabContext = {
@@ -40,14 +40,11 @@ export type HRProgramCreateTabContext = {
   approvalWorkflowOptions: string[];
   assignmentMode: AssignmentMode;
   availableCohortEmployees: typeof TEAM_MEMBERS;
-  certTemplate: string;
-  certTemplateOptions: string[];
   cohortName: string;
   cohortStartDate: string;
   cohortsEnabled: boolean;
   createProgram: () => void;
   createProgramType: (name: string) => void;
-  departments: string[];
   duration: string;
   editIdx: number | null;
   editVal: string;
@@ -68,7 +65,6 @@ export type HRProgramCreateTabContext = {
   resetProgramForm: () => void;
   restoreProgramType: (typeId: string) => void;
   retireProgramType: (typeId: string) => void;
-  roles: string[];
   saveAsTemplate: boolean;
   selectedCohortEmployee: string;
   selectedCohortId: string;
@@ -77,12 +73,9 @@ export type HRProgramCreateTabContext = {
   setApprovalWorkflow: React.Dispatch<React.SetStateAction<string>>;
   setApprovalWorkflowOptions: React.Dispatch<React.SetStateAction<string[]>>;
   setAssignmentMode: React.Dispatch<React.SetStateAction<AssignmentMode>>;
-  setCertTemplate: React.Dispatch<React.SetStateAction<string>>;
-  setCertTemplateOptions: React.Dispatch<React.SetStateAction<string[]>>;
   setCohortName: React.Dispatch<React.SetStateAction<string>>;
   setCohortStartDate: React.Dispatch<React.SetStateAction<string>>;
   setCohortsEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-  setDepartments: React.Dispatch<React.SetStateAction<string[]>>;
   setDuration: React.Dispatch<React.SetStateAction<string>>;
   setEditIdx: React.Dispatch<React.SetStateAction<number | null>>;
   setEditingList: React.Dispatch<React.SetStateAction<EditableProgramList>>;
@@ -92,24 +85,11 @@ export type HRProgramCreateTabContext = {
   setProgramName: React.Dispatch<React.SetStateAction<string>>;
   setProgramOwner: React.Dispatch<React.SetStateAction<string>>;
   setProgramOwnerOptions: React.Dispatch<React.SetStateAction<string[]>>;
-  setRoles: React.Dispatch<React.SetStateAction<string[]>>;
   setSaveAsTemplate: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedCohortEmployee: React.Dispatch<React.SetStateAction<string>>;
   setSelectedCohortId: React.Dispatch<React.SetStateAction<string>>;
-  setTargetAudience: React.Dispatch<React.SetStateAction<string>>;
-  setTargetAudienceOptions: React.Dispatch<React.SetStateAction<string[]>>;
-  setTargetDepartment: React.Dispatch<React.SetStateAction<string>>;
-  setTargetRole: React.Dispatch<React.SetStateAction<string>>;
   setVisibility: React.Dispatch<React.SetStateAction<"Public" | "Private">>;
-  setXpMultiplier: React.Dispatch<React.SetStateAction<string>>;
-  setXpMultiplierOptions: React.Dispatch<React.SetStateAction<string[]>>;
-  targetAudience: string;
-  targetAudienceOptions: string[];
-  targetDepartment: string;
-  targetRole: string;
   visibility: "Public" | "Private";
-  xpMultiplier: string;
-  xpMultiplierOptions: string[];
 };
 
 export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) {
@@ -124,14 +104,11 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     approvalWorkflowOptions,
     assignmentMode,
     availableCohortEmployees,
-    certTemplate,
-    certTemplateOptions,
     cohortName,
     cohortStartDate,
     cohortsEnabled,
     createProgram,
     createProgramType,
-    departments,
     duration,
     editIdx,
     editVal,
@@ -152,7 +129,6 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     resetProgramForm,
     restoreProgramType,
     retireProgramType,
-    roles,
     saveAsTemplate,
     selectedCohortEmployee,
     selectedCohortId,
@@ -160,12 +136,9 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     setActiveTab,
     setApprovalWorkflow,
     setAssignmentMode,
-    setCertTemplate,
-    setCertTemplateOptions,
     setCohortName,
     setCohortStartDate,
     setCohortsEnabled,
-    setDepartments,
     setDuration,
     setEditIdx,
     setEditingList,
@@ -175,25 +148,12 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     setProgramName,
     setProgramOwner,
     setProgramOwnerOptions,
-    setRoles,
     setSaveAsTemplate,
     setSelectedCohortEmployee,
     setSelectedCohortId,
-    setTargetAudience,
-    setTargetAudienceOptions,
-    setTargetDepartment,
-    setTargetRole,
     setVisibility,
-    setXpMultiplier,
-    setXpMultiplierOptions,
     setApprovalWorkflowOptions,
-    targetAudience,
-    targetAudienceOptions,
-    targetDepartment,
-    targetRole,
     visibility,
-    xpMultiplier,
-    xpMultiplierOptions,
   } = ctx;
 
   return (
