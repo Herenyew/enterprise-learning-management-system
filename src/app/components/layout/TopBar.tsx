@@ -26,11 +26,15 @@ export function TopBar({
   role,
   searchQuery,
   setSearchQuery,
+  onOpenSettings,
+  onLogout,
 }: {
   navigate: NavigateFn;
   role: Role;
   searchQuery: string;
   setSearchQuery: (value: string) => void;
+  onOpenSettings: () => void;
+  onLogout: () => void;
 }) {
   const [openMenu, setOpenMenu] = useState<TopBarMenu>(null);
   const [readNotificationIds, setReadNotificationIds] = useState(
@@ -338,10 +342,19 @@ export function TopBar({
                 <button
                   key={item.label}
                   type="button"
-                  onClick={() => (item.target ? navigateFromMenu(item.target) : setOpenMenu(null))}
+                  onClick={() => {
+                    if (item.target) {
+                      navigateFromMenu(item.target);
+                      return;
+                    }
+                    setOpenMenu(null);
+                    if (item.label === "Account settings") onOpenSettings();
+                  }}
                   className="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-medium"
                   style={{ color: P.text }}
-                  data-prototype-action={!item.target ? "true" : undefined}
+                  data-prototype-action={
+                    !item.target && item.label !== "Account settings" ? "true" : undefined
+                  }
                   data-action-label={item.label}
                 >
                   <Icon size={16} style={{ color: P.olive }} />
@@ -352,7 +365,10 @@ export function TopBar({
 
             <button
               type="button"
-              onClick={() => navigateFromMenu("login")}
+              onClick={() => {
+                setOpenMenu(null);
+                onLogout();
+              }}
               className="mt-2 flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold"
               style={{ color: "#C0392B", background: "#FEF2F2" }}
             >

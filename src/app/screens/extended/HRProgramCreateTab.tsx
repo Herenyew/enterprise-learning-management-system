@@ -23,7 +23,7 @@ import { HRProgramDefaultsSection } from "./HRProgramDefaultsSection";
 import { HRProgramCohortsAssignmentSection } from "./HRProgramCohortsAssignmentSection";
 
 type ProgramManagementTab = "programs" | "create" | "templates" | "tasks";
-type EditableProgramList = "types" | "depts" | "roles" | null;
+type EditableProgramList = "types" | "audiences" | "depts" | "roles" | null;
 type AssignmentMode = "Individual" | "By Department" | "By Role" | "Import CSV";
 
 export type HRProgramCreateTabContext = {

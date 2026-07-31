@@ -187,6 +187,7 @@ import {
 export default function App() {
   const [screen, setScreen] = useState<Screen>("login");
   const [role, setRole] = useState<Role>("learner");
+  const [accountSettingsOpen, setAccountSettingsOpen] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("1");
   const [catalogSearch, setCatalogSearch] = useState("");
   const [actionToast, setActionToast] = useState<{ id: number; message: string } | null>(null);
@@ -239,8 +240,28 @@ export default function App() {
     upsertCreatorSavedCourse(savedCourse);
   };
   const navigate: NavigateFn = (s, courseId) => {
+    setAccountSettingsOpen(false);
     if (s === "course-detail" && courseId) setSelectedCourseId(courseId);
     setScreen(s as Screen);
+  };
+
+  const roleLabels: Record<Role, string> = {
+    admin: "Admin",
+    creator: "Course Creator",
+    hr: "HR Admin",
+    learner: "Learner",
+    manager: "Manager",
+  };
+
+  const handleLogout = () => {
+    setAccountSettingsOpen(false);
+    setCatalogSearch("");
+    setSelectedCourseId("1");
+    setRole("learner");
+    setScreen("login");
+    setActionToast({ id: Date.now(), message: "Logged out. Please sign in again." });
+    if (actionToastTimer.current) window.clearTimeout(actionToastTimer.current);
+    actionToastTimer.current = window.setTimeout(() => setActionToast(null), 2400);
   };
 
   useEffect(() => {
@@ -342,6 +363,68 @@ export default function App() {
     </div>
   );
 
+  const accountSettingsNode = screen !== "login" && accountSettingsOpen && (
+    <div
+      className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/35 px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="account-settings-title"
+      onClick={() => setAccountSettingsOpen(false)}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl"
+        style={{
+          border: `1px solid ${P.border}`,
+          boxShadow: "0 24px 70px rgba(4, 120, 87, 0.2)",
+        }}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Av initials="AM" size={44} color={P.olive} />
+            <div>
+              <p
+                id="account-settings-title"
+                className="text-lg font-bold"
+                style={{ color: P.text }}
+              >
+                Account settings
+              </p>
+              <p className="text-sm" style={{ color: P.textMuted }}>
+                Alex Mercer - {roleLabels[role]}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="rounded-full p-2 transition hover:bg-slate-100"
+            onClick={() => setAccountSettingsOpen(false)}
+            aria-label="Close account settings"
+          >
+            <X size={18} style={{ color: P.textMuted }} />
+          </button>
+        </div>
+
+        <div
+          className="mt-5 rounded-xl p-4 text-sm"
+          style={{ background: P.bg, color: P.textMuted }}
+        >
+          Log out to return to the sign-in page without refreshing the prototype.
+        </div>
+
+        <button
+          type="button"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+          style={{ background: P.olive }}
+          onClick={handleLogout}
+        >
+          <LogOut size={17} />
+          Log out
+        </button>
+      </div>
+    </div>
+  );
+
   if (screen === "login") {
     return (
       <div style={{ fontFamily: "'Inter',sans-serif" }}>
@@ -374,7 +457,12 @@ export default function App() {
       className="flex h-screen overflow-hidden"
       style={{ fontFamily: "'Inter',sans-serif", background: P.bg }}
     >
-      <Sidebar screen={screen} navigate={navigate} role={role} />
+      <Sidebar
+        screen={screen}
+        navigate={navigate}
+        role={role}
+        onOpenSettings={() => setAccountSettingsOpen(true)}
+      />
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {!isFullBleed && (
           <TopBar
@@ -382,6 +470,8 @@ export default function App() {
             role={role}
             searchQuery={catalogSearch}
             setSearchQuery={setCatalogSearch}
+            onOpenSettings={() => setAccountSettingsOpen(true)}
+            onLogout={handleLogout}
           />
         )}
         <main
@@ -510,6 +600,7 @@ export default function App() {
           )}
         </main>
       </div>
+      {accountSettingsNode}
       {actionToastNode}
     </div>
   );

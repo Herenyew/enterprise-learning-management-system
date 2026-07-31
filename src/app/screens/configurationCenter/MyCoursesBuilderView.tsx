@@ -322,6 +322,11 @@ export function MyCoursesBuilderView({ ctx }: { ctx: MyCoursesBuilderViewContext
     visibilityScope,
   } = ctx;
 
+  const builderNav =
+    courseDetails?.placement === "program"
+      ? BUILDER_NAV.filter(({ id }) => id !== "visibility" && id !== "enrollment")
+      : BUILDER_NAV;
+
   return (
     <div className="flex h-full overflow-hidden">
       {/* Builder left nav */}
@@ -354,7 +359,7 @@ export function MyCoursesBuilderView({ ctx }: { ctx: MyCoursesBuilderViewContext
           />
         </div>
         <nav className="flex-1 overflow-y-auto py-1">
-          {BUILDER_NAV.map(({ id, label, icon: Icon }) => (
+          {builderNav.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setBuilderPanel(id)}

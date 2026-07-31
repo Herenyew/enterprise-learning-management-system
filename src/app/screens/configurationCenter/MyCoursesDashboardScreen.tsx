@@ -452,8 +452,7 @@ export function MyCoursesDashboardScreen({
       status: "Draft",
       enrolled: 0,
       rating: 0,
-      thumb:
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200&h=112&fit=crop&auto=format",
+      thumb: draft.thumbnail,
     };
 
     setCourses((items) => [newCourse, ...items]);
@@ -496,6 +495,7 @@ export function MyCoursesDashboardScreen({
       title: savedDraft.title,
       category: savedDraft.category,
       level: savedDraft.level,
+      thumb: savedDraft.thumbnail,
       status: "Published",
     };
 
@@ -514,11 +514,14 @@ export function MyCoursesDashboardScreen({
         ...chapter,
         contentItems: chapter.contentItems.map((item) => ({ ...item })),
       })),
-      thumbnail: course.thumb,
+      thumbnail: savedDraft.thumbnail,
       lessons: Math.max(lessonCount, 1),
       xpValue: savedDraft.xpValue,
       passThreshold: savedDraft.passThreshold,
       preCourseAssessment: savedDraft.preCourseAssessment,
+      placement: savedDraft.placement,
+      programId: savedDraft.placement === "program" ? savedDraft.programId : undefined,
+      programName: savedDraft.placement === "program" ? savedDraft.programName : undefined,
       sourceType: savedDraft.sourceType,
       sourceTemplateId: savedDraft.sourceTemplateId,
       sourceTemplateName: savedDraft.sourceTemplateName,

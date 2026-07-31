@@ -2,7 +2,7 @@
 // Certification Management, Gamification, Two-Level Moderation
 // Olive / Sage / Gold enterprise design language
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ContentWorkflowModal,
   DEFAULT_QUESTION_TYPE_CONFIG,
@@ -216,6 +216,14 @@ const DEFAULT_CREATOR_LEVELS: CourseTaxonomyOption[] = [
   "Expert",
 ].map((name, index) => ({ name, active: true, order: index + 1 }));
 
+const COURSE_PROGRAM_OPTIONS = [
+  { id: "adiu-onboarding", name: "ADIU Onboarding Program" },
+  { id: "future-leaders", name: "Future Leaders Initiative" },
+  { id: "regulatory-2025", name: "2025 Regulatory Compliance Pack" },
+  { id: "engineering-excellence", name: "Engineering Excellence Track" },
+  { id: "graduate-talent", name: "Graduate Talent Program" },
+] as const;
+
 export function MyCoursesCourseInfoPanel({ ctx }: { ctx: MyCoursesBuilderViewContext }) {
   const {
     activeCertificateTemplateReview,
@@ -317,6 +325,64 @@ export function MyCoursesCourseInfoPanel({ ctx }: { ctx: MyCoursesBuilderViewCon
     visibilityScope,
   } = ctx;
 
+  const coursePlacement = courseDetails?.placement ?? "standalone";
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
+  const [thumbnailError, setThumbnailError] = useState("");
+
+  const changeThumbnail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setThumbnailError("Choose a JPG, PNG, or WebP image.");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setThumbnailError("Thumbnail must be 2 MB or smaller.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result !== "string") return;
+      updateActiveCourseDraft((draft) => ({ ...draft, thumbnail: reader.result as string }));
+      setThumbnailError("");
+    };
+    reader.onerror = () => setThumbnailError("Could not read that image.");
+    reader.readAsDataURL(file);
+  };
+
+  const updateCoursePlacement = (placement: "standalone" | "program") => {
+    const defaultProgram = COURSE_PROGRAM_OPTIONS[0];
+    updateActiveCourseDraft((draft) =>
+      placement === "program"
+        ? {
+            ...draft,
+            placement,
+            programId: draft.programId ?? defaultProgram.id,
+            programName: draft.programName ?? defaultProgram.name,
+          }
+        : {
+            ...draft,
+            placement,
+            programId: undefined,
+            programName: undefined,
+          },
+    );
+  };
+
+  const selectProgram = (programId: string) => {
+    const selected =
+      COURSE_PROGRAM_OPTIONS.find((program) => program.id === programId) ??
+      COURSE_PROGRAM_OPTIONS[0];
+    updateActiveCourseDraft((draft) => ({
+      ...draft,
+      placement: "program",
+      programId: selected.id,
+      programName: selected.name,
+    }));
+  };
+
   return (
     <>
       {/* ── Course Information ── */}
@@ -349,21 +415,36 @@ export function MyCoursesCourseInfoPanel({ ctx }: { ctx: MyCoursesBuilderViewCon
           {/* Thumbnail preview */}
           <div className="relative rounded-xl overflow-hidden" style={{ height: 160 }}>
             <img
-              src={course.thumb}
-              alt=""
+              src={courseDetails?.thumbnail ?? course.thumb}
+              alt={`${courseDetails?.title ?? course.title} thumbnail`}
               className="w-full h-full object-cover"
               style={{ filter: "brightness(0.75)" }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
+              <input
+                ref={thumbnailInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={changeThumbnail}
+              />
               <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white"
+                type="button"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
                 style={{ background: "rgba(0,0,0,0.5)" }}
+                onClick={() => thumbnailInputRef.current?.click()}
+                aria-label="Upload a course thumbnail from this device"
                 data-prototype-action="true"
               >
                 <Upload size={15} /> Change Thumbnail
               </button>
             </div>
           </div>
+          {thumbnailError && (
+            <p className="mt-2 text-xs text-red-600" role="alert">
+              {thumbnailError}
+            </p>
+          )}
 
           <div
             className="bg-white rounded-xl border p-5 space-y-4"
@@ -399,6 +480,76 @@ export function MyCoursesCourseInfoPanel({ ctx }: { ctx: MyCoursesBuilderViewCon
                 className="w-full px-3 py-2 text-sm rounded-lg resize-none bg-white focus:outline-none"
                 style={{ border: `1px solid ${P.border}`, color: P.text }}
               />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold" style={{ color: P.textMid }}>
+                Course placement <span className="text-red-500">*</span>
+              </label>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  aria-pressed={coursePlacement === "standalone"}
+                  onClick={() => updateCoursePlacement("standalone")}
+                  className="rounded-lg border p-3 text-left transition-colors"
+                  style={{
+                    borderColor: coursePlacement === "standalone" ? P.olive : P.border,
+                    background: coursePlacement === "standalone" ? P.paleGreen : "#fff",
+                  }}
+                >
+                  <span className="block text-sm font-semibold" style={{ color: P.text }}>
+                    Standalone course
+                  </span>
+                  <span className="mt-1 block text-[11px]" style={{ color: P.textMuted }}>
+                    Set visibility and enrollment for this course.
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={coursePlacement === "program"}
+                  onClick={() => updateCoursePlacement("program")}
+                  className="rounded-lg border p-3 text-left transition-colors"
+                  style={{
+                    borderColor: coursePlacement === "program" ? P.olive : P.border,
+                    background: coursePlacement === "program" ? P.paleGreen : "#fff",
+                  }}
+                >
+                  <span className="block text-sm font-semibold" style={{ color: P.text }}>
+                    Learning program
+                  </span>
+                  <span className="mt-1 block text-[11px]" style={{ color: P.textMuted }}>
+                    Inherit learners from a selected program.
+                  </span>
+                </button>
+              </div>
+              {coursePlacement === "program" && (
+                <div
+                  className="rounded-lg border p-3"
+                  style={{ borderColor: P.border, background: P.paleGreen }}
+                >
+                  <label
+                    className="mb-1.5 block text-xs font-semibold"
+                    style={{ color: P.textMid }}
+                  >
+                    Learning program <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={courseDetails?.programId ?? COURSE_PROGRAM_OPTIONS[0].id}
+                    onChange={(event) => selectProgram(event.target.value)}
+                    className="w-full rounded-lg bg-white px-3 py-2 text-sm focus:outline-none"
+                    style={{ border: `1px solid ${P.border}`, color: P.text }}
+                  >
+                    {COURSE_PROGRAM_OPTIONS.map((program) => (
+                      <option key={program.id} value={program.id}>
+                        {program.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-2 text-[11px]" style={{ color: P.textMuted }}>
+                    Program learners receive this course automatically. Visibility and enrollment
+                    are inherited.
+                  </p>
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>

@@ -28,6 +28,9 @@ export const normalizeCreatorCourse = (value: unknown): SavedCreatorCourse | nul
     xpValue,
     passThreshold,
     preCourseAssessment,
+    placement,
+    programId,
+    programName,
     sourceType,
     sourceTemplateId,
     sourceTemplateName,
@@ -49,6 +52,7 @@ export const normalizeCreatorCourse = (value: unknown): SavedCreatorCourse | nul
     preCourseAssessment === "disabled"
       ? preCourseAssessment
       : "optional";
+  const safePlacement = placement === "program" ? "program" : "standalone";
 
   return {
     id,
@@ -64,6 +68,15 @@ export const normalizeCreatorCourse = (value: unknown): SavedCreatorCourse | nul
     xpValue: typeof xpValue === "number" ? xpValue : 0,
     passThreshold: typeof passThreshold === "number" ? passThreshold : 80,
     preCourseAssessment: safePreCourseAssessment,
+    placement: safePlacement,
+    programId:
+      safePlacement === "program" && typeof programId === "string"
+        ? programId
+        : undefined,
+    programName:
+      safePlacement === "program" && typeof programName === "string"
+        ? programName
+        : undefined,
     sourceType:
       sourceType === "template" || sourceType === "existing-course" || sourceType === "custom"
         ? sourceType

@@ -350,6 +350,7 @@ export type CourseTemplateChapter = {
 };
 
 export type PreCourseAssessmentPolicy = "disabled" | "optional" | "mandatory";
+export type CoursePlacement = "standalone" | "program";
 
 export type CourseCreationTemplate = {
   id: string;
@@ -370,11 +371,15 @@ export type CourseDraftDetails = {
   sourceType: "custom" | "existing-course" | "template";
   sourceTemplateId?: string;
   sourceTemplateName?: string;
+  placement: CoursePlacement;
+  programId?: string;
+  programName?: string;
   title: string;
   description: string;
   level: string;
   category: string;
   duration: string;
+  thumbnail: string;
   chapters: CourseTemplateChapter[];
   xpValue: number;
   passThreshold: number;
@@ -397,6 +402,9 @@ export type SavedCreatorCourse = {
   sourceType?: CourseDraftDetails["sourceType"];
   sourceTemplateId?: string;
   sourceTemplateName?: string;
+  placement?: CoursePlacement;
+  programId?: string;
+  programName?: string;
 };
 
 export const COURSE_TEMPLATE_STORAGE_KEY = "learnos_course_creation_templates";
@@ -568,11 +576,14 @@ export const createBlankCourseTemplate = (): CourseCreationTemplate => ({
 export const createCustomCourseDraft = (): CourseDraftDetails => ({
   sourceLabel: "Custom Course",
   sourceType: "custom",
+  placement: "standalone",
   title: "Untitled Custom Course",
   description: "",
   level: "Beginner",
   category: "Technology",
   duration: "8h 30m",
+  thumbnail:
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=675&fit=crop&auto=format",
   xpValue: 300,
   passThreshold: 70,
   preCourseAssessment: "optional",
@@ -587,11 +598,13 @@ export const createCustomCourseDraft = (): CourseDraftDetails => ({
 export const createExistingCourseDraft = (course: CourseMini): CourseDraftDetails => ({
   sourceLabel: "Existing Course",
   sourceType: "existing-course",
+  placement: "standalone",
   title: course.title,
   description: "Describe what learners will gain from this course.",
   level: course.level,
   category: course.category,
   duration: "8h 30m",
+  thumbnail: course.thumb,
   xpValue: 300,
   passThreshold: 80,
   preCourseAssessment: "optional",
@@ -625,11 +638,15 @@ export const createSavedCreatorCourseDraft = (course: SavedCreatorCourse): Cours
   sourceType: course.sourceType ?? "custom",
   sourceTemplateId: course.sourceTemplateId,
   sourceTemplateName: course.sourceTemplateName,
+  placement: course.placement === "program" ? "program" : "standalone",
+  programId: course.placement === "program" ? course.programId : undefined,
+  programName: course.placement === "program" ? course.programName : undefined,
   title: course.title,
   description: course.description,
   level: course.level,
   category: course.category,
   duration: course.duration,
+  thumbnail: course.thumbnail,
   xpValue: course.xpValue,
   passThreshold: course.passThreshold,
   preCourseAssessment: course.preCourseAssessment,
@@ -646,11 +663,14 @@ export const createCourseDraftFromTemplate = (
   sourceType: "template",
   sourceTemplateId: template.id,
   sourceTemplateName: template.name,
+  placement: "standalone",
   title: `${template.title} (Copy)`,
   description: template.description,
   level: template.level,
   category: template.category,
   duration: "8h 30m",
+  thumbnail:
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=675&fit=crop&auto=format",
   xpValue: template.xpValue,
   passThreshold: template.passThreshold,
   preCourseAssessment: template.preCourseAssessment ?? "optional",

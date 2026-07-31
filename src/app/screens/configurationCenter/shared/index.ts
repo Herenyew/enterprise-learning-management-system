@@ -24,6 +24,7 @@ export type {
   CourseCreationTemplate,
   CourseDraftDetails,
   CourseMini,
+  CoursePlacement,
   CourseTemplateChapter,
   CourseTemplateContentItem,
   PreCourseAssessmentPolicy,

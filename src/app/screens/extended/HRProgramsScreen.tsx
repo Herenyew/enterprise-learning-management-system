@@ -248,7 +248,9 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
   );
 
   // Inline editor state
-  const [editingList, setEditingList] = useState<"types" | "depts" | "roles" | null>(null);
+  const [editingList, setEditingList] = useState<"types" | "audiences" | "depts" | "roles" | null>(
+    null,
+  );
   const [newItem, setNewItem] = useState("");
   const [editIdx, setEditIdx] = useState<number | null>(null);
   const [editVal, setEditVal] = useState("");

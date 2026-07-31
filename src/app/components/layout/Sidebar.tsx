@@ -10,10 +10,12 @@ export function Sidebar({
   screen,
   navigate,
   role,
+  onOpenSettings,
 }: {
   screen: Screen;
   navigate: NavigateFn;
   role: Role;
+  onOpenSettings: () => void;
 }) {
   const useGrouped = role === "hr" || role === "admin";
   const nav = ROLE_NAV[role];
@@ -79,9 +81,12 @@ export function Sidebar({
         </nav>
 
         <div className="p-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <div
-            className="flex items-center gap-3 p-3 rounded-xl cursor-pointer"
+          <button
+            type="button"
+            onClick={onOpenSettings}
+            className="group flex w-full items-center gap-3 rounded-xl p-3 text-left transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70"
             style={{ background: "rgba(255,255,255,0.04)" }}
+            aria-label="Open account settings"
           >
             <Av initials="AM" size={32} color={P.olive} />
             <div className="flex-1 min-w-0">
@@ -90,8 +95,12 @@ export function Sidebar({
                 Senior Engineer - L8
               </p>
             </div>
-            <Settings size={13} style={{ color: P.sage }} className="flex-shrink-0" />
-          </div>
+            <Settings
+              size={13}
+              style={{ color: P.sage }}
+              className="flex-shrink-0 transition-transform group-hover:rotate-45"
+            />
+          </button>
         </div>
       </aside>
     </div>

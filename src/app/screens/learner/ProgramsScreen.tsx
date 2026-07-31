@@ -3,11 +3,14 @@ import {
   BookOpen,
   CalendarDays,
   CheckCircle,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ClipboardCheck,
   Clock,
+  FileText,
   Flag,
+  HelpCircle,
+  Play,
   Target,
   Users,
 } from "lucide-react";
@@ -15,6 +18,7 @@ import { Chip, PBar } from "../../components/common";
 import { COURSES, PROGRAMS } from "../../constants/mockData";
 import { P } from "../../constants/theme.constants";
 import type { NavigateFn } from "../../models/app.model";
+import { PROGRAM_TASKS_INITIAL, type ProgramTask } from "../extended/extended.shared";
 
 type ProgramMilestone = {
   week: string;
@@ -185,12 +189,78 @@ function statusVariant(status: ProgramMilestone["status"]) {
   return "neutral";
 }
 
+function parseWeekNumber(week: string) {
+  return Number(week.replace(/\D/g, "")) || 0;
+}
+
+function getTaskIcon(task: ProgramTask) {
+  if (task.type === "Video") return Play;
+  if (task.type === "Reading") return FileText;
+  return HelpCircle;
+}
+
+function milestoneFallbackTasks(programTitle: string, milestone: ProgramMilestone) {
+  const weekNumber = parseWeekNumber(milestone.week);
+
+  return milestone.items.map((item, index): ProgramTask => {
+    const lowerItem = item.toLowerCase();
+    const type: ProgramTask["type"] = lowerItem.includes("quiz")
+      ? "Quiz"
+      : lowerItem.includes("reading") || lowerItem.includes("policy")
+        ? "Reading"
+        : "Video";
+
+    return {
+      id: `${programTitle}-${milestone.week}-${index}`,
+      programName: programTitle,
+      type,
+      title: item,
+      detail:
+        lowerItem.includes("survey") ||
+        lowerItem.includes("assignment") ||
+        lowerItem.includes("project")
+          ? "Task"
+          : "Required",
+      source: "device",
+      timelineWeek: weekNumber,
+      startDate: milestone.week,
+      dueDate:
+        milestone.status === "done"
+          ? "Completed"
+          : milestone.status === "active"
+            ? "Due this week"
+            : "Upcoming",
+      milestone: milestone.title,
+      unlockRule: "Set by HR",
+    };
+  });
+}
+
+function getMilestoneTasks(programTitle: string, milestone: ProgramMilestone) {
+  const weekNumber = parseWeekNumber(milestone.week);
+  const hrTasks = PROGRAM_TASKS_INITIAL.filter(
+    (task) => task.programName === programTitle && task.timelineWeek === weekNumber,
+  );
+
+  return hrTasks.length ? hrTasks : milestoneFallbackTasks(programTitle, milestone);
+}
+
 export function ProgramsScreen({ navigate }: { navigate: NavigateFn }) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [expandedMilestoneKey, setExpandedMilestoneKey] = useState<string | null>(null);
   const prog = selected ? assignedPrograms.find((item) => item.id === selected) : null;
 
   if (prog) {
     const courses = getAssignedCourses(prog.assignment.courseIds);
+    const defaultMilestone = prog.assignment.milestones.find(
+      (milestone) => milestone.status === "active",
+    );
+    const defaultMilestoneKey = `${prog.id}-${
+      defaultMilestone?.week ?? prog.assignment.milestones[0]?.week
+    }`;
+    const openMilestoneKey = expandedMilestoneKey?.startsWith(`${prog.id}-`)
+      ? expandedMilestoneKey
+      : defaultMilestoneKey;
 
     return (
       <div className="p-8 space-y-6 max-w-[1280px]">
@@ -326,42 +396,108 @@ export function ProgramsScreen({ navigate }: { navigate: NavigateFn }) {
               <Flag size={18} style={{ color: P.olive }} />
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2">
-              {prog.assignment.milestones.map((milestone) => (
-                <div
-                  key={`${prog.id}-${milestone.week}`}
-                  className="rounded-2xl border p-4"
-                  style={{
-                    borderColor: milestone.status === "active" ? P.sage : P.border,
-                    background: milestone.status === "active" ? P.lightSage : "white",
-                  }}
-                >
-                  <div className="mb-3 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <CalendarDays size={15} style={{ color: P.olive }} />
-                      <span className="text-xs font-semibold" style={{ color: P.textMuted }}>
-                        {milestone.week}
-                      </span>
-                    </div>
-                    <Chip label={milestone.status} variant={statusVariant(milestone.status)} />
-                  </div>
-                  <h3 className="text-sm font-bold" style={{ color: P.text }}>
-                    {milestone.title}
-                  </h3>
-                  <div className="mt-3 space-y-2">
-                    {milestone.items.map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-2 text-xs"
-                        style={{ color: P.textMuted }}
-                      >
-                        <ClipboardCheck size={13} style={{ color: P.olive }} />
-                        {item}
+            <div className="grid gap-4 md:grid-cols-2">
+              {prog.assignment.milestones.map((milestone) => {
+                const milestoneKey = `${prog.id}-${milestone.week}`;
+                const isOpen = openMilestoneKey === milestoneKey;
+                const tasks = getMilestoneTasks(prog.title, milestone);
+                const doneCount = milestone.status === "done" ? tasks.length : 0;
+
+                return (
+                  <div
+                    key={milestoneKey}
+                    className="rounded-2xl border p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    style={{
+                      borderColor: isOpen ? P.olive : P.border,
+                      background: isOpen ? P.lightSage : "white",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setExpandedMilestoneKey(milestoneKey)}
+                      className="flex w-full items-center justify-between gap-3 text-left"
+                    >
+                      <div className="flex min-w-0 items-center gap-3">
+                        <CalendarDays size={16} style={{ color: P.olive }} />
+                        <div className="min-w-0">
+                          <p className="text-xs font-semibold" style={{ color: P.textMuted }}>
+                            {milestone.week}
+                          </p>
+                          <h3 className="truncate text-sm font-bold" style={{ color: P.text }}>
+                            {milestone.title}
+                          </h3>
+                        </div>
                       </div>
-                    ))}
+                      <div className="flex shrink-0 items-center gap-2">
+                        <Chip label={milestone.status} variant={statusVariant(milestone.status)} />
+                        {isOpen ? (
+                          <ChevronDown size={16} style={{ color: P.olive }} />
+                        ) : (
+                          <ChevronRight size={16} style={{ color: P.textMuted }} />
+                        )}
+                      </div>
+                    </button>
+
+                    {isOpen ? (
+                      <div
+                        className="mt-4 rounded-2xl border p-3"
+                        style={{ background: P.bg, borderColor: P.border }}
+                      >
+                        <div
+                          className="mb-3 flex items-center justify-between text-xs font-semibold"
+                          style={{ color: P.textMuted }}
+                        >
+                          <span>To-do list</span>
+                          <span>
+                            {doneCount}/{tasks.length}
+                          </span>
+                        </div>
+                        <div className="space-y-2">
+                          {tasks.map((task) => {
+                            const TaskIcon = getTaskIcon(task);
+                            const isDone = milestone.status === "done";
+
+                            return (
+                              <div
+                                key={task.id}
+                                className="flex items-start justify-between gap-3 rounded-xl border p-3 transition hover:bg-white hover:shadow-sm"
+                                style={{ borderColor: P.border }}
+                              >
+                                <div className="flex min-w-0 items-start gap-3">
+                                  <span
+                                    className="grid h-8 w-8 shrink-0 place-items-center rounded-xl"
+                                    style={{
+                                      background: isDone ? P.lightSage : P.goldLight,
+                                      color: isDone ? P.olive : P.gold,
+                                    }}
+                                  >
+                                    {isDone ? <CheckCircle size={16} /> : <TaskIcon size={16} />}
+                                  </span>
+                                  <div className="min-w-0">
+                                    <p className="truncate text-sm font-semibold">{task.title}</p>
+                                    <p className="text-xs" style={{ color: P.textMuted }}>
+                                      {task.milestone} - {task.detail}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="flex shrink-0 flex-col items-end gap-2">
+                                  <Chip
+                                    label={task.type}
+                                    variant={task.type === "Quiz" ? "gold" : "green"}
+                                  />
+                                  <span className="text-[11px]" style={{ color: P.textMuted }}>
+                                    {task.dueDate}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
         </div>
