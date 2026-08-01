@@ -183,7 +183,6 @@ import { ConfigContentTypes } from "./ConfigContentTypes";
 import { ConfigEnrollment } from "./ConfigEnrollment";
 import { ConfigLearningPrograms } from "./ConfigLearningPrograms";
 import { ConfigNotifications } from "./ConfigNotifications";
-import { ConfigPublishing } from "./ConfigPublishing";
 import { ConfigQuestionTypes } from "./ConfigQuestionTypes";
 import { ConfigTemplates } from "./ConfigTemplates";
 import { ConfigTNA } from "./ConfigTNA";
@@ -213,7 +212,6 @@ export function ConfigCenterScreen({
   type ConfigSection =
     | "programs"
     | "approval-workflows"
-    | "publishing-governance"
     | "content-moderation"
     | "xp"
     | "leaderboard-rules"
@@ -242,12 +240,6 @@ export function ConfigCenterScreen({
       label: "Approval Workflows",
       icon: GitBranch,
       desc: "Create, edit, enable, disable",
-    },
-    {
-      id: "publishing-governance",
-      label: "Publishing Governance",
-      icon: Shield,
-      desc: "Publishing workflow, approvals, review checklist, moderation rules",
     },
     {
       id: "content-moderation",
@@ -328,8 +320,7 @@ export function ConfigCenterScreen({
   const CONTENT: Record<ConfigSection, React.ReactNode> = {
     programs: <ConfigLearningPrograms />,
     "approval-workflows": <WorkflowsCrud />,
-    "publishing-governance": <ConfigPublishing />,
-    "content-moderation": governanceSections?.contentModeration ?? <ConfigPublishing />,
+    "content-moderation": governanceSections?.contentModeration ?? null,
     xp: <ConfigXPGamification />,
     "leaderboard-rules": governanceSections?.leaderboardRules ?? <ConfigXPGamification />,
     "certificate-management": governanceSections?.certificateManagement ?? <ConfigCertifications />,

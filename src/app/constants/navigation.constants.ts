@@ -4,6 +4,7 @@ import {
   BookOpen,
   Calendar,
   Cpu,
+  FileCheck,
   FileText,
   HelpCircle,
   LayoutDashboard,
@@ -81,6 +82,7 @@ export const HR_NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "program-dashboard", label: "Program Overview", icon: LayoutDashboard },
       { id: "hr-programs", label: "Program Management", icon: Layers },
+      { id: "hr-publishing", label: "Publishing Requests", icon: FileCheck },
       { id: "assignments", label: "Assignments", icon: ListChecks },
       { id: "live-sessions", label: "Live Sessions", icon: Video },
       { id: "surveys", label: "Surveys & Feedback", icon: MessageSquare },
