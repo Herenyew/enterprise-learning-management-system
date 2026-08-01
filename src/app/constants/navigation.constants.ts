@@ -4,6 +4,7 @@ import {
   BookOpen,
   Calendar,
   Cpu,
+  Eye,
   FileCheck,
   FileText,
   HelpCircle,
@@ -102,6 +103,11 @@ export const HR_NAV_GROUPS: NavGroup[] = [
     label: "Configuration Center",
     standalone: true,
     items: [{ id: "config-center", label: "Configuration Center", icon: Settings }],
+  },
+  {
+    label: "Content Moderation",
+    standalone: true,
+    items: [{ id: "moderation-center", label: "Content Moderation", icon: Eye }],
   },
   {
     label: "Analytics & Reporting",

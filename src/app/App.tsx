@@ -545,7 +545,6 @@ export default function App() {
               questionTypes={questionTypeConfig}
               setQuestionTypes={setQuestionTypeConfig}
               governanceSections={{
-                contentModeration: <ModerationCenterScreen navigate={navigate} />,
                 certificateManagement: <CertificationMgmtScreen navigate={navigate} />,
                 leaderboardRules: (
                   <HRLeaderboardMgmtScreen

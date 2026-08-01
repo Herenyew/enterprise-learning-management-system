@@ -58,7 +58,6 @@ import {
   UserCheck,
   Layers,
   Shield,
-  Eye,
   Settings,
   Zap,
   Lock,
@@ -203,7 +202,6 @@ export function ConfigCenterScreen({
   questionTypes?: QuestionTypeConfig[];
   setQuestionTypes?: React.Dispatch<React.SetStateAction<QuestionTypeConfig[]>>;
   governanceSections?: {
-    contentModeration?: React.ReactNode;
     certificateManagement?: React.ReactNode;
     leaderboardRules?: React.ReactNode;
     catalogConfiguration?: React.ReactNode;
@@ -212,7 +210,6 @@ export function ConfigCenterScreen({
   type ConfigSection =
     | "programs"
     | "approval-workflows"
-    | "content-moderation"
     | "xp"
     | "leaderboard-rules"
     | "certificate-management"
@@ -240,12 +237,6 @@ export function ConfigCenterScreen({
       label: "Approval Workflows",
       icon: GitBranch,
       desc: "Create, edit, enable, disable",
-    },
-    {
-      id: "content-moderation",
-      label: "Content Moderation",
-      icon: Eye,
-      desc: "Review course comments, ratings, flagged content, and moderation history",
     },
     { id: "xp", label: "XP & Gamification", icon: Zap, desc: "Points, levels, XP rules" },
     {
@@ -320,7 +311,6 @@ export function ConfigCenterScreen({
   const CONTENT: Record<ConfigSection, React.ReactNode> = {
     programs: <ConfigLearningPrograms />,
     "approval-workflows": <WorkflowsCrud />,
-    "content-moderation": governanceSections?.contentModeration ?? null,
     xp: <ConfigXPGamification />,
     "leaderboard-rules": governanceSections?.leaderboardRules ?? <ConfigXPGamification />,
     "certificate-management": governanceSections?.certificateManagement ?? <ConfigCertifications />,
@@ -344,7 +334,6 @@ export function ConfigCenterScreen({
 
   const current = NAV.find((n) => n.id === active)!;
   const embeddedWorkspaceSections = new Set<ConfigSection>([
-    "content-moderation",
     "leaderboard-rules",
     "certificate-management",
     "catalog-configuration",
