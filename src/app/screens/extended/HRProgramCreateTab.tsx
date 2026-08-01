@@ -23,7 +23,7 @@ import { HRProgramCohortsAssignmentSection } from "./HRProgramCohortsAssignmentS
 
 type ProgramManagementTab = "programs" | "create" | "templates" | "tasks";
 type EditableProgramList = "types" | null;
-type AssignmentMode = "Individual" | "By Department" | "By Role" | "Import CSV";
+type AssignmentMode = "Individual" | "By Department" | "By Role" | "By Group" | "Import CSV";
 
 export type HRProgramCreateTabContext = {
   activeProgTypes: ProgramTypeOption[];
@@ -84,7 +84,7 @@ export type HRProgramCreateTabContext = {
   setSaveAsTemplate: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedCohortId: React.Dispatch<React.SetStateAction<string>>;
   setVisibility: React.Dispatch<React.SetStateAction<"Public" | "Private">>;
-  toggleEmployeeInSelectedCohort: (employeeName: string, assigned: boolean) => void;
+  toggleEmployeesInSelectedCohort: (employeeNames: string[], assigned: boolean) => void;
   visibility: "Public" | "Private";
 };
 
@@ -145,7 +145,7 @@ export function HRProgramCreateTab({ ctx }: { ctx: HRProgramCreateTabContext }) 
     setSelectedCohortId,
     setVisibility,
     setApprovalWorkflowOptions,
-    toggleEmployeeInSelectedCohort,
+    toggleEmployeesInSelectedCohort,
     visibility,
   } = ctx;
 

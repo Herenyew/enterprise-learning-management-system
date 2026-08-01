@@ -554,6 +554,8 @@ const TEAM_MEMBERS = [
   {
     name: "Marcus Johnson",
     role: "Senior Engineer",
+    department: "Engineering",
+    group: "Engineering Team",
     av: "MJ",
     xp: 13640,
     courses: 25,
@@ -569,6 +571,8 @@ const TEAM_MEMBERS = [
   {
     name: "Priya Nair",
     role: "Marketing Manager",
+    department: "Marketing",
+    group: "SMG",
     av: "PN",
     xp: 9210,
     courses: 17,
@@ -584,6 +588,8 @@ const TEAM_MEMBERS = [
   {
     name: "Carlos Mendez",
     role: "Product Manager",
+    department: "Product",
+    group: "SMG",
     av: "CM",
     xp: 13640,
     courses: 25,
@@ -599,6 +605,8 @@ const TEAM_MEMBERS = [
   {
     name: "Luca Ferrari",
     role: "Sales Executive",
+    department: "Sales",
+    group: "Sales Team",
     av: "LF",
     xp: 8670,
     courses: 16,
@@ -614,6 +622,8 @@ const TEAM_MEMBERS = [
   {
     name: "Mei Lin",
     role: "Operations Lead",
+    department: "Operations",
+    group: "SMG",
     av: "ML",
     xp: 8120,
     courses: 15,

@@ -20,8 +20,36 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
     setCohortsEnabled,
     setSaveAsTemplate,
     setSelectedCohortId,
-    toggleEmployeeInSelectedCohort,
+    toggleEmployeesInSelectedCohort,
   } = ctx;
+
+  const selectedCohort = programCohorts.find((cohort) => cohort.id === selectedCohortId);
+  const selectedEmployeeNames = new Set(selectedCohort?.employeeNames ?? []);
+  const employeesAssignedElsewhere = new Set(
+    programCohorts
+      .filter((cohort) => cohort.id !== selectedCohortId)
+      .flatMap((cohort) => cohort.employeeNames ?? []),
+  );
+  const eligibleEmployees = TEAM_MEMBERS.filter(
+    (employee) => !employeesAssignedElsewhere.has(employee.name),
+  );
+  const allEligibleEmployeesSelected =
+    eligibleEmployees.length > 0 &&
+    eligibleEmployees.every((employee) => selectedEmployeeNames.has(employee.name));
+  const groupKey =
+    assignmentMode === "By Department"
+      ? "department"
+      : assignmentMode === "By Role"
+        ? "role"
+        : assignmentMode === "By Group"
+          ? "group"
+          : null;
+  const bulkAssignmentOptions = groupKey
+    ? Array.from(new Set(TEAM_MEMBERS.map((employee) => employee[groupKey]))).map((label) => ({
+        label,
+        employees: TEAM_MEMBERS.filter((employee) => employee[groupKey] === label),
+      }))
+    : [];
 
   return (
     <>
@@ -152,7 +180,7 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
           Assign Employees
         </p>
         <div className="flex gap-2 mb-3">
-          {(["Individual", "By Department", "By Role", "Import CSV"] as const).map((m) => (
+          {(["Individual", "By Department", "By Role", "By Group", "Import CSV"] as const).map((m) => (
             <button
               key={m}
               type="button"
@@ -168,38 +196,56 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
             </button>
           ))}
         </div>
-        {assignmentMode === "Individual" ? (
+        {assignmentMode !== "Import CSV" ? (
           <div
             className="rounded-xl border p-3 space-y-3"
             style={{ borderColor: P.border, background: P.bg }}
           >
             <div>
-              <div>
-                <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
-                  Cohort
-                </label>
-                <select
-                  value={selectedCohortId}
-                  onChange={(e) => setSelectedCohortId(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg bg-white focus:outline-none"
-                  style={{ border: `1px solid ${P.border}`, color: P.text }}
-                  disabled={!cohortsEnabled || programCohorts.length === 0}
-                >
-                  <option value="">Select cohort...</option>
-                  {programCohorts.map((cohort) => (
-                    <option key={cohort.id} value={cohort.id}>
-                      {cohort.name} - {cohort.startDate}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <label className="block text-xs font-semibold mb-1.5" style={{ color: P.textMid }}>
+                Cohort
+              </label>
+              <select
+                value={selectedCohortId}
+                onChange={(e) => setSelectedCohortId(e.target.value)}
+                className="w-full px-3 py-2 text-sm rounded-lg bg-white focus:outline-none"
+                style={{ border: `1px solid ${P.border}`, color: P.text }}
+                disabled={!cohortsEnabled || programCohorts.length === 0}
+              >
+                <option value="">Select cohort...</option>
+                {programCohorts.map((cohort) => (
+                  <option key={cohort.id} value={cohort.id}>
+                    {cohort.name} - {cohort.startDate}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {selectedCohortId && (
+            {selectedCohortId && assignmentMode === "Individual" && (
               <div>
-                <p className="mb-2 text-xs font-semibold" style={{ color: P.textMid }}>
-                  Select Employees
-                </p>
+                <label
+                  className="mb-2 flex cursor-pointer items-center gap-2 rounded-lg border bg-white px-3 py-2"
+                  style={{ borderColor: allEligibleEmployeesSelected ? P.olive : P.border }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={allEligibleEmployeesSelected}
+                    disabled={eligibleEmployees.length === 0}
+                    onChange={(event) =>
+                      toggleEmployeesInSelectedCohort(
+                        eligibleEmployees.map((employee) => employee.name),
+                        event.target.checked,
+                      )
+                    }
+                    style={{ accentColor: P.olive, width: 15, height: 15 }}
+                  />
+                  <span className="text-xs font-semibold" style={{ color: P.textMid }}>
+                    Select all employees
+                  </span>
+                  <span className="ml-auto text-[10px]" style={{ color: P.textMuted }}>
+                    {eligibleEmployees.length} available
+                  </span>
+                </label>
                 <div className="grid gap-2 md:grid-cols-2">
                   {TEAM_MEMBERS.map((employee) => {
                     const assignedCohort = programCohorts.find((cohort) =>
@@ -224,7 +270,10 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
                           checked={checked}
                           disabled={assignedElsewhere}
                           onChange={(event) =>
-                            toggleEmployeeInSelectedCohort(employee.name, event.target.checked)
+                            toggleEmployeesInSelectedCohort(
+                              [employee.name],
+                              event.target.checked,
+                            )
                           }
                           style={{ accentColor: P.olive, width: 15, height: 15 }}
                         />
@@ -246,12 +295,67 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
               </div>
             )}
 
+            {selectedCohortId && groupKey && (
+              <div>
+                <p className="mb-2 text-xs font-semibold" style={{ color: P.textMid }}>
+                  Select {assignmentMode === "By Department" ? "Departments" : assignmentMode === "By Role" ? "Roles" : "Employee Groups"}
+                </p>
+                <div className="grid gap-2 md:grid-cols-2">
+                  {bulkAssignmentOptions.map((option) => {
+                    const assignableEmployees = option.employees.filter(
+                      (employee) => !employeesAssignedElsewhere.has(employee.name),
+                    );
+                    const assignedCount = assignableEmployees.filter((employee) =>
+                      selectedEmployeeNames.has(employee.name),
+                    ).length;
+                    const checked =
+                      assignableEmployees.length > 0 &&
+                      assignedCount === assignableEmployees.length;
+
+                    return (
+                      <label
+                        key={option.label}
+                        className="flex items-center gap-2 rounded-lg border bg-white px-3 py-2"
+                        style={{
+                          borderColor: checked ? P.olive : P.border,
+                          background: checked ? P.paleGreen : "white",
+                          cursor: assignableEmployees.length ? "pointer" : "not-allowed",
+                          opacity: assignableEmployees.length ? 1 : 0.55,
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          disabled={assignableEmployees.length === 0}
+                          onChange={(event) =>
+                            toggleEmployeesInSelectedCohort(
+                              assignableEmployees.map((employee) => employee.name),
+                              event.target.checked,
+                            )
+                          }
+                          style={{ accentColor: P.olive, width: 15, height: 15 }}
+                        />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-xs font-medium" style={{ color: P.text }}>
+                            {option.label}
+                          </span>
+                          <span className="block text-[10px]" style={{ color: P.textMuted }}>
+                            {assignedCount}/{assignableEmployees.length} available employees assigned
+                          </span>
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {(!cohortsEnabled || programCohorts.length === 0) && (
               <div
                 className="rounded-lg border px-3 py-2 text-[11px]"
                 style={{ borderColor: P.border, color: P.textMuted, background: "white" }}
               >
-                Add at least one cohort above before assigning individual employees.
+                Add at least one cohort above before assigning employees.
               </div>
             )}
 
@@ -330,8 +434,7 @@ export function HRProgramCohortsAssignmentSection({ ctx }: { ctx: HRProgramCreat
             className="rounded-xl border px-3 py-2 text-[11px]"
             style={{ borderColor: P.border, color: P.textMuted, background: P.bg }}
           >
-            {assignmentMode} assignment can be configured after the individual cohort roster is
-            saved.
+            Import employee assignments from CSV after selecting and saving a cohort roster.
           </div>
         )}
       </div>

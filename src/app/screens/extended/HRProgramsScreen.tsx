@@ -157,7 +157,7 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
   const [cohortStartDate, setCohortStartDate] = useState("");
   const [programCohorts, setProgramCohorts] = useState<ProgramCohort[]>([]);
   const [assignmentMode, setAssignmentMode] = useState<
-    "Individual" | "By Department" | "By Role" | "Import CSV"
+    "Individual" | "By Department" | "By Role" | "By Group" | "Import CSV"
   >("Individual");
   const [selectedCohortId, setSelectedCohortId] = useState("");
   const [saveAsTemplate, setSaveAsTemplate] = useState(false);
@@ -367,23 +367,23 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     }
   };
 
-  const toggleEmployeeInSelectedCohort = (employeeName: string, assigned: boolean) => {
-    if (!selectedCohortId) return;
+  const toggleEmployeesInSelectedCohort = (employeeNames: string[], assigned: boolean) => {
+    if (!selectedCohortId || employeeNames.length === 0) return;
     setProgramCohorts((cohorts) => {
-      const assignedToAnotherCohort = cohorts.some(
-        (cohort) =>
-          cohort.id !== selectedCohortId &&
-          (cohort.employeeNames ?? []).includes(employeeName),
+      const assignedElsewhere = new Set(
+        cohorts
+          .filter((cohort) => cohort.id !== selectedCohortId)
+          .flatMap((cohort) => cohort.employeeNames ?? []),
       );
-      if (assigned && assignedToAnotherCohort) return cohorts;
+      const eligibleNames = employeeNames.filter((name) => !assignedElsewhere.has(name));
 
       return cohorts.map((cohort) =>
         cohort.id === selectedCohortId
           ? {
               ...cohort,
               employeeNames: assigned
-                ? Array.from(new Set([...(cohort.employeeNames ?? []), employeeName]))
-                : (cohort.employeeNames ?? []).filter((name) => name !== employeeName),
+                ? Array.from(new Set([...(cohort.employeeNames ?? []), ...eligibleNames]))
+                : (cohort.employeeNames ?? []).filter((name) => !employeeNames.includes(name)),
             }
           : cohort,
       );
@@ -819,7 +819,7 @@ export function HRProgramsScreen({ navigate }: { navigate: (s: string) => void }
     setSaveAsTemplate,
     setSelectedCohortId,
     setVisibility,
-    toggleEmployeeInSelectedCohort,
+    toggleEmployeesInSelectedCohort,
     visibility,
   };
 
