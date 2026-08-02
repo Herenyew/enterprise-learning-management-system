@@ -78,7 +78,6 @@ import {
   ChevronDown,
   ChevronUp,
   ToggleLeft,
-  Trophy,
   Medal,
   Check,
   Wand2,
@@ -203,7 +202,6 @@ export function ConfigCenterScreen({
   setQuestionTypes?: React.Dispatch<React.SetStateAction<QuestionTypeConfig[]>>;
   governanceSections?: {
     certificateManagement?: React.ReactNode;
-    leaderboardRules?: React.ReactNode;
     catalogConfiguration?: React.ReactNode;
   };
 }) {
@@ -211,7 +209,6 @@ export function ConfigCenterScreen({
     | "programs"
     | "approval-workflows"
     | "xp"
-    | "leaderboard-rules"
     | "certificate-management"
     | "tna"
     | "enrollment"
@@ -239,12 +236,6 @@ export function ConfigCenterScreen({
       desc: "Create, edit, enable, disable",
     },
     { id: "xp", label: "XP & Gamification", icon: Zap, desc: "Points, levels, XP rules" },
-    {
-      id: "leaderboard-rules",
-      label: "Leaderboard Rules",
-      icon: Trophy,
-      desc: "Analytics, ranking basis, program defaults, and leaderboard visibility",
-    },
     {
       id: "certificate-management",
       label: "Certificate Management",
@@ -312,7 +303,6 @@ export function ConfigCenterScreen({
     programs: <ConfigLearningPrograms />,
     "approval-workflows": <WorkflowsCrud />,
     xp: <ConfigXPGamification />,
-    "leaderboard-rules": governanceSections?.leaderboardRules ?? <ConfigXPGamification />,
     "certificate-management": governanceSections?.certificateManagement ?? <ConfigCertifications />,
     tna: <ConfigTNA />,
     enrollment: <ConfigEnrollment />,
@@ -334,7 +324,6 @@ export function ConfigCenterScreen({
 
   const current = NAV.find((n) => n.id === active)!;
   const embeddedWorkspaceSections = new Set<ConfigSection>([
-    "leaderboard-rules",
     "certificate-management",
     "catalog-configuration",
   ]);

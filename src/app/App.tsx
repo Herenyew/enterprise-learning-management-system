@@ -546,15 +546,6 @@ export default function App() {
               setQuestionTypes={setQuestionTypeConfig}
               governanceSections={{
                 certificateManagement: <CertificationMgmtScreen navigate={navigate} />,
-                leaderboardRules: (
-                  <HRLeaderboardMgmtScreen
-                    navigate={navigate}
-                    lbConfig={lbConfig}
-                    setLbConfig={setLbConfig}
-                    programLbConfig={programLbConfig}
-                    setProgramLbConfig={setProgramLbConfig}
-                  />
-                ),
                 catalogConfiguration: (
                   <CatalogConfigScreen
                     cats={globalCats}

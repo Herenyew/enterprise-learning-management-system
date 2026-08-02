@@ -110,6 +110,11 @@ export const HR_NAV_GROUPS: NavGroup[] = [
     items: [{ id: "moderation-center", label: "Content Moderation", icon: Eye }],
   },
   {
+    label: "Leaderboard Management",
+    standalone: true,
+    items: [{ id: "hr-leaderboard-mgmt", label: "Leaderboard Management", icon: Trophy }],
+  },
+  {
     label: "Analytics & Reporting",
     target: "analytics-center",
     icon: BarChart2,
