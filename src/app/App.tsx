@@ -12,7 +12,7 @@ import {
 import { AICard, Av, Chip, PBar, StatCard } from "./components/common";
 import { CourseCard } from "./components/course";
 import { Sidebar, TopBar } from "./components/layout";
-import { LoginScreen } from "./screens/auth";
+import { LoginScreen } from "./pages/Auth";
 import {
   CatalogScreen,
   CertificatesScreen,
@@ -24,13 +24,13 @@ import {
   ProfileScreen,
   ProgramsScreen,
   QuizScreen,
-} from "./screens/learner";
-import { HRDashboardScreen } from "./screens/hr";
-import { AnalyticsScreen } from "./screens/analytics";
-import { CreatorScreen } from "./screens/creator";
-import { CatalogConfigScreen } from "./screens/config";
-import { NotificationsScreen } from "./screens/notifications";
-import { TNAScreen } from "./screens/tna";
+} from "./pages/Learner";
+import { HRDashboardScreen } from "./pages/HR";
+import { AnalyticsScreen } from "./pages/Analytics";
+import { CreatorScreen } from "./pages/Creator";
+import { CatalogConfigScreen } from "./pages/CatalogConfiguration";
+import { NotificationsScreen } from "./pages/Notifications";
+import { TNAScreen } from "./pages/TNA";
 import {
   COMPLETION_TREND,
   COURSES,
@@ -60,7 +60,7 @@ import {
   type QuizXpAwardResult,
 } from "./services/quizXp.service";
 import { toCatalogCourse, upsertCreatorSavedCourse } from "./services/creatorCourses.service";
-import { useCreatorSavedCourses } from "./store/creatorCourses.store";
+import { useBackendHealth, useCreatorSavedCourses } from "../store";
 import { formatVideoDuration, parseVideoDuration } from "../utils/videoDuration";
 import {
   LayoutDashboard,
@@ -185,6 +185,7 @@ import {
 // ─── 5. PLAYER ────────────────────────────────────────────────
 
 export default function App() {
+  const backendHealth = useBackendHealth();
   const [screen, setScreen] = useState<Screen>("login");
   const [role, setRole] = useState<Role>("learner");
   const [accountSettingsOpen, setAccountSettingsOpen] = useState(false);
@@ -468,6 +469,7 @@ export default function App() {
           <TopBar
             navigate={navigate}
             role={role}
+            backendStatus={backendHealth.status}
             searchQuery={catalogSearch}
             setSearchQuery={setCatalogSearch}
             onOpenSettings={() => setAccountSettingsOpen(true)}

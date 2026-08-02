@@ -17,6 +17,7 @@ import {
 import { NOTIFICATIONS } from "../../constants/mockData";
 import { P } from "../../constants/theme.constants";
 import type { NavigateFn, Role, Screen } from "../../models/app.model";
+import type { BackendConnectionStatus } from "../../models/health.model";
 import { Av } from "../common";
 
 type TopBarMenu = "notifications" | "help" | "profile" | null;
@@ -24,6 +25,7 @@ type TopBarMenu = "notifications" | "help" | "profile" | null;
 export function TopBar({
   navigate,
   role,
+  backendStatus,
   searchQuery,
   setSearchQuery,
   onOpenSettings,
@@ -31,6 +33,7 @@ export function TopBar({
 }: {
   navigate: NavigateFn;
   role: Role;
+  backendStatus: BackendConnectionStatus;
   searchQuery: string;
   setSearchQuery: (value: string) => void;
   onOpenSettings: () => void;
@@ -137,6 +140,41 @@ export function TopBar({
       </div>
 
       <div ref={menuRef} className="relative flex items-center gap-3">
+        <div
+          className="hidden lg:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold"
+          style={{
+            background: backendStatus === "connected" ? P.lightSage : P.bg,
+            color: backendStatus === "connected" ? P.darkOlive : P.textMuted,
+            border: `1px solid ${backendStatus === "connected" ? P.sage : P.border}`,
+          }}
+          role="status"
+          aria-label={`Backend ${backendStatus}`}
+          title={
+            backendStatus === "connected"
+              ? "Connected to the LMS backend"
+              : backendStatus === "checking"
+                ? "Checking backend connection"
+                : "Backend is currently unavailable"
+          }
+        >
+          <span
+            className="h-1.5 w-1.5 rounded-full"
+            style={{
+              background:
+                backendStatus === "connected"
+                  ? P.olive
+                  : backendStatus === "checking"
+                    ? P.gold
+                    : P.textMuted,
+            }}
+          />
+          {backendStatus === "connected"
+            ? "Connected"
+            : backendStatus === "checking"
+              ? "Connecting"
+              : "Offline"}
+        </div>
+
         <button
           type="button"
           onClick={() => navigateFromMenu(roleHome[role])}

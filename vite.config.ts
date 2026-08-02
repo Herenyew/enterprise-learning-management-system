@@ -44,7 +44,7 @@ export default defineConfig({
           ) {
             return "screens-config-certificates";
           }
-          if (normalizedId.includes("/src/app/screens/config/CatalogConfigScreen")) {
+          if (normalizedId.includes("/src/app/pages/CatalogConfiguration/")) {
             return "screens-catalog-config";
           }
           if (normalizedId.includes("/src/app/screens/configurationCenter/MyCourses")) {
@@ -54,7 +54,7 @@ export default defineConfig({
             return "screens-configuration";
           }
           if (normalizedId.includes("/src/app/screens/extended/")) return "screens-hr";
-          if (normalizedId.includes("/src/app/screens/learner/")) return "screens-learner";
+          if (normalizedId.includes("/src/app/pages/Learner/")) return "screens-learner";
           if (normalizedId.includes("/src/app/screens/training/")) return "screens-training";
           if (normalizedId.includes("/src/app/screens/analyticsCenter/")) {
             return "screens-analytics";
