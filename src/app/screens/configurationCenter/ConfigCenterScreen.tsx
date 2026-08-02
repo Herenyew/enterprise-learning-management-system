@@ -21,15 +21,12 @@ import {
 } from "../../Extensions6";
 import {
   EnrollmentRulesCrud,
-  ReportsCrud,
-  WidgetsCrud,
   WorkflowsCrud,
   XPRulesCrud,
 } from "../../Extensions5";
 import {
   BookOpen,
   Award,
-  BarChart2,
   Target,
   CheckCircle,
   AlertCircle,
@@ -68,7 +65,6 @@ import {
   Flag,
   Upload,
   User,
-  LayoutDashboard,
   Activity,
   Cpu,
   Music,
@@ -215,8 +211,6 @@ export function ConfigCenterScreen({
     | "notifications"
     | "templates"
     | "catalog-configuration"
-    | "saved-reports"
-    | "dashboard-widgets"
     | "content-types"
     | "question-types"
     | "effectiveness";
@@ -268,18 +262,6 @@ export function ConfigCenterScreen({
       desc: "Course categories, learning levels, program types, and catalog metadata",
     },
     {
-      id: "saved-reports",
-      label: "Saved Reports",
-      icon: BarChart2,
-      desc: "Create, schedule, export",
-    },
-    {
-      id: "dashboard-widgets",
-      label: "Dashboard Widgets",
-      icon: LayoutDashboard,
-      desc: "Create, edit, enable, disable",
-    },
-    {
       id: "content-types",
       label: "Content Types",
       icon: BookOpen,
@@ -311,8 +293,6 @@ export function ConfigCenterScreen({
     "catalog-configuration": governanceSections?.catalogConfiguration ?? (
       <ConfigContentTypes contentTypes={contentTypes} setContentTypes={setContentTypes} />
     ),
-    "saved-reports": <ReportsCrud />,
-    "dashboard-widgets": <WidgetsCrud />,
     "content-types": (
       <ConfigContentTypes contentTypes={contentTypes} setContentTypes={setContentTypes} />
     ),
